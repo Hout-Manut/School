@@ -1,0 +1,1 @@
+This is my repo for various school assignments. Pls dont judge it too much.
