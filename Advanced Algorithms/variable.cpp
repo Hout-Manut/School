@@ -16,4 +16,6 @@ int main()
          << "$" << bigPrice << "\n"
          << firstLetter << "\n"
          << isTrue << endl;
+
+    cout << "kuwgwefiugaiugf";
 }
