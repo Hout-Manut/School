@@ -24,7 +24,7 @@ public class ex5 {
             System.out.println("Text to remove: " + wordToRemove);
             System.out.println("Result: " + newText);
         } else {
-            System.out.println("'" + wordToRemove + "' not found in the text.");
+            System.out.println("\"" + wordToRemove + "\" not found in the text.");
         }
         System.out.println("");
         // =================================================
