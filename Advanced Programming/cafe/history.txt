@@ -1,0 +1,9 @@
+[Sun Jul 16 18:08:08 2023] Customer : Manut | Cappuccino Large 80.00% $5.25, | Total=$5.25, Paid=$6.00, Change=$0.75 | Paid with Cash
+[Sun Jul 16 18:10:26 2023] Customer : Manut | Americano Large 79.00% $4.75, Cappuccino Large 79.00% $5.25, Macchiato Large 110.00% $5.00 | Total=$15.00, Paid=$15.00, Change=$0.00 | Paid with Cash
+[Mon Jul 17 11:20:59 2023] Customer : Manut | Espresso Small 23.00% $2.50, | Total=$2.50, Paid=$3.00, Change=$0.50 | Paid with Cash
+[Wed Jul 26 10:45:20 2023] Customer : Manut | Cappuccino Large 90.00% $5.25, Latte Large 60.00% $5.50, | Total=$10.75, Paid=$11.00, Change=$0.25 | Paid with Cash
+[Wed Jul 26 13:00:10 2023] Customer : Manut | Cappuccino Large 100.00% $5.25, Cappuccino Large 100.00% $5.25, | Total=$9.98, Paid=$10.00, Change=$0.02 | Paid with Cash
+[Wed Jul 26 13:10:20 2023] Customer : Manut | Cappuccino Large 100.00% $5.25, Cappuccino Large 100.00% $5.25, | Total=$10.50, Discount=5%, Final Price=9.98, Paid=$10.00, Change=$0.02 | Paid with Cash
+[Wed Jul 26 13:31:29 2023] Customer : Guest | Cappuccino Large 100.00% $26.25, | Total=$26.25, Discount=10%, Final Price=23.63%, Paid=$25.00, Change=$1.38 | Paid with Cash
+[Wed Jul 26 13:36:04 2023] Customer : Guest | Cappuccino Large 100.00% x0 $52.50, | Total=$52.50, Discount=15%, Final Price=44.63$, Paid=$50.00, Change=$5.38 | Paid with Cash
+[Mon Aug 14 21:21:25 2023] Customer : Chea | Cappuccino Large 50.00% x0 $5.25, Latte Large 90.00% x0 $11.00, | Total=$16.25, Discount=10%, Final Price=14.63$, Paid=$15.00, Change=$0.38 | Paid with Cash

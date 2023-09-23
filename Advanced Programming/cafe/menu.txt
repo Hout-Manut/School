@@ -1,0 +1,8 @@
+1 Espresso 2.50 3.50 4.50
+2 Americano 2.75 3.75 4.75
+3 Cappuccino 3.25 4.25 5.25
+4 Latte 3.50 4.50 5.50
+5 Mocha 3.75 4.75 5.75
+6 Macchiato 3.00 4.00 5.00
+7 White Coffee 3.75 4.75 5.75
+8 Cortado 3.25 4.25 5.25
