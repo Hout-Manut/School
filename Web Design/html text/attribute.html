@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>attribute</title>
+        <style>
+            @font-face {
+                font-family: Mada-Medium;
+                src: url('Mada-Medium.ttf');
+            }
+            @font-face {
+                font-family: Geo-Sans-Light;
+                src: url('Geosanslight.ttf');
+            }
+            body {
+                #header {
+                    background-color: darkgrey;
+                    border-color: mediumseagreen;
+                }
+                font-family: 'Geo-Sans-Light';
+            }
+        </style>
+        <script>
+            function changecolor(){
+                document.getElementById("header").style.backgroundColor = "red";
+            }
+        </script>
+    </head>
+    <body>
+        <h1 id="header"">Attribute</h1>
+        <button onclick="changecolor()">Yes</button>
+        <form action="home.html">
+            <p><input class="input" type="email" placeholder="Email"></p>
+            <p><input class="input" type="password" placeholder="Password"></p>
+            <p><input type="checkbox" checked>HTML</p>
+            <p><input type="checkbox">CSS</p>
+            <p><button disabled>Send</button></p>
+            <p><input type="text" readonly value="Cambodia"></p>
+            <p><input type="submit"></p>
+        </form>
+    </body>
+</html>
