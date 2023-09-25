@@ -2,7 +2,7 @@ package Lab1;
 
 public class ex4 {
 
-    public class Person {
+    class Person {
         String country, name, profession;
         int age;
     }
