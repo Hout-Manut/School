@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			.cred input {
+				border: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="" method="post" enctype="multipart/form-data">
+			<h2>Register</h2>
+			<div class="cred">
+				<div class="user">
+					<label for="email">Username: </label>
+					<input
+						type="email"
+						id="email"
+						required
+						placeholder="Username"
+						title="Please fill this with your Username."
+					/>
+				</div>
+				<div class="pass">
+					<label for="password">Password: </label>
+					<input
+						type="password"
+						id="password"
+						required
+						placeholder="Password"
+					/>
+				</div>
+			</div>
+
+			<div class="gender">
+				<input type="radio" name="gender" id="male" value="Male" />
+				<label for="male">Male</label>
+				<input type="radio" name="gender" id="female" value="Female" />
+				<label for="female">Female</label>
+			</div>
+			<br />
+
+			<div class="select">
+				<label for="cv">CV: </label>
+				<input type="file" name="cv" id="cv" />
+			</div>
+			<br />
+
+			<div class="area">
+				<label for="desc">Description</label><br />
+				<textarea
+					name="desc"
+					id="desc"
+					cols="30"
+					rows="10"
+					placeholder="Write about yourself."
+				></textarea>
+			</div>
+			<br />
+
+			<dev class="select">
+				<label for="select">Choose: </label>
+				<select name="select" id="select">
+					<option value="cambodia">Cambodia</option>
+					<option value="usa">USA</option>
+					<option value="germany">Germany</option>
+				</select>
+			</dev>
+			<br />
+			<div>
+				<input type="reset" value="Reset" />
+				<input type="submit" value="Submit" name="submit" />
+			</div>
+		</form>
+	</body>
+</html>
