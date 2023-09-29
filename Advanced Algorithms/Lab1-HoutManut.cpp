@@ -124,7 +124,7 @@ void calcDiv(int n) // 4
 
 int sumSuite(int n) // 5.a
 {
-    int total;
+    int total = 0;
     for (int i = 0; i <= n; i++)
         total += i;
     return total;
@@ -133,7 +133,7 @@ int sumSuite(int n) // 5.a
 int sumDigit(int n) // 5.b
 {
     int total = 0;
-    while (n > 1)
+    while (n > 0)
     {
         total += n % 10;
         n /= 10;
@@ -159,15 +159,16 @@ void structTest() // 6
         cout << endl;
     }
 
-    int ageBuffer = 0;
-    cout << "Name\t\tAge\tZodiac\n";
+    int oldestAge = 0;
+    cout << "Name\t\tAge\tZodiac\n"
+         << "------------------------------" << endl;
     for (int i = 0; i < 4; i++)
     {
         cout << left << setw(16) << person[i].name
              << setw(8) << person[i].age
              << setw(16) << person[i].zodiac << endl;
-        if (person[i].age > ageBuffer)
-            ageBuffer = person[i].age;
+        if (person[i].age > oldestAge)
+            oldestAge = person[i].age;
     }
     cout << endl;
 
@@ -175,15 +176,16 @@ void structTest() // 6
     Person oldest[20];
     for (int i = 0; i < 4; i++)
     {
-        if (person[i].age == ageBuffer)
+        if (person[i].age == oldestAge)
         {
             oldest[oldestCount].name = person[i].name;
             oldest[oldestCount].zodiac = person[i].zodiac;
             oldestCount++;
         }
     }
-    cout << "The oldest age is " << ageBuffer
-         << "\nName\t\tZodiac" << endl;
+    cout << "The oldest age is " << oldestAge
+         << "\nName\t\tZodiac\n" 
+         << "----------------------" << endl;
     for (int i = 0; i < oldestCount; i++)
     {
         cout << left << setw(16) << oldest[i].name
@@ -274,17 +276,15 @@ exit:
                  << "0. Exit."
                  << endl;
             subOption = getInt();
+            cout << "Enter n: ";
+            n = getInt();
             switch (subOption)
             {
             case 1:
-                cout << "Enter n: ";
-                n = getInt();
                 cout << "\nSum of 1 to " << n << " is " << sumSuite(n) << "." << endl;
                 break;
 
             case 2:
-                cout << "Enter n: ";
-                n = getInt();
                 cout << "\nSum of all digits of " << n << " is " << sumDigit(n) << "." << endl;
                 break;
 
@@ -310,6 +310,7 @@ exit:
         x = getInt();
         cout << "Enter y: ";
         y = getInt();
+        cout << endl;
 
         cout << "Before exchange. x = " << x << ", y = " << y << endl;
         exchangeNumber(&x, &y);
