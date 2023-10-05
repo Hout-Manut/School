@@ -25,9 +25,12 @@ public class ex3 {
         System.out.print("Q8. In the past 14 days, have you had close contact (within about 6 feet for 15 minutes or more) with someone with suspected or confirmed COVID-19? ");
         answer[7] = scanner.nextLine();
 
-        System.out.println("=== Covid-19 Screen Health ===");
+        System.out.println("==============================================");
+        System.out.println("| Question            | Answer               |");
+        System.out.println("----------------------------------------------");
         for (int i = 0; i < answer.length; i++) {
-            System.out.println("Q" + (i + 1) + ". " + answer[i]);
+            System.out.printf("| Q%-18d | %-20s |\n", i + 1, answer[i]);
+            System.out.println("----------------------------------------------");
         }
 
         scanner.close();
