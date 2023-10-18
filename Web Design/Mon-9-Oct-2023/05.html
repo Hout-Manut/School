@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Container</title>
+		<style>
+			div {
+				box-sizing: border-box;
+			}
+			.container {
+				width: 1024px;
+				margin: auto;
+			}
+			.row::after {
+				content: "";
+				clear: both;
+				display: table;
+			}
+			.col {
+				padding: 0px 10px 0px 10px;
+				float: left;
+				width: 24%;
+			}
+			@media screen and (max-width: 1024px) {
+				.container {
+					width: 100%;
+				}
+				.col {
+					width: 49%;
+				}
+			}
+			@media screen and (max-width: 512px) {
+				.container {
+					width: 100%;
+				}
+				.col {
+					width: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2>Heading 1</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur, adipisicing
+						elit. Molestiae, eveniet maiores adipisci error
+						doloribus nisi in odio sed quod quis! Est consequuntur
+						perferendis, odio maiores harum optio in unde quisquam?
+					</p>
+				</div>
+				<div class="col">
+					<h2>Heading 2</h2>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Laboriosam architecto quod minima voluptatem,
+						exercitationem ullam, libero iure magnam velit sapiente
+						neque esse voluptatum reiciendis tenetur quas laborum
+						modi, sunt necessitatibus.
+					</p>
+				</div>
+				<div class="col">
+					<h2>Heading 3</h2>
+					<p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+						elit. Quos dignissimos sint quisquam hic voluptatum,
+						illum, architecto, inventore commodi eum quasi magni?
+						Velit nam fugiat consequatur odio iusto quas cumque
+						quia.
+					</p>
+				</div>
+				<div class="col">
+					<h2>Heading 4</h2>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Fugit, amet autem voluptatibus fuga optio impedit
+						laborum natus voluptates enim. Ex est debitis id eos,
+						expedita a veniam! Alias, nam qui.
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
