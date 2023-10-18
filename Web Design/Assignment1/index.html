@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home</title>
+        <style>
+            div {
+                box-sizing: border-box;
+            }
+            .row {
+                margin-left: 300px;
+            }
+            .float {
+				width: 1024px;
+				margin: auto;
+			}
+			.row::after {
+				content: "";
+				clear: both;
+				display: table;
+			}
+			.col {
+				padding: 0px 10px 0px 10px;
+				float: left;
+				width: 24%;
+			}
+        </style>
+	</head>
+	<body>
+        <div class="container">
+            <div class="header">
+                <h1>Phone Shop</h1>
+            </div>
+            <div class="navbar">
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+                <a href="#">Link</a>
+            </div>
+            <div class="items">
+                <div class="row">
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                    <div class="col">
+                        <img src="https://placekitten.com/320" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
