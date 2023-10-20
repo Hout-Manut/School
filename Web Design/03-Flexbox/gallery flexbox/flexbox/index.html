@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="css/colorbox.css"/>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.colorbox.js"></script> -->
+    <style>
+        div{
+            box-sizing: border-box;
+        }
+        .container{
+            max-width: 1024px;
+            margin: 0px auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 5px;
+        }
+        .picture {
+           width:200px;
+           border: 1px solid #ddd;
+           margin: auto;
+           margin-bottom: 10px;
+           text-align: center;
+
+        }
+        .picture:hover{
+            border: 1px solid rgb(253,185,19);
+        }
+        .picture img{
+            width: 100%;
+            height: auto;
+        }
+        .description{
+            padding: 0px;
+            text-align: center;
+        }
+        
+        
+        /* ipad */
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+            }
+            .picture {
+                flex: 50%;
+            } 
+        }
+        /* iphone */
+        @media (max-width: 500px) {
+            .container {
+                width: 100%;
+            }
+            .picture {
+                flex: 100%;
+            }
+        }
+    </style>
+    <!-- <script>
+        $(document).ready(function(){
+            $(".picture a").colorbox();
+            
+        });
+    </script> -->
+</head>
+
+<body>
+    <div class="container">
+        <div class="picture">
+            <a href="img/02.png">
+                <img src="img/02.png" alt="Cinque Terre">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+        <div class="picture">
+            <a href="img/02.png" target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+        <div class="picture">
+            <a href="img/02.png"target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+        <div class="picture">
+            <a href="img/02.png" target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+    
+        <div class="picture">
+            <a href="img/02.png" target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+        <div class="picture">
+            <a href="img/02.png" target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+        <div class="picture">
+            <a href="img/02.png" target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+        <div class="picture">
+            <a href="img/02.png" target="_blank">
+                <img src="img/02.png" alt="">
+            </a>
+            <div>
+                <p class="description">This is the best monitor in our Shop</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

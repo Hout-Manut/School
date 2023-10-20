@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="css/slide.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<!-- Header -->
+			<div class="header">
+				<h1>My Website</h1>
+				<p>With a <b>flexible</b> layout.</p>
+			</div>
+			<!-- Navigation Bar -->
+			<div class="navbar">
+                <a href="#">Link</a>
+				<a href="#">Link</a>
+				<a href="#">Link</a>
+				<a href="#">Link</a>
+			</div>
+            <div class="slide">
+                <div class="slideshow-container">
+                    <!-- Full-width images with number and caption text -->
+                    <div class="mySlides fade">
+                        <div class="numbertext">1 / 3</div>
+                        <img
+                            src="https://www.w3schools.com/howto/img_lights_wide.jpg"
+                            style="width: 100%"
+                        />
+                        <div class="text">Caption Text</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">2 / 3</div>
+                        <img
+                            src="https://www.w3schools.com/howto/img_lights_wide.jpg"
+                            style="width: 100%"
+                        />
+                        <div class="text">Caption Two</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">3 / 3</div>
+                        <img
+                            src="https://www.w3schools.com/howto/img_lights_wide.jpg"
+                            style="width: 100%"
+                        />
+                        <div class="text">Caption Three</div>
+                    </div>
+                    <!-- Next and previous buttons -->
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+                <br />
+                <!-- The dots/circles -->
+                <div style="text-align: center">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+            </div>
+			<div class="flex-container">
+                <div class="side">
+					<h2>About Me</h2>
+					<h5>Photo of me:</h5>
+					<div class="fakeimg" style="height: 200px">Image</div>
+					<p>
+						Some text about me in culpa qui officia deserunt mollit
+						anim..
+					</p>
+					<h3>More Text</h3>
+					<p>Lorem ipsum dolor sit ame.</p>
+					<div class="fakeimg" style="height: 60px">Image</div>
+					<br />
+					<div class="fakeimg" style="height: 60px">Image</div>
+					<br />
+					<div class="fakeimg" style="height: 60px">Image</div>
+				</div>
+				<div class="main">
+					<h2>TITLE HEADING</h2>
+					<h5>Title description, Dec 7, 2017</h5>
+					<div class="fakeimg" style="height: 200px">Image</div>
+					<p>Some text..</p>
+					<p>
+						Sunt in culpa qui officia deserunt mollit anim id est
+						laborum consectetur adipiscing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut
+						enim ad minim veniam, quis nostrud exercitation ullamco.
+					</p>
+					<br />
+					<h2>TITLE HEADING</h2>
+					<h5>Title description, Sep 2, 2017</h5>
+					<div class="fakeimg" style="height: 200px">Image</div>
+					<p>Some text..</p>
+					<p>
+						Sunt in culpa qui officia deserunt mollit anim id est
+						laborum consectetur adipiscing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut
+						enim ad minim veniam, quis nostrud exercitation ullamco.
+					</p>
+				</div>
+			</div>
+			<!-- Footer -->
+			<div class="footer">
+				<h2>Footer</h2>
+			</div>
+		</div>
+		<script src="js/slide.js"></script>
+	</body>
+</html>
