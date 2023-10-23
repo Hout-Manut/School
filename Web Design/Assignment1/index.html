@@ -4,65 +4,91 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Home</title>
-        <style>
-            div {
-                box-sizing: border-box;
-            }
-            .row {
-                margin-left: 300px;
-            }
-            .float {
-				width: 1024px;
-				margin: auto;
-			}
-			.row::after {
-				content: "";
-				clear: both;
-				display: table;
-			}
-			.col {
-				padding: 0px 10px 0px 10px;
-				float: left;
-				width: 24%;
-			}
-        </style>
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<link
+			rel="stylesheet"
+			s
+			href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+		/>
 	</head>
 	<body>
-        <div class="container">
-            <div class="header">
-                <h1>Phone Shop</h1>
-            </div>
-            <div class="navbar">
-                <a href="#">Link</a>
-                <a href="#">Link</a>
-                <a href="#">Link</a>
-                <a href="#">Link</a>
-            </div>
-            <div class="items">
-                <div class="row">
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="https://placekitten.com/320" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+		<div class="container">
+			<header>
+				<nav>
+					<img class="logo" src="assets/logo.png" alt="LOREM IPSUM" />
+					<ul class="nav">
+						<li><a href="#">Home</a></li>
+						<li><a href="#">Products</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</nav>
+			</header>
+			<div class="slide-container">
+				<div class="slide">
+					<div class="order">1 / 4</div>
+					<img src="assets/banner1.jpg" alt="Apple iPhone 15 Pro" />
+					<div class="alt apple">
+						<h2>iPhone 15 Pro</h2>
+						<p>
+							Titanium. <br />
+							So strong. So light. So Pro.
+						</p>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="order">2 / 4</div>
+					<img src="assets/banner2.jpg" alt="Google Pixel 8 Pro" />
+					<div class="alt google">
+						<h2>Pixel 8 Pro</h2>
+						<p>Meet Pixel 8 and Pixel 8 Pro, our newest phones.</p>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="order">3 / 4</div>
+					<img
+						src="assets/banner3.jpg"
+						alt="Samsung Galaxy S23 Ultra"
+					/>
+					<div class="alt samsung">
+						<h2>Galaxy S23 Ultra</h2>
+						<p>
+							We've raised the bar with a 200MP camera and our
+							fastest mobile processor ever.
+						</p>
+					</div>
+				</div>
+				<div class="slide">
+					<div class="order">4 / 4</div>
+					<img src="assets/banner4.jpg" alt="HUAWEI P60 Pro" />
+					<div class="alt huawei">
+						<h2><b>HUAWEI</b> P60 Pro</h2>
+						<p>Vision Enlightened</p>
+					</div>
+				</div>
+				<a class="prev" onclick="changeSlides(-1)"
+					><i class="bx bx-chevron-left"></i
+				></a>
+				<a class="next" onclick="changeSlides(1)"
+					><i class="bx bx-chevron-right"></i
+				></a>
+				<ul class="bars">
+					<li onclick="">
+						<span class="bar" onclick="currentSlide(1)"></span>
+						<div class="bar"></div>
+					</li>
+					<li>
+						<span class="bar" onclick="currentSlide(2)"></span>
+					</li>
+					<li>
+						<span class="bar" onclick="currentSlide(3)"></span>
+					</li>
+					<li>
+						<span class="bar" onclick="currentSlide(4)"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script src="js/slide.js"></script>
 </html>
