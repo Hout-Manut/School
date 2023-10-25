@@ -4,7 +4,9 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Home</title>
-		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<link rel="stylesheet" href="css/home.css" />
+		<link rel="stylesheet" href="css/navbar.css" />
+		<link rel="stylesheet" href="css/slide.css" />
 		<link
 			rel="stylesheet"
 			s
@@ -15,12 +17,17 @@
 		<div class="container">
 			<header>
 				<nav>
-					<img class="logo" src="assets/logo.png" alt="LOREM IPSUM" />
+					<a href="index.html">
+						<img
+							class="logo"
+							src="assets/logo.png"
+							alt="LOREM IPSUM"
+					/></a>
 					<ul class="nav">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Products</a></li>
-						<li><a href="#">About</a></li>
-						<li><a href="#">Contact</a></li>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="products.html">Products</a></li>
+						<li><a href="about.html">About</a></li>
+						<li><a href="contact.html">Contact</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -75,7 +82,6 @@
 				<ul class="bars">
 					<li onclick="">
 						<span class="bar" onclick="currentSlide(1)"></span>
-						<div class="bar"></div>
 					</li>
 					<li>
 						<span class="bar" onclick="currentSlide(2)"></span>
@@ -89,6 +95,40 @@
 				</ul>
 			</div>
 		</div>
+		<main>
+			<hr>
+			<div class="featured">
+				<h1>Featured Phones</h1>
+				<div class="row">
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+					<div class="col">
+						<a href=""><img src="https://placekitten.com/200" alt=""></a>
+					</div>
+				</div>
+			</div>
+		</main>
 	</body>
 	<script src="js/slide.js"></script>
 </html>

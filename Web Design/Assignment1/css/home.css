@@ -1,0 +1,38 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+main {
+	margin: 8rem auto;
+	max-width: 1200px;
+}
+hr {
+	box-shadow: 5px solid rgba(0, 0, 0, 0.2);
+	margin-bottom: 2rem;
+}
+
+.row {
+	max-width: 1200px;
+	align-items: center;
+	text-align: center;
+	margin-left: calc((1200px - 830px) / 2);
+}
+
+.col {
+	/* float: left; */
+	margin: 0 5px;
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+}
