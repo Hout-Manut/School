@@ -1,0 +1,62 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+/* header & navbar */
+
+header {
+	position: absolute;
+	width: 100%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	top: 0;
+	left: 0;
+}
+
+nav {
+	max-width: 1700px;
+	margin: 0 auto;
+	padding: 0 2rem;
+	justify-content: space-between;
+	align-items: center;
+	/* backdrop-filter: blur(20px); */
+}
+
+.logo {
+	height: 68px;
+	float: left;
+}
+
+.nav {
+	float: right;
+	list-style: none;
+	margin-top: 25px;
+}
+
+.nav li {
+	float: left;
+}
+
+.nav li a {
+	text-decoration: none;
+	color: #333;
+	padding: 0 1rem;
+	text-transform: uppercase;
+}
+
+.nav li a:hover {
+	text-decoration: underline;
+}
+
+nav::after {
+	content: "";
+	clear: both;
+	display: table;
+}
