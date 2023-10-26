@@ -223,7 +223,7 @@
 		animation: border ease-out 0.2s;
 	}
 
-	img {
+	.slide-container img {
 		height: calc(100vw * 0.25);
 	}
 }
@@ -236,7 +236,7 @@
 		animation: border ease-out 0.2s;
 	}
 
-	img {
+	.slide-container img {
 		float: right;
 		height: 200px;
 	}

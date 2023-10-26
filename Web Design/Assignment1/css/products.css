@@ -1,0 +1,33 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+.container {
+    margin-top: 7rem;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-image img{
+    border-radius: 3%;
+    float: left;
+}
+
+.main-info {
+    margin-right: 6rem;
+    background-color: #aaa;
+    float: right;
+    width: 700px;
+    height: 320px;
+}

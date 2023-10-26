@@ -1,0 +1,48 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+footer {
+    position: absolute;
+    width: 100%;
+    height: 190px;
+    background-color: #efefef;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.footer-container {
+    max-width: 30%;
+    height: 100%;
+    margin: 0 0 0 20%;
+}
+
+.footer-container .findUs {
+    margin-top: 3%;
+}
+
+.findUs ul {
+    margin-top: 7px;
+    list-style: none;
+}
+
+.findUs li {
+    padding-bottom: 3px;
+}
+
+.findUs li a {
+    text-decoration: none;
+    color: goldenrod;
+}
+
+.findUs li a:hover {
+    text-decoration: underline;
+}
