@@ -14,25 +14,61 @@ main {
 	margin: 8rem auto;
 	max-width: 1200px;
 }
+
 hr {
-	box-shadow: 5px solid rgba(0, 0, 0, 0.2);
 	margin-bottom: 2rem;
 }
 
 .row {
-	max-width: 1200px;
+	margin-top: 2rem;
+	max-width: 100%;
 	align-items: center;
 	text-align: center;
-	margin-left: calc((1200px - 830px) / 2);
+	margin-left: calc((100% - 6rem - 850px) / 2);
 }
 
 .col {
-	/* float: left; */
-	margin: 0 5px;
+	float: left;
+	margin: 0 2rem;
+	text-align: left;
+}
+
+.col a {
+	text-decoration: none;
+	color: black;
+}
+
+.col h2 {
+	font-size: 18px;
+}
+
+.price {
+	color: goldenrod;
+}
+
+.col h2:hover {
+	text-decoration: underline;
+}
+
+.price:hover {
+	text-decoration: underline;
+}
+
+.col img {
+	width: 170px;
 }
 
 .row::after {
 	content: "";
 	clear: both;
 	display: table;
+}
+
+@media screen and (max-width: 1200px){
+
+
+	main {
+		background-color: red;
+	}
+	
 }
