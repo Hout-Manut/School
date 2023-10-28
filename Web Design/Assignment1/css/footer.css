@@ -14,7 +14,7 @@ footer {
     position: absolute;
     width: 100%;
     height: 190px;
-    background-color: #efefef;
+    background-color: #d3e4f1;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
@@ -40,7 +40,7 @@ footer {
 
 .findUs li a {
     text-decoration: none;
-    color: goldenrod;
+    color: #0a4a7c;
 }
 
 .findUs li a:hover {

@@ -41,6 +41,15 @@ nav {
 	margin-top: 25px;
 }
 
+#hamburger {
+	font-size: 25px;
+	position: absolute;
+	top: 22px;
+	right: 30px;
+	opacity: 0%;
+	transition: all 0.2s ease;
+}
+
 .nav li {
 	float: left;
 }
@@ -49,7 +58,10 @@ nav {
 	text-decoration: none;
 	color: #333;
 	padding: 0 1rem;
+	font-size: 16px;
+	opacity: 100%;
 	text-transform: uppercase;
+	transition: all 0.2s ease;
 }
 
 .nav li a:hover {
@@ -62,6 +74,25 @@ nav::after {
 	display: table;
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 600px){
+	.nav li a {
+		padding: 0 1.5vw;
+	}
+}
 
+@media screen and (max-width: 450px){
+	.nav li a  {
+		font-size: 0;
+		opacity: 0%;
+	}
+
+	#hamburger {
+		opacity: 100%;
+	}
+}
+
+@media screen and (max-width: 405px){
+	ul {
+		display: none;
+	}
 }

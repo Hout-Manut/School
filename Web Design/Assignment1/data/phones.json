@@ -1,0 +1,171 @@
+[
+	{
+		"id": "pixel8pro",
+		"brand": "Google",
+		"modal": "Googe Pixel 8 Pro",
+		"price": "From $969.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/10/pIxel-8-Pro.jpg",
+        "date": "12, Oct, 2023",
+        "battery": "5050mAh",
+        "dimension": "162.6 x 76.5 x 8.8mm",
+        "display": "6.5\", 1344x2992p, LTPO OLED, 120Hz, HDR10+, 1600 nits",
+        "chipset": "Google Tensor G3",
+        "camera": "Rear: Triple 50MP/48MP/28MP, Front: Single 12.5MP",
+		"storage": [
+			"128GB, 12GB RAM: $1289.00",
+			"256GB, 12GB RAM",
+			"512GB, 12GB RAM",
+			"1TB, 12GB RAM"
+		],
+		"color": [
+			"Obsidian",
+			"Porcelian",
+			"Bay"
+		]
+	},
+	{
+		"id": "iphone15promax",
+		"brand": "Apple",
+		"modal": "Apple iPhone 15 Pro Max",
+		"price": "from $1289.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/09/15-pro-max-Blue-1.jpg",
+		"date": "22, September 2023",
+        "battery": "4441mAh",
+        "dimension": "159.9 x 76.7 x 8.3 mm",
+        "display": "6.7\", 1290x2796p, LTPO OLED, 120Hz, HDR10, 1000 nits",
+        "chipset": "Apple A17 Pro",
+        "camera": "Rear: Triple 48MP/12MP/12MP, Front: Single 12MP",
+		"storage": [
+			"256GB, 8GB RAM: $1289.00",
+			"512GB, 8GB RAM: $1809.00",
+			"1TB, 8GB RAM: $2059.00"
+		],
+		"color": [
+			"Black Titanium",
+			"White Titanium",
+			"Blue Titanium",
+			"Natural Titanium"
+		]
+	},
+	{
+		"id": "nothingphoneone",
+		"modal": "Nothing Phone One",
+		"brand": "Nothing",
+		"price": "439.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2022/07/NA_Nothing.jpg",
+		"date": "16, July 2022",
+        "battery": "4500 mAh",
+        "dimension": "",
+        "display": "",
+        "chipset": "",
+        "camera": "",
+		"storage": [
+			""
+		],
+		"color": [
+			"",
+			"",
+			""
+		]
+	},
+	{
+		"id": "galaxys23ultra",
+		"brand": "Apple",
+		"modal": "Samsung Galaxy S23 Ultra",
+		"price": "929.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/07/S23-Ultrra_R13.jpg",
+		"date": "",
+        "ram": "",
+        "battery": "",
+        "storage": "",
+        "dimension": "",
+        "display": "",
+        "chipset": "",
+        "camera": "",
+		"color": [
+			"",
+			"",
+			""
+		]
+	},
+	{
+		"id": "googlepixel7a",
+		"brand": "Google",
+		"modal": "Google Pixel 7A",
+		"price": "459.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/05/NA_google7A_v1.jpg",
+		"date": "",
+        "ram": "",
+        "battery": "",
+        "storage": "",
+        "dimension": "",
+        "display": "",
+        "chipset": "",
+        "camera": "",
+		"color": [
+			"",
+			"",
+			""
+		]
+	},
+	{
+		"id": "iphone13promax",
+		"brand": "Apple",
+		"modal": "Apple iPhone 13 Pro Max",
+		"price": "859.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/10/NA_13-Pro-MAX_USA1.jpg",
+		"date": "",
+        "ram": "",
+        "battery": "",
+        "storage": "",
+        "dimension": "",
+        "display": "",
+        "chipset": "",
+        "camera": "",
+		"color": [
+			"",
+			"",
+			""
+		]
+	},
+	{
+		"id": "rogphone7",
+		"brand": "Asus",
+		"modal": "Asus ROG Phone 7",
+		"price": "819.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/05/Asus_Rog7_v3.jpg",
+		"date": "",
+        "ram": "",
+        "battery": "",
+        "storage": "",
+        "dimension": "",
+        "display": "",
+        "chipset": "",
+        "camera": "",
+		"color": [
+			"",
+			"",
+			""
+		]
+	},
+	{
+		"id": "findn2flip",
+		"brand": "Oppo",
+		"modal": "Oppo Find N2 Flip 5G",
+		"price": "809.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/03/NA_N2-Flip_v3.jpg",
+		"date": "",
+        "ram": "",
+        "battery": "",
+        "storage": "",
+        "dimension": "",
+        "display": "",
+        "chipset": "",
+        "camera": "",
+		"color": [
+			"",
+			"",
+			""
+		]
+	}
+]

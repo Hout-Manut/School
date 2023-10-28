@@ -1,0 +1,58 @@
+[
+	{
+		"id": "pixel8pro",
+		"modal": "Googe Pixel 8 Pro",
+		"brand": "Google",
+		"price": "$969.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/10/pIxel-8-Pro.jpg"
+	},
+	{
+		"id": "iphone15promax",
+		"modal": "Apple iPhone 15 Pro Max",
+		"brand": "Apple",
+		"price": "$1459.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/09/15-pro-max-Blue-1.jpg"
+	},
+	{
+		"id": "nothingphoneone",
+		"modal": "Nothing Phone One",
+		"brand": "Nothing",
+		"price": "$439.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2022/07/NA_Nothing.jpg"
+	},
+	{
+		"id": "galaxys23ultra",
+		"modal": "Samsung Galaxy S23 Ultra",
+		"brand": "Apple",
+		"price": "$929.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/07/S23-Ultrra_R13.jpg"
+	},
+	{
+		"id": "googlepixel7a",
+		"modal": "Google Pixel 7A",
+		"brand": "Google",
+		"price": "$459.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/05/NA_google7A_v1.jpg"
+	},
+	{
+		"id": "iphone13promax",
+		"modal": "Apple iPhone 13 Pro Max",
+		"brand": "Apple",
+		"price": "$859.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/10/NA_13-Pro-MAX_USA1.jpg"
+	},
+	{
+		"id": "rogphone7",
+		"modal": "Asus ROG Phone 7",
+		"brand": "Asus",
+		"price": "$819.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/05/Asus_Rog7_v3.jpg"
+	},
+	{
+		"id": "findn2flip",
+		"modal": "Oppo Find N2 Flip 5G",
+		"brand": "Oppo",
+		"price": "$809.00",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/03/NA_N2-Flip_v3.jpg"
+	}
+]

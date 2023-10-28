@@ -94,13 +94,19 @@
 	overflow: hidden;
 	border-radius: 20px;
 	overflow: hidden;
-	transition: border-radius 0.2s ease-out;
+	transition: border-radius 0.1s ease-out;
 }
 
 .slide {
 	display: none;
 	animation-name: fade;
 	animation-duration: 1.5s;
+}
+
+.slide h2,
+.slide p {
+	opacity: 100%;
+	transition: all 0.2s ease;
 }
 
 .prev,
@@ -235,9 +241,10 @@
 		border-radius: 2px;
 		animation: border ease-out 0.2s;
 	}
-
+	
 	.slide-container img {
-		float: right;
+		position: absolute;
+		right: 0;
 		height: 200px;
 	}
 
@@ -250,9 +257,15 @@
 }
 
 @media screen and (max-width: 500px) {
+
+	.slide h2 {
+		margin: -1rem 0 0 -1rem;
+		font-size: 28px;
+		text-shadow: 0 0 9px rgba(0, 0, 0, 0.8);
+	}
 	
 	.slide p {
-		display: none;
+		opacity: 0%;
 	}
 }
 

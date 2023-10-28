@@ -1,0 +1,118 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+.container {
+    margin-top: 7rem;
+}
+
+main {
+    min-height: 600px;
+    height: 60vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #eaeaea;
+    border-radius: 20px;
+}
+
+#product-image {
+    margin: 2.5rem;
+    float: left;
+}
+
+#product-image img{
+    border-radius: 10px;
+}
+
+#product-details {
+    float: right;
+    width: 500px;
+    height: 500px;
+    padding-top: 1.5rem;
+    margin-right: 2rem;
+}
+
+#product-details ul{
+    list-style: none;
+}
+
+.catagory{
+    width: 30%;
+    float: left;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.info {
+    width: 70%;
+}
+
+.specifications::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#product-details h2{
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+#options-form {
+    justify-content: space-between;
+    height: auto;
+    /* background-color: antiquewhite; */
+}
+
+.storage-container,
+.color-container {
+    width: 100%;
+    height: 2rem;
+}
+
+#options-form label {
+    padding-top: 4px;
+    float: left;
+}
+
+#options-form select {
+    float: right;
+    width: 40%;
+    border-radius: 10px;
+    background: #aec2d2;
+    padding: 4px 0 4px 6px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    height: 1.6rem;
+
+}
+
+#options-form hr {
+    margin: 0 -0.5rem 8px -0.5rem;
+}
+
+#options-form::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#options-form button {
+    margin: 3rem 5% 0 5%;
+    font-size: 18px;
+    height: 45px;
+    width: 90%;
+    border: none;
+    color: #fff;
+    background-color: #0a4a7c;
+    border-radius: 10px;
+}
