@@ -1,0 +1,106 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+main {
+	margin: 8rem auto;
+	max-width: 1200px;
+	min-height: 50vh;
+}
+
+.row {
+	background-color: #eee;
+	border-radius: 10px;
+	margin-top: 1rem;
+	padding-top: 2rem;
+	max-width: 100%;
+	width: 950px;
+	height: auto;
+	align-items: center;
+	text-align: center;
+	margin-left: calc((100% - 6rem - 850px) / 2);
+	margin-right: calc((100% - 6rem - 850px) / 2);
+	transition: all 0.2s ease-in-out;
+}
+
+.col {
+	float: left;
+	margin: 0 2rem 2rem 2rem;
+	text-align: left;
+	width: 170px;
+	height: 250px;
+}
+
+.col a {
+	text-decoration: none;
+	color: black;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.col h2 {
+	font-size: 18px;
+}
+
+.price {
+	color: #90b0c9;
+}
+
+.col h2:hover {
+	text-decoration: underline;
+}
+
+.price:hover {
+	text-decoration: underline;
+}
+
+.col img {
+	width: 170px;
+	border-radius: 5%;
+}
+
+.col img:hover {
+	border: 1px solid rgba(218, 165, 32, 0.2);
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+
+@media screen and (max-width: 1350px){
+	main {
+		max-width: 90%;
+	}
+}
+
+@media screen and (max-width: 1080px){
+	.row {
+		width: 470px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.col a{
+		width: 200px;
+	}
+
+}
+@media screen and (max-width: 600px){
+	.row {
+		width: 240px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+}

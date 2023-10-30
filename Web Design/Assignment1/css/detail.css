@@ -16,20 +16,31 @@
 
 main {
     min-height: 600px;
-    height: 60vh;
+    height: auto;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto 60vh auto;
+}
+
+#checkout {
+    width: 100%;
+    height: 600px;
+    padding: 0 5rem;
     background-color: #eaeaea;
     border-radius: 20px;
+    transition: all 0.2s ease;
 }
 
 #product-image {
     margin: 2.5rem;
     float: left;
+    width: 320px;
 }
 
 #product-image img{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
     border-radius: 10px;
+
 }
 
 #product-details {
@@ -38,21 +49,31 @@ main {
     height: 500px;
     padding-top: 1.5rem;
     margin-right: 2rem;
+    left: -2rem;
 }
 
 #product-details ul{
     list-style: none;
 }
 
-.catagory{
-    width: 30%;
+#catagory li,
+#info li{
+    font-size: 18px;
+    padding-top: 7px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#catagory{
+    width: 20%;
     float: left;
     text-align: right;
     padding-right: 20px;
 }
 
-.info {
-    width: 70%;
+#info {
+    float: right;
+    width: 80%;
 }
 
 .specifications::after {
@@ -84,22 +105,22 @@ main {
 }
 
 #options-form select {
+    cursor: pointer;
     float: right;
     width: 40%;
-    border-radius: 10px;
+    border-radius: 6px;
     background: #aec2d2;
     padding: 4px 0 4px 6px;
     border: none;
     font-size: 14px;
     outline: none;
     height: 1.6rem;
-
 }
 
 #options-form hr {
     margin: 0 -0.5rem 8px -0.5rem;
 }
-
+#product-details::after,
 #options-form::after{
     content: "";
     clear: both;
@@ -114,5 +135,45 @@ main {
     border: none;
     color: #fff;
     background-color: #0a4a7c;
-    border-radius: 10px;
+    border-radius: 5px;
+}
+
+#options-form button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.bx-cart-add {
+    padding-right: 5px;
+}
+
+
+@media screen and (max-width: 1200px){
+    #checkout {
+        border-radius: 2px;
+    }
+
+}
+
+@media screen and (max-width: 1100px){
+    #checkout {
+        height: 1050px;
+    }
+
+    #product-image {
+        margin: 0;
+        clear: both;
+        display: block;
+        width: 100%;
+        margin-left: calc((100vw - 500px) / 2);
+        margin-top: 40px;
+    }
+    #product-image img {
+        width: 320px;
+    }
+
+	#product-details {
+		float: left;
+	}
+
 }

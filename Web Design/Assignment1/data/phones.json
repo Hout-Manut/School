@@ -3,19 +3,19 @@
 		"id": "pixel8pro",
 		"brand": "Google",
 		"modal": "Googe Pixel 8 Pro",
-		"price": "From $969.00",
+		"price": "From $999.00",
 		"img": "https://angkormeas.com/wp-content/uploads/2023/10/pIxel-8-Pro.jpg",
-        "date": "12, Oct, 2023",
+        "date": "12, Oct 2023",
         "battery": "5050mAh",
-        "dimension": "162.6 x 76.5 x 8.8mm",
+        "dimension": "162.6 x 76.5 x 8.8 mm",
         "display": "6.5\", 1344x2992p, LTPO OLED, 120Hz, HDR10+, 1600 nits",
         "chipset": "Google Tensor G3",
         "camera": "Rear: Triple 50MP/48MP/28MP, Front: Single 12.5MP",
 		"storage": [
-			"128GB, 12GB RAM: $1289.00",
-			"256GB, 12GB RAM",
-			"512GB, 12GB RAM",
-			"1TB, 12GB RAM"
+			"128GB, 12GB RAM: $999.00",
+			"256GB, 12GB RAM: $1059.00",
+			"512GB, 12GB RAM: $1179.00",
+			"1TB, 12GB RAM: $1300.00"
 		],
 		"color": [
 			"Obsidian",
@@ -27,8 +27,8 @@
 		"id": "iphone15promax",
 		"brand": "Apple",
 		"modal": "Apple iPhone 15 Pro Max",
-		"price": "from $1289.00",
-		"img": "https://angkormeas.com/wp-content/uploads/2023/09/15-pro-max-Blue-1.jpg",
+		"price": "From $1289.00",
+		"img": "https://fdn2.gsmarena.com/vv/pics/apple/apple-iphone-15-pro-max-1.jpg",
 		"date": "22, September 2023",
         "battery": "4441mAh",
         "dimension": "159.9 x 76.7 x 8.3 mm",
@@ -51,121 +51,238 @@
 		"id": "nothingphoneone",
 		"modal": "Nothing Phone One",
 		"brand": "Nothing",
-		"price": "439.00",
+		"price": "From $322.00",
 		"img": "https://angkormeas.com/wp-content/uploads/2022/07/NA_Nothing.jpg",
 		"date": "16, July 2022",
         "battery": "4500 mAh",
-        "dimension": "",
-        "display": "",
-        "chipset": "",
-        "camera": "",
+        "dimension": "159.2 x 75.8 x 8.3 mm",
+        "display": "6.55\", 1080x2400p, OLED, 120Hz, HDR10+, 500 nits",
+        "chipset": "Snapdragon 778G+",
+        "camera": "Rear: Duel 50MP/50MP, Front: Single 16MP",
 		"storage": [
-			""
+			"128GB 8GB RAM: $322.99",
+			"256GB 8GB RAM: $382.99",
+			"256GB 12GB RAM: $429.00"
 		],
 		"color": [
-			"",
-			"",
-			""
+			"White",
+			"Black"
 		]
 	},
 	{
 		"id": "galaxys23ultra",
-		"brand": "Apple",
+		"brand": "Samsung",
 		"modal": "Samsung Galaxy S23 Ultra",
-		"price": "929.00",
-		"img": "https://angkormeas.com/wp-content/uploads/2023/07/S23-Ultrra_R13.jpg",
-		"date": "",
-        "ram": "",
-        "battery": "",
-        "storage": "",
-        "dimension": "",
-        "display": "",
-        "chipset": "",
-        "camera": "",
+		"price": "From $800.00",
+		"img": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s23-ultra-5g.jpg",
+		"date": "17, Februrary 2022",
+        "battery": "5000 mAh",
+        "dimension": "163.4 x 78.1 x 8.9 mm",
+        "display": "6.8\", 1440x3088p, Dynamic AMOLED 2x, 120Hz, HDR10+, 1200 nits",
+        "chipset": "Snapdragon 8 Gen 2",
+        "camera": "Rear: Quad 200MP/10MP/10MP/12MP, Front: Single 12MP",
+		"storage": [
+			"256GB 8GB RAM: $800.00",
+			"256GB 12GB RAM: $929.96",
+			"512GB 12GB RAM: $999.99",
+			"1TB 12GB RAM: $1099.99"
+		],
 		"color": [
-			"",
-			"",
-			""
+			"Phantom Black",
+			"Green",
+			"Cream",
+			"lavender",
+			"Graphite",
+			"Sky Blue",
+			"Lime",
+			"Red", 
+			"BMW M Edition"
 		]
 	},
 	{
 		"id": "googlepixel7a",
 		"brand": "Google",
 		"modal": "Google Pixel 7A",
-		"price": "459.00",
+		"price": "From $380.00",
 		"img": "https://angkormeas.com/wp-content/uploads/2023/05/NA_google7A_v1.jpg",
-		"date": "",
-        "ram": "",
-        "battery": "",
-        "storage": "",
-        "dimension": "",
-        "display": "",
-        "chipset": "",
-        "camera": "",
+		"date": "10, May 2023",
+        "battery": "4385 mAh",
+        "dimension": "152 x 72.9 x 9 mm",
+        "display": "6.1\", 1080 x 2400, OLED, 90Hz, HDR",
+        "chipset": "Google Tensor G2",
+        "camera": "Rear: Duel 64MP/13MP, Front: Single 13MP",
+		"storage": [
+			"128GB 8GB RAM: $380.00"
+		],
 		"color": [
-			"",
-			"",
-			""
+			"White",
+			"Black"
 		]
 	},
 	{
-		"id": "iphone13promax",
+		"id": "iphone12promax",
 		"brand": "Apple",
-		"modal": "Apple iPhone 13 Pro Max",
-		"price": "859.00",
-		"img": "https://angkormeas.com/wp-content/uploads/2023/10/NA_13-Pro-MAX_USA1.jpg",
-		"date": "",
-        "ram": "",
-        "battery": "",
-        "storage": "",
-        "dimension": "",
-        "display": "",
-        "chipset": "",
-        "camera": "",
+		"modal": "Apple iPhone 12 Pro Max",
+		"price": "From $648.99",
+		"img": "https://angkormeas.com/wp-content/uploads/2023/09/15-pro-max-Blue-1.jpg",
+		"date": "13, November 2020",
+        "battery": "3687 mAh",
+        "dimension": "160.8 x 78.1 x 7.4 mm",
+        "display": "6.7\", 1284 x 2778, OLED, 120Hz, HDR10+, 500 nits",
+        "chipset": "Apple A14 Bionic",
+        "camera": "Rear: Triple 12MP/12MP/12MP, Front: Single 12MP",
+		"storage": [
+			"128GB 8GB RAM: $648.99",
+			"256GB 8GB RAM: $682.99",
+			"512GB 8GB RAM: $749.00"
+		],
 		"color": [
-			"",
-			"",
-			""
+			"Silver",
+			"Graphite",
+			"Gold",
+			"Pacific Blue"
 		]
 	},
 	{
 		"id": "rogphone7",
 		"brand": "Asus",
 		"modal": "Asus ROG Phone 7",
-		"price": "819.00",
+		"price": "From $635.99",
 		"img": "https://angkormeas.com/wp-content/uploads/2023/05/Asus_Rog7_v3.jpg",
-		"date": "",
-        "ram": "",
-        "battery": "",
-        "storage": "",
-        "dimension": "",
-        "display": "",
-        "chipset": "",
-        "camera": "",
+		"date": "12, October 2023",
+        "battery": "5050 mAh",
+        "dimension": "162.6 x 76.5 x 8.8 mm",
+        "display": "6.7\", 1080 x 2448p, AMOLED, 165Hz, HDR10+, 1000 nits",
+        "chipset": "Snapdragon 8 Gen 2",
+        "camera": "Rear: Triple 50MP/13MP/5MP, Front: Single 32MP",
+		"storage": [
+			"256GB 12GB RAM: $635.99",
+			"512GB 16GB RAM: $825.99"
+		],
 		"color": [
-			"",
-			"",
-			""
+			"Phantom Black",
+			"Storm White"
 		]
 	},
 	{
 		"id": "findn2flip",
 		"brand": "Oppo",
 		"modal": "Oppo Find N2 Flip 5G",
-		"price": "809.00",
+		"price": "From $1299.00",
 		"img": "https://angkormeas.com/wp-content/uploads/2023/03/NA_N2-Flip_v3.jpg",
-		"date": "",
-        "ram": "",
-        "battery": "",
-        "storage": "",
-        "dimension": "",
-        "display": "",
-        "chipset": "",
-        "camera": "",
+		"date": "08, September 2023",
+        "battery": "4300 mAh",
+        "dimension": "Unfolded: 166.4 x 75.8 x 7.8 mm",
+        "display": "6.8\", 1080 x 2520, LTPO AMOLED, 120Hz, HDR10+, 1200 nits",
+        "chipset": "Dimensity 9200",
+        "camera": "Rear: Triple 50MP/32MP/48MP, Front: Single 32MP",
+		"storage": [
+			"256GB 12GB RAM: $1299.00",
+			"512GB 12GB RAM: $1799.00"
+		],
 		"color": [
-			"",
-			"",
-			""
+			"Cream Gold",
+			"Misty Pink",
+			"Sleek Black"
+		]
+	},
+	{
+		"id": "p60pro",
+		"brand": "Huawei",
+		"modal": "Huawei P60 Pro",
+		"price": "From $968.00",
+		"img": "https://fdn2.gsmarena.com/vv/bigpic/huawei-p60-pro.jpg",
+		"date": "08, September 2023",
+        "battery": "4815 mAh",
+        "dimension": "161 x 74.5 x 8.3 mm",
+        "display": "6.67\", 1220 x 2700p, LTPO OLED, 120Hz",
+        "chipset": "Snapdragon 8+ Gen 1 4G",
+        "camera": "Rear: Triple 48MP/48MP/13MP, Front: Single 13MP",
+		"storage": [
+			"256GB 8GB RAM: $1199.00",
+			"256GB 12GB RAM: $1399.00",
+			"512GB 12GB RAM: $1599.00"
+		],
+		"color": [
+			"Cream Gold",
+			"Misty Pink",
+			"Sleek Black"
+		]
+	},
+	{
+		"id": "14pro",
+		"brand": "Xiaomi",
+		"modal": "Xiaomi 14 Pro",
+		"price": "Coming Soon",
+		"img": "https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14-pro.jpg",
+		"date": "08, September 2023",
+        "battery": "4880 mAh",
+        "dimension": "161.4 x 75.3 x 8.5 mm",
+        "display": "6.73\", 1440 x 3200p, LTPO AMOLED, 120Hz, HDR10+, 3000 nits",
+        "chipset": "Snapdragon 8 Gen 3",
+        "camera": "Rear: Triple 50MP/50MP/50MP, Front: Single 32MP",
+		"storage": [
+			"256GB 12GB RAM",
+			"512GB 16GB RAM",
+			"1TB 16GB RAM"
+		],
+		"color": [
+			"Black",
+			"Silver",
+			"Titanium",
+			"Green"
+		]
+	},
+	{
+		"id": "iphone14promax",
+		"brand": "Apple",
+		"modal": "Apple iPhone 14 Pro Max",
+		"price": "From $899.00",
+		"img": "https://fdn2.gsmarena.com/vv/bigpic/apple-iphone-14-pro-max-.jpg",
+		"date": "08, September 2023",
+        "battery": "4323 mAh",
+        "dimension": "160.7 x 77.6 x 7.9 mm",
+        "display": "6.7\", 1290 x 2796p, LTPO OLED, 120Hz, HDR10, 1000 nits",
+        "chipset": "Apple A16 Bionic",
+        "camera": "Rear: Triple 48MP/12MP/12MP, Front: Single 12MP",
+		"storage": [
+			"128GB 6GB RAM: $899.00",
+			"256GB 6GB RAM: $999.00",
+			"512GB 6GB RAM: $1099.00",
+			"1TB 6GB RAM: $1199.00"
+		],
+		"color": [
+			"Space Black",
+			"Silver",
+			"Gold",
+			"Deep Purple"
+		]
+	},
+	{
+		"id": "zflip5",
+		"brand": "Samsung",
+		"modal": "Samsung Z Flip5",
+		"price": "From $799.00",
+		"img": "https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-z-flip5-5g.jpg",
+		"date": "08, September 2023",
+        "battery": "3700 mAh",
+        "dimension": "Unfolded: 165.1 x 71.9 x 6.9 mm",
+        "display": "6.7\", 1080 x 2640p, Dynamic AMOLED, 120Hz, HDR10+, 1750 nits",
+        "chipset": "Dimensity 9200",
+        "camera": "Rear: Duel 12MP/12MP, Front: Single 10MP",
+		"storage": [
+			"256GB 8GB RAM: $799.00",
+			"512GB 12GB RAM: $899.00"
+		],
+		"color": [
+			"Mint",
+			"Graphite",
+			"Cream",
+			"Lavender",
+			"Gray",
+			"Blue",
+			"Green",
+			"Yellow"
 		]
 	}
 ]

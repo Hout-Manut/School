@@ -16,6 +16,290 @@ main {
 	min-height: 50vh;
 }
 
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+@font-face {
+	font-family: "SF Pro Display Regular";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/SFPRODISPLAYREGULAR.ttf");
+}
+
+@font-face {
+	font-family: "SF Pro Display Medium";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/SFPRODISPLAYMEDIUM.ttf");
+}
+
+@font-face {
+	font-family: "Product Sans Regular";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Product Sans Regular"),
+		url("../assets/fonts/ProductSans-Regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Product Sans Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: local("Product Sans Bold"),
+		url("../Assets/fonts/ProductSans-Bold.woff") format("woff");
+}
+
+@font-face {
+	font-family: "SF Pro Display Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/SFPRODISPLAYBOLD.ttf");
+}
+
+@font-face {
+	font-family: "Samsung Sharp Sans Regular";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/samsungsharpsans.ttf");
+}
+
+@font-face {
+	font-family: "Samsung Sharp Sans Bold";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/samsungsharpsans-bold.ttf");
+}
+
+@font-face {
+	font-family: "Manrope Light";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/ManropeLight.ttf");
+}
+
+@font-face {
+	font-family: "Manrope Regular";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/ManropeRegular.ttf");
+}
+
+@font-face {
+	font-family: "Manrope Extrabold";
+	font-style: normal;
+	font-weight: normal;
+	src: url("../assets/fonts/ManropeExtrabold.ttf");
+}
+
+/* slideshow */
+
+.slide-container {
+	max-width: 1200px;
+	max-height: 300px;
+	top: 6rem;
+	position: relative;
+	margin: 0 auto;
+	background-color: black;
+	overflow: hidden;
+	border-radius: 20px;
+	overflow: hidden;
+	transition: border-radius 0.1s ease-out;
+}
+
+.slide {
+	display: none;
+	animation-name: fade;
+	animation-duration: 1.5s;
+}
+
+.slide h2,
+.slide p {
+	opacity: 100%;
+	transition: all 0.2s ease;
+}
+
+.prev,
+.next {
+	cursor: pointer;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	width: auto;
+	margin-top: -25px;
+	padding: 18px;
+	color: #eee;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	user-select: none;
+}
+
+.next {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+	background-color: rgba(255, 255, 255, 0.8);
+	color: black;
+}
+
+.order {
+	color: #eee;
+	font-size: 12px;
+	padding: 8px 12px;
+	position: absolute;
+	top: 0;
+}
+
+.alt {
+	color: #eee;
+	padding: 8px 12px;
+	position: absolute;
+	top: 25%;
+	left: 10%;
+	width: 100%;
+}
+
+.apple h2 {
+	font-family: "SF Pro Display Bold";
+	font-size: 36px;
+}
+
+.apple p {
+	margin-top: 10px;
+	font-family: "SF Pro Display Regular";
+	font-size: 18px;
+	max-width: 30%;
+}
+
+.google h2 {
+	font-family: "Product Sans Bold";
+	font-size: 36px;
+}
+
+.google p {
+	margin-top: 10px;
+	font-family: "Product Sans Regular";
+	font-size: 18px;
+	max-width: 30%;
+}
+
+.samsung h2 {
+	font-family: "Samsung Sharp Sans Bold";
+	font-size: 36px;
+}
+
+.samsung p {
+	margin-top: 10px;
+	font-family: "Samsung Sharp Sans Regular";
+	font-size: 14px;
+	max-width: 30%;
+}
+
+.huawei h2 {
+	font-family: "Manrope Light";
+	font-size: 38px;
+	font-weight: normal;
+}
+
+.huawei h2 b {
+	font-family: "Manrope Extrabold";
+	font-size: 38px;
+}
+
+.huawei p {
+	margin-top: 10px;
+	font-family: "Manrope Regular";
+	font-size: 18px;
+	max-width: 30%;
+}
+
+.active {
+	background-color: #333;
+}
+
+.bar:hover {
+	background-color: blue;
+}
+
+.slide-container::after {
+	content: "";
+	clear: both;
+	display: grid;
+}
+
+@media screen and (max-width: 1200px) {
+	.slide-container {
+		width: 100%;
+		height: calc(100vw * 0.25);
+		border-radius: 2px;
+		animation: border ease-out 0.2s;
+	}
+
+	.slide-container img {
+		height: calc(100vw * 0.25);
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.slide-container {
+		width: 100%;
+		height: 200px;
+		border-radius: 2px;
+		animation: border ease-out 0.2s;
+	}
+	
+	.slide-container img {
+		position: absolute;
+		right: 0;
+		height: 200px;
+	}
+
+
+	img::after {
+		content: "";
+		clear: both;
+		display: table;
+	}
+}
+
+@media screen and (max-width: 500px) {
+
+	.slide h2 {
+		margin: -1rem 0 0 -1rem;
+		font-size: 28px;
+		text-shadow: 0 0 9px rgba(0, 0, 0, 0.8);
+	}
+	
+	.slide p {
+		opacity: 0%;
+	}
+}
+
+@keyframes fade {
+	from {
+		opacity: 0.2;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes border {
+	from {
+		border-radius: 20px;
+	}
+	to {
+		border-radius: 2px;
+	}
+}
+
+/* featured */
+
 hr {
 	margin-bottom: 2rem;
 }
@@ -26,10 +310,13 @@ hr {
 	margin-top: 1rem;
 	padding-top: 2rem;
 	max-width: 100%;
+	width: 950px;
+	height: auto;
 	align-items: center;
 	text-align: center;
 	margin-left: calc((100% - 6rem - 850px) / 2);
 	margin-right: calc((100% - 6rem - 850px) / 2);
+	transition: all 0.2s ease-in-out;
 }
 
 .col {
@@ -37,7 +324,7 @@ hr {
 	margin: 0 2rem 2rem 2rem;
 	text-align: left;
 	width: 170px;
-	height: auto;
+	height: 250px;
 }
 
 .col a {
@@ -67,7 +354,7 @@ hr {
 }
 
 .col img:hover {
-	border: 1px solid rgba(218, 165, 32, 0.2);
+	border: 1px solid rgba(70, 153, 236, 0.2);
 }
 
 .row::after {

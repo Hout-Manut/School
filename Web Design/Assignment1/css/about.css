@@ -10,3 +10,111 @@
 	font-family: "Mada Medium";
 }
 
+main {
+	max-width: 1200px;
+	min-height: 50vh;
+	margin: 100px auto 0 auto;
+}
+
+main h1 {
+	text-align: center;
+	margin: 3rem 0;
+}
+
+main #info {
+	max-width: 900px;
+	margin: 20px auto;
+}
+
+main #info p {
+	text-align: center;
+}
+
+main #social {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	margin-bottom: 90px;
+}
+
+#social-container {
+	margin: 0 50px;
+}
+
+#social-container a {
+	float: left;
+	padding: 5px 10px;
+}
+
+#social-container::after {
+	content: "";
+	clear: both;
+	display: block;
+}
+
+#facebook {
+	width: 150px;
+	height: 50px;
+	background-color: #3b5998;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+
+#twitter {
+	width: 150px;
+	height: 50px;
+	background-color: #00acee;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+
+#instagram {
+	width: 150px;
+	height: 50px;
+	background-color: #8a3ab9;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+
+#youtube {
+	width: 150px;
+	height: 50px;
+	background-color: #c4302b;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+
+#facebook i {
+	margin-top: 12px;
+}
+
+#twitter i {
+	margin-top: 12px;
+}
+
+#instagram i {
+	margin-top: 12px;
+}
+
+#youtube i {
+	margin-top: 12px;
+}
+
+#map {
+	height: 500px;
+}
+
+@media screen and (max-width: 900px){
+	main #social-container {
+		width: 340px;
+		margin: 0 auto;
+	}
+}

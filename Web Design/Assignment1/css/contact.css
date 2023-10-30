@@ -1,0 +1,103 @@
+@font-face {
+	font-family: "Mada Medium";
+	src: url("../assets/fonts/Mada-Medium.ttf");
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Mada Medium";
+}
+
+main {
+    max-width: 1200px;
+    margin: 100px auto 90vh auto;
+    padding: 20px 10px;
+    background-color: #eaeaea;
+    border-radius: 15px;
+}
+
+#contact {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#contact h1 {
+    text-align: center;
+    color: black;
+    text-decoration: none;
+    margin-bottom: 2rem;
+}
+
+#contact p {
+    text-align: center;
+}
+
+#message {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+#message-container {
+    width: 100%;
+    margin: 0 50px;
+}
+
+#message-container a{
+    float: left;
+    padding: 5px 10px;
+}
+
+#phone {
+    width: 150px;
+	height: 50px;
+	background-color: #5fedaf;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+#telegram {
+    width: 150px;
+	height: 50px;
+	background-color: #0088cc;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+#email {
+    width: 150px;
+	height: 50px;
+	background-color: #ed947b;
+	text-align: center;
+	color: #fff;
+	font-size: 26px;
+	border-radius: 7px;
+}
+
+#phone i {
+	margin-top: 12px;
+}
+
+#telegram i {
+	margin-top: 12px;
+}
+
+#email i {
+	margin-top: 12px;
+}
+
+#phone:hover,
+#telegram:hover,
+#email:hover {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+#message-container::after {
+	content: "";
+	clear: both;
+	display: block;
+}
