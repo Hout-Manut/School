@@ -1,6 +1,6 @@
 package Lab5;
 
-import java.util.Scanner;
+// import java.util.Scanner;
 
 class Line {
     private static int count;
@@ -49,11 +49,11 @@ class Rectangle {
 
 class Triangle {
     private static int count;
-    private int base;
+    // private int base;
     private int height;
 
     public Triangle(int base, int height) {
-        this.base = base;
+        // this.base = base;
         this.height = height;
         count++;
     }
@@ -62,7 +62,7 @@ class Triangle {
         for (int i = this.height; i > 0; i--) {
             for (int j = 0; j < i; j++)
                 System.out.print(" ");
-            for (int j = base; j < he; j--)
+            // for (int j = base; j < he; j--)
                 System.out.print("*");
             System.out.println();
         }

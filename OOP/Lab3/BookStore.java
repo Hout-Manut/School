@@ -55,9 +55,9 @@ public class BookStore {
         Author author2 = bookStore.new Author();
         Author author3 = bookStore.new Author();
         Book book1 = bookStore.new Book();
-        Book book2 = bookStore.new Book();
-        Book book3 = bookStore.new Book();
-        Book book4 = bookStore.new Book();
+        // Book book2 = bookStore.new Book();
+        // Book book3 = bookStore.new Book();
+        // Book book4 = bookStore.new Book();
 
         author1.name = "Arthur Weasley";
         author1.surname = "Potter";

@@ -17,7 +17,7 @@ class c extends b{
 }
 public class Class {
     public static void main(String[] args) {
-        c obj = new c();
+        // c obj = new c();
     
     }
 }
