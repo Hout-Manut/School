@@ -1,4 +1,4 @@
-#include "cafe.h"
+#include "cafeold.h"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -8,7 +8,6 @@
 #include <conio.h>
 #include <algorithm>
 using namespace std;
-using namespace cafe;
 
 void userLogin();
 
@@ -16,9 +15,7 @@ int baseTextOffset = 60;
 bool isAdmin = false;
 string customerName = "Guest";
 
-Cafe myCafe;
-
-// cafe::Cafe myCafe;
+// Random Functions
 
 void clearscreen()
 {
@@ -114,6 +111,152 @@ string getStringMiddle(string question)
         printMiddle(string);
     }
     return str;
+}
+
+// End of Random Functions
+
+class CafeList
+{
+private:
+    cafe::MenuItemNode *menuHead;
+    cafe::OrderNode *orderHead;
+
+public:
+    CafeList()
+    {
+        menuHead = NULL;
+        orderHead = NULL;
+    }
+
+    ~CafeList()
+    {
+        cafe::MenuItemNode *currentMenu = menuHead;
+        while (currentMenu != NULL)
+        {
+            cafe::MenuItemNode *temp = currentMenu;
+            currentMenu = currentMenu->next;
+            delete temp;
+        }
+
+        cafe::OrderNode *currentOrder = orderHead;
+        while (currentOrder != NULL)
+        {
+            cafe::OrderNode *temp = currentOrder;
+            currentOrder = currentOrder->next;
+            delete temp;
+        }
+    }
+
+    void addMenuItem(cafe::MenuItem &item)
+    {
+        cafe::MenuItemNode *newNode = new cafe::MenuItemNode;
+        newNode->data = item;
+        newNode->next = NULL;
+
+        if (menuHead == NULL)
+        {
+            menuHead = newNode;
+        }
+        else
+        {
+            cafe::MenuItemNode *current = menuHead;
+            while (current->next != NULL)
+            {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+
+    void removeMenuItem(string name)
+    {
+        cafe::MenuItemNode *current = menuHead;
+        cafe::MenuItemNode *previous = NULL;
+
+        while (current != NULL)
+        {
+            if (current->data.name == name)
+            {
+                if (previous == NULL)
+                {
+                    menuHead = current->next;
+                }
+                else
+                {
+                    previous->next = current->next;
+                }
+                delete current;
+                return;
+            }
+            previous = current;
+            current = current->next;
+        }
+    }
+
+    void showMenu()
+    {
+        cafe::MenuItemNode *current = menuHead;
+        int i = 1;
+
+        while (current != NULL)
+        {
+            cout << i << ". " << current->data.name << endl;
+            cout << "   Small: $" << current->data.priceSmall << endl;
+            cout << "   Medium: $" << current->data.priceMedium << endl;
+            cout << "   Large: $" << current->data.priceLarge << endl;
+            cout << "   Quantity: " << current->data.quantity << endl;
+            cout << endl;
+
+            current = current->next;
+            i++;
+        }
+    }
+
+    void addOrder(cafe::Order &order)
+    {
+        cafe::OrderNode *newNode = new cafe::OrderNode;
+        newNode->data = order;
+        newNode->next = NULL;
+
+        if (orderHead == NULL)
+        {
+            orderHead = newNode;
+        }
+        else
+        {
+            cafe::OrderNode *current = orderHead;
+            while (current->next != NULL)
+            {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+};
+
+CafeList list;
+
+void cafe::Cafe::loadMenuItem()
+{
+    cafe::MenuItem item;
+    fstream menuFile;
+    string name;
+
+    menuFile.open("data/menu.txt", ios::in);
+    if (menuFile.is_open())
+    {
+        while (menuFile >> name)
+        {
+            menuFile >> item.priceSmall >> item.priceMedium >> item.priceLarge >> item.quantity;
+            item.name = name;
+            list.addMenuItem(item);
+        }
+        menuFile.close();
+    }
+    else
+    {
+        cout << "Error opening menu file." << endl;
+    }
 }
 
 void login()
@@ -237,7 +380,7 @@ void customerMenu()
          << endl;
     printMiddle("Welcome to Cafe Management System.");
     cout << endl;
-    // if 
+    // if
     cout << "1. View a product. \n"
          << "2. Exit. \n"
          << "Enter your choice: ";
@@ -245,6 +388,7 @@ void customerMenu()
 
 int main()
 {
+    // cafe::Cafe cafe;
     int opt;
     // clearscreen();
     cout << "\n"
@@ -272,6 +416,8 @@ int main()
     default:
         break;
     }
+    // cafe.loadMenuItem();
+    // list.showMenu();
     if (isAdmin)
     {
         adminMenu();

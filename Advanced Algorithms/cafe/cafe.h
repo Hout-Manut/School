@@ -1,67 +1,60 @@
 #ifndef CAFE_H
 #define CAFE_H
 
-#include <iostream>
 #include <string>
-using namespace std;
 
 namespace cafe
 {
 
-    struct MenuItem;
-    struct MenuItemNode;
-    struct Order;
-    struct OrderNode;
-
-    class Cafe
+    struct Product
     {
-    private:
-        MenuItemNode *menuHead;
-        OrderNode *orderHead;
+        int id;
+        std::string name;
+        double price;
+        Product *next;
 
-    public:
-        Cafe();
-        ~Cafe();
-
-        void addMenuItem(MenuItem &item);
-        void removeMenuItem(string name);
-        void updateMenuItem(string name, MenuItem item);
-        void showMenu();
-        void addOrder(Order &order);
-    };
-
-    struct MenuItem
-    {
-        string name;
-        double priceSmall;
-        double priceMedium;
-        double priceLarge;
-        int quantity;
+        Product(int id, std::string name, double price)
+            : id(id), name(name), price(price), next(nullptr) {}
     };
 
     struct Order
     {
-        string name;
+        int orderId;
+        int productId;
         int quantity;
-        double price;
-        string size;
-        string status;
-        string time;
-        string date;
-        string payment;
+        Order *next;
+
+        Order(int orderId, int productId, int quantity)
+            : orderId(orderId), productId(productId), quantity(quantity), next(nullptr) {}
     };
 
-    struct MenuItemNode
+    class ProductList
     {
-        MenuItem data;
-        MenuItemNode *next;
+    public:
+        ProductList();
+        ~ProductList();
+        void addProduct(int id, std::string name, double price);
+        void updateProduct(int id, std::string name, double price);
+        void removeProduct(int id);
+        Product *findProduct(int id);
+        void displayProducts();
+
+    private:
+        Product *head;
     };
 
-    struct OrderNode
+    class OrderList
     {
-        Order data;
-        OrderNode *next;
+    public:
+        OrderList();
+        ~OrderList();
+        void addOrder(int orderId, int productId, int quantity);
+        void removeOrder(int orderId);
+        Order *findOrder(int orderId);
+        void displayOrders();
+
+    private:
+        Order *head;
     };
 } // namespace cafe
-
-#endif
+#endif // CAFE_MANAGEMENT_H

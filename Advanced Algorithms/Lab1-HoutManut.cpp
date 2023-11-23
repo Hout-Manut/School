@@ -7,14 +7,14 @@ using namespace std;
 
 struct Person // 6
 {
-    string name, zodiac;
+    std::string name, zodiac;
     int age;
 };
 
 void awaitInput() // a function to wait for the user
 {
     Sleep(2000);
-    cout << "\nPress Enter to continue...";
+    std::cout << "\nPress Enter to continue...";
     cin.get();
     cin.ignore(1000, '\n');
 }
@@ -24,7 +24,7 @@ int getInt() // a function to only get int as inputs
     int n;
     while (!(cin >> n))
     {
-        cout << "Invalid input. Try again: ";
+        std::cout << "Invalid input. Try again: ";
         cin.clear();
         cin.ignore(1000, '\n');
     }
@@ -34,11 +34,11 @@ int getInt() // a function to only get int as inputs
 void calcQuadratic() // 1
 {
     int a, b, c;
-    cout << "Calculate 'ax^2 + bx + c = 0'\n\n"
+    std::cout << "Calculate 'ax^2 + bx + c = 0'\n\n"
          << "Enter a, b, c: ";
     while (!(cin >> a >> b >> c))
     {
-        cout << "Invalid input. Try again.\n";
+        std::cout << "Invalid input. Try again.\n";
         cin.clear();
         cin.ignore(1000, '\n');
     }
@@ -46,26 +46,26 @@ void calcQuadratic() // 1
     int delta = b * b - 4 * a * c;
     float x1, x2;
     system("cls");
-    cout << a << "x^2 + " << b << "x + " << c << " = 0\n\n"
+    std::cout << a << "x^2 + " << b << "x + " << c << " = 0\n\n"
          << "Determinant = " << delta << "\n\n"
          << "Result:\n";
     if (delta > 0)
     {
         x1 = (-b + sqrt(delta)) / (2 * a);
         x2 = (-b - sqrt(delta)) / (2 * a);
-        cout << "x1: " << x1 << "\nx2: " << x2 << endl;
+        std::cout << "x1: " << x1 << "\nx2: " << x2 << endl;
     }
     else if (delta < 0)
     {
         x1 = -b / (2 * a);
         x2 = sqrt(-delta) / (2 * a);
-        cout << "x1: " << x1 << "+" << x2 << "i"
+        std::cout << "x1: " << x1 << "+" << x2 << "i"
              << "\nx2: " << x1 << "-" << x2 << "i" << endl;
     }
     else
     {
         x1 = -b / (2 * a);
-        cout << "x1 = x2: " << x1 << endl;
+        std::cout << "x1 = x2: " << x1 << endl;
     }
 
     awaitInput();
@@ -79,10 +79,10 @@ void printNum() // 2
         if (i % 100 == 0 && i <= 500)
             continue;
         else
-            cout << setw(5) << i;
+            std::cout << setw(5) << i;
         count++;
         if (count % 20 == 0)
-            cout << endl;
+            std::cout << endl;
     }
 
     awaitInput();
@@ -92,11 +92,11 @@ void inputNum() // 3
 {
     int num, total = 0;
     bool first = true;
-    cout << "Enter a number. (-1 to end.): ";
+    std::cout << "Enter a number. (-1 to end.): ";
     while (true)
     {
         if (first == false)
-            cout << "Enter another number: ";
+            std::cout << "Enter another number: ";
 
         num = getInt();
         if (num == -1)
@@ -104,7 +104,7 @@ void inputNum() // 3
         total += num;
         first = false;
     }
-    cout << "Program ended.\n"
+    std::cout << "Program ended.\n"
          << "Total: " << total << endl;
 
     awaitInput();
@@ -116,7 +116,7 @@ void calcDiv(int n) // 4
     for (int i = 1; i <= n; i++)
     {
         result = 1.0 / i;
-        cout << "1/" << i << " = " << result << "\n";
+        std::cout << "1/" << i << " = " << result << "\n";
     }
 
     awaitInput();
@@ -144,33 +144,33 @@ int sumDigit(int n) // 5.b
 void structTest() // 6
 {
     Person person[20];
-    cout << "Enter the information of 4 people.\n";
+    std::cout << "Enter the information of 4 people.\n";
     cin.ignore(1000, '\n');
 
     for (int i = 0; i < 4; i++)
     {
-        cout << "Enter the name of person " << i + 1 << ": ";
+        std::cout << "Enter the name of person " << i + 1 << ": ";
         getline(cin, person[i].name);
-        cout << "Enter the age of person " << i + 1 << ": ";
+        std::cout << "Enter the age of person " << i + 1 << ": ";
         person[i].age = getInt();
         cin.ignore();
-        cout << "Enter the zodiac sign of person " << i + 1 << ": ";
+        std::cout << "Enter the zodiac sign of person " << i + 1 << ": ";
         getline(cin, person[i].zodiac);
-        cout << endl;
+        std::cout << endl;
     }
 
     int oldestAge = 0;
-    cout << "Name\t\tAge\tZodiac\n"
+    std::cout << "Name\t\tAge\tZodiac\n"
          << "------------------------------" << endl;
     for (int i = 0; i < 4; i++)
     {
-        cout << left << setw(16) << person[i].name
+        std::cout << left << setw(16) << person[i].name
              << setw(8) << person[i].age
              << setw(16) << person[i].zodiac << endl;
         if (person[i].age > oldestAge)
             oldestAge = person[i].age;
     }
-    cout << endl;
+    std::cout << endl;
 
     int oldestCount = 0;
     Person oldest[20];
@@ -183,12 +183,12 @@ void structTest() // 6
             oldestCount++;
         }
     }
-    cout << "The oldest age is " << oldestAge
+    std::cout << "The oldest age is " << oldestAge
          << "\nName\t\tZodiac\n" 
          << "----------------------" << endl;
     for (int i = 0; i < oldestCount; i++)
     {
-        cout << left << setw(16) << oldest[i].name
+        std::cout << left << setw(16) << oldest[i].name
              << oldest[i].zodiac << endl;
     }
 
@@ -198,15 +198,15 @@ void structTest() // 6
 void pointerTest() // 7
 {
     int x, y;
-    cout << "Enter x: ";
+    std::cout << "Enter x: ";
     x = getInt();
-    cout << "Enter y: ";
+    std::cout << "Enter y: ";
     y = getInt();
 
     int *p1 = &x;
     int *p2 = &y;
 
-    cout << "\nAddress of x: " << p1 
+    std::cout << "\nAddress of x: " << p1 
          << "\nValue of x: " << *p1 
          << "\nAddress of y: " << p2 
          << "\nValue of y: " << *p2 
@@ -228,7 +228,7 @@ int main()
 exit:
     int n = 0;
     system("cls");
-    cout << "Choose an option.\n"
+    std::cout << "Choose an option.\n"
          << "1. Calculate the quadratic formula.\n"
          << "2. Print numbers from 1 to 1000.\n"
          << "3. Input numbers.\n"
@@ -257,12 +257,12 @@ exit:
     case 4:
         while (n <= 0)
         {
-            cout << "Enter n: ";
+            std::cout << "Enter n: ";
             n = getInt();
             if (n <= 0)
-                cout << "n must be greater than 0." << endl;
+                std::cout << "n must be greater than 0." << endl;
         }
-        cout << "\nResult: " << endl;
+        std::cout << "\nResult: " << endl;
         calcDiv(n);
         goto exit;
 
@@ -270,22 +270,22 @@ exit:
         int subOption;
         while (true)
         {
-            cout << "Choose an operation.\n"
+            std::cout << "Choose an operation.\n"
                  << "1. Sum of 1 to n.\n"
                  << "2. Sum of all digits of n.\n"
                  << "0. Exit."
                  << endl;
             subOption = getInt();
-            cout << "Enter n: ";
+            std::cout << "Enter n: ";
             n = getInt();
             switch (subOption)
             {
             case 1:
-                cout << "\nSum of 1 to " << n << " is " << sumSuite(n) << "." << endl;
+                std::cout << "\nSum of 1 to " << n << " is " << sumSuite(n) << "." << endl;
                 break;
 
             case 2:
-                cout << "\nSum of all digits of " << n << " is " << sumDigit(n) << "." << endl;
+                std::cout << "\nSum of all digits of " << n << " is " << sumDigit(n) << "." << endl;
                 break;
 
             default:
@@ -306,16 +306,16 @@ exit:
 
     case 8:
         int x, y;
-        cout << "Enter x: ";
+        std::cout << "Enter x: ";
         x = getInt();
-        cout << "Enter y: ";
+        std::cout << "Enter y: ";
         y = getInt();
-        cout << endl;
+        std::cout << endl;
 
-        cout << "Before exchange. x = " << x << ", y = " << y << endl;
+        std::cout << "Before exchange. x = " << x << ", y = " << y << endl;
         exchangeNumber(&x, &y);
         Sleep(1200);
-        cout << "After exchange. x = " << x << ", y = " << y << endl;
+        std::cout << "After exchange. x = " << x << ", y = " << y << endl;
 
         awaitInput();
         goto exit;
