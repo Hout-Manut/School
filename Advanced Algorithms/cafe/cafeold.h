@@ -1,5 +1,5 @@
-#ifndef CAFE_H
-#define CAFE_H
+#ifndef CAFEOLD_H
+#define CAFEOLD_H
 
 #include <iostream>
 #include <string>
