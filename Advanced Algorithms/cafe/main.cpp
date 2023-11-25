@@ -138,6 +138,7 @@ void adminMenu()
                 cout << endl;
                 cout << "Press any Enter to continue...";
                 cafe::awaitEnter();
+                cafe::sleep(4);
                 break;
         }
         isUsing = false;
@@ -151,7 +152,7 @@ int main()
     bool isUsing = true;
     do
     {
-        cafe::clearScreen();
+        // cafe::clearScreen();
         cafe::printMiddle("==== Welcome to the Cafe Management Program ====");
         cout << endl;
         cout << "Who are you?\n"

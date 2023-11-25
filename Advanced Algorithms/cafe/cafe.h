@@ -116,11 +116,10 @@ namespace cafe
         }
 #else
         setTerminalMode(false);
-
-        while (getchar() != '\n')
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF)
         {
-            // also wait for the Enter key
-            //  do nothing
+            // Wait for the Enter key on Unix-like systems
         }
 
         setTerminalMode(true);
@@ -234,7 +233,7 @@ namespace cafe
         {
             menuHead = NULL;
             menuAmount = 0;
-            cartHead == NULL;
+            cartHead = NULL;
             cartAmount = 0;
         }
         ~CafeList()
@@ -419,7 +418,6 @@ namespace cafe
         void showMenuItem(char border)
         {
             MenuItemNode *current = menuHead;
-            int i = 1;
 
             std::cout << std::left << std::setfill(border) << std::setw(48) << "" << std::endl;
             while (current != NULL)
@@ -433,7 +431,6 @@ namespace cafe
                 std::cout << std::endl;
 
                 current = current->next;
-                i++;
             }
             std::cout << std::left << std::setfill(border) << std::setw(48) << "" << std::endl;
         }
