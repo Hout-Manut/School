@@ -22,6 +22,7 @@ void adminLogin()
         cout << endl;
         cout << "\tUsername: ";
         cin >> username;
+        cin.ignore();
         cout << "\tPassword: ";
         password = cafe::getPassword();
         if (cafe::validateAdmin(username, password))

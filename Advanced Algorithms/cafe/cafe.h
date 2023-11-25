@@ -38,7 +38,7 @@ namespace cafe
 {
     void clearScreen()
     {
-        std::cout << "\x1B[2J\x1B[H"; // ANSI escape code to clear the screen
+        std::cout << "\033[2J\033[1;1H";
     }
 
     void sleep(int seconds)
