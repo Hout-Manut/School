@@ -46,7 +46,24 @@ namespace cafe
         std::this_thread::sleep_for(std::chrono::seconds(seconds));
     }
 
-    int getInt(int max) // a function to only get int as inputs
+    void sleep(int seconds, int milliseconds)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(seconds) + std::chrono::milliseconds(milliseconds));
+    }
+
+    int getInt() // a function to only get int as inputs
+    {
+        int n;
+        while (!(std::cin >> n) || n < 0)
+        {
+            std::cout << "Invalid input. Try again: ";
+            std::cin.clear();
+            std::cin.ignore(1000, '\n');
+        }
+        return n;
+    }
+
+    int getInt(int max)
     {
         int n;
         while (!(std::cin >> n) || n > max || n < 0)
@@ -87,6 +104,13 @@ namespace cafe
             }
         }
         return n;
+    }
+
+    bool isString(const std::string &input)
+    {
+        std::istringstream iss(input);
+        int num;
+        return !(iss >> num);
     }
 
     void printMiddle(std::string str, int baseTextOffset = 60)
@@ -426,13 +450,52 @@ namespace cafe
                 std::cout << std::left << std::setw(20) << current->data.name << " ";
                 std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.small << " ";
                 std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.medium << " ";
-                std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.large << " ";
-
-                std::cout << std::endl;
+                std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.large << "\n";
 
                 current = current->next;
             }
             std::cout << std::left << std::setfill(border) << std::setw(48) << "" << std::endl;
+            std::cout << std::setfill(' ');
+        }
+        int getMenuAmount()
+        {
+            return menuAmount;
+        }
+
+        MenuItem *getMenuItem(std::string query)
+        {
+            MenuItemNode *current = menuHead;
+            try
+            {
+                int intValue = std::stoi(query);
+                while (current != nullptr)
+                {
+                    if (current->data.id == intValue)
+                    {
+                        return &(current->data);
+                    }
+                    current = current->next;
+                }
+            }
+            catch (const std::invalid_argument &)
+            {
+                // query is not an integer
+            }
+            catch (const std::out_of_range &)
+            {
+                // query out of range for int
+            }
+
+            current = menuHead;
+            while (current != nullptr)
+            {
+                if (current->data.name == query)
+                {
+                    return &(current->data);
+                }
+                current = current->next;
+            }
+            return nullptr;
         }
 
         void appendCart(MenuItem &item, std::string size, float price, int quantity)
@@ -459,7 +522,7 @@ namespace cafe
             }
             cartAmount++;
         }
-        bool addToCart(int id, int s, int q)
+        void addToCart(int id, int s, int q)
         {
             MenuItemNode *current = menuHead;
             MenuItem item;
@@ -486,7 +549,7 @@ namespace cafe
                         size = "Large";
                         break;
                     default:
-                        return false;
+                        return;
                     }
                     found = true;
                     break;
@@ -495,12 +558,12 @@ namespace cafe
             }
             if (!found)
             {
-                return false;
+                return;
             }
             appendCart(item, size, price, q);
-            return true;
+            return;
         }
-        bool addToCart(std::string name, int s, int q)
+        void addToCart(std::string name, int s, int q)
         {
             MenuItemNode *current = menuHead;
             MenuItem item;
@@ -527,7 +590,7 @@ namespace cafe
                         size = "Large";
                         break;
                     default:
-                        return false;
+                        return;
                     }
                     found = true;
                     break;
@@ -536,10 +599,35 @@ namespace cafe
             }
             if (!found)
             {
-                return false;
+                return;
             }
             appendCart(item, size, price, q);
-            return true;
+            return;
+        }
+        void addToCart(MenuItem* itemPtr, int s, int q)
+        {
+            MenuItem item = *itemPtr;
+            float price;
+            std::string size;
+            switch (s)
+            {
+            case 0: // small
+                price = item.small * q;
+                size = "Small";
+                break;
+            case 1: // medium
+                price = item.medium * q;
+                size = "Medium";
+                break;
+            case 2: // large
+                price = item.large * q;
+                size = "Large";
+                break;
+            default:
+                return;
+            }
+            appendCart(item, size, price, q);
+            return;
         }
         // bool updateCart(int id, int s)
         // {
@@ -609,13 +697,22 @@ namespace cafe
             }
             return total;
         }
+        int getCartAmount()
+        {
+            return cartAmount;
+        }
         void showCart()
         {
             CartItemNode *current = cartHead;
-            int i = 1;
             while (current != NULL)
             {
-                std::cout << i << ". " << current->data.productName << " (" << current->data.size << ")" << std::endl;
+                std::cout << std::left << std::setfill(' ') << std::setw(3) << current->data.productId << " ";
+                std::cout << std::left << std::setw(20) << current->data.productName << " ";
+                std::cout << std::setw(7) << current->data.size << " ";
+                std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.price << " ";
+                std::cout << std::setw(7) << current->data.quantity << "\n";
+
+                current = current->next;
             }
         }
     };
