@@ -5,6 +5,7 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include <ctime>
 #include <stdlib.h>
 #include <iomanip>
 #include <algorithm>
@@ -255,9 +256,9 @@ namespace cafe
     public:
         CafeList()
         {
-            menuHead = NULL;
+            menuHead = nullptr;
             menuAmount = 0;
-            cartHead = NULL;
+            cartHead = nullptr;
             cartAmount = 0;
         }
         ~CafeList()
@@ -371,6 +372,7 @@ namespace cafe
         {
             MenuItemNode *current = menuHead;
             MenuItem newItem;
+            newItem.id = id;
             newItem.name = n;
             newItem.small = s;
             newItem.medium = m;
@@ -386,6 +388,18 @@ namespace cafe
                 current = current->next;
             }
             return false;
+        }
+        void updateItemIDs()
+        {
+            MenuItemNode *current = menuHead;
+            int newID = 1;
+
+            while (current != NULL)
+            {
+                current->data.id = newID;
+                newID++;
+                current = current->next;
+            }
         }
         bool removeMenuItem(int id)
         {
@@ -406,6 +420,7 @@ namespace cafe
                     }
                     menuAmount--;
                     delete current;
+                    updateItemIDs();
                     return true;
                 }
                 previous = current;
@@ -498,15 +513,27 @@ namespace cafe
             return nullptr;
         }
 
+        void updateCartIDs()
+        {
+            CartItemNode *current = cartHead;
+            int newID = 1;
+
+            while (current != NULL)
+            {
+                current->data.id = newID;
+                newID++;
+                current = current->next;
+            }
+        }
         void appendCart(MenuItem &item, std::string size, float price, int quantity)
         {
             CartItemNode *newNode = new CartItemNode;
-            newNode->data.id = item.id;
+            newNode->data.productId = item.id;
             newNode->data.productName = item.name;
             newNode->data.size = size;
             newNode->data.price = price;
             newNode->data.quantity = quantity;
-            newNode->data.id = cartAmount;
+            newNode->data.id = cartAmount + 1;
             if (cartHead == NULL)
             {
                 cartHead = newNode;
@@ -563,48 +590,37 @@ namespace cafe
             appendCart(item, size, price, q);
             return;
         }
-        void addToCart(std::string name, int s, int q)
+        void addToCart(std::string name, std::string s, float p, int q)
         {
-            MenuItemNode *current = menuHead;
-            MenuItem item;
-            bool found = false;
-            float price;
-            std::string size;
-            while (current != NULL)
+            CartItem newItem;
+            CartItemNode *newCartNode = new CartItemNode;
+            newItem.productName = name;
+            newItem.price = p * q;
+            newItem.quantity = q;
+            newItem.size = s;
+            newItem.productId = 0;
+            newItem.id = cartAmount + 1;
+
+            newCartNode->data = newItem;
+            newCartNode->next = NULL;
+
+            if (cartHead == NULL)
             {
-                if (current->data.name == name)
+                cartHead = newCartNode;
+            }
+            else
+            {
+                CartItemNode *current = cartHead;
+                while (current->next != NULL)
                 {
-                    item = current->data;
-                    switch (s)
-                    {
-                    case 0: // small
-                        price = item.small * q;
-                        size = "Small";
-                        break;
-                    case 1: // medium
-                        price = item.medium * q;
-                        size = "Medium";
-                        break;
-                    case 2: // large
-                        price = item.large * q;
-                        size = "Large";
-                        break;
-                    default:
-                        return;
-                    }
-                    found = true;
-                    break;
+                    current = current->next;
                 }
-                current = current->next;
+                current->next = newCartNode;
             }
-            if (!found)
-            {
-                return;
-            }
-            appendCart(item, size, price, q);
+            cartAmount++;
             return;
         }
-        void addToCart(MenuItem* itemPtr, int s, int q)
+        void addToCart(MenuItem *itemPtr, int s, int q)
         {
             MenuItem item = *itemPtr;
             float price;
@@ -706,13 +722,36 @@ namespace cafe
             CartItemNode *current = cartHead;
             while (current != NULL)
             {
-                std::cout << std::left << std::setfill(' ') << std::setw(3) << current->data.productId << " ";
+                std::cout << std::left << std::setfill(' ') << std::setw(3) << current->data.id << " ";
                 std::cout << std::left << std::setw(20) << current->data.productName << " ";
-                std::cout << std::setw(7) << current->data.size << " ";
+                std::cout << std::setw(8) << current->data.size << " ";
                 std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.price << " ";
                 std::cout << std::setw(7) << current->data.quantity << "\n";
 
                 current = current->next;
+            }
+            std::cout << std::endl;
+        }
+        void checkout(std::string customer_name)
+        {
+            CartItemNode *current = cartHead;
+            std::fstream f;
+            auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+            // Convert to local time
+            std::tm localTime = *std::localtime(&now);
+
+            std::ostringstream oss;
+            oss << std::put_time(&localTime, "%d/%m/%y %T");
+            current_time = oss.str();
+            f.open("data/history.txt", std::ios::app);
+            //
+            if (f.is_open())
+            {
+            }
+            else
+            {
+                std::cout << "Error opening file" << std::endl;
             }
         }
     };
