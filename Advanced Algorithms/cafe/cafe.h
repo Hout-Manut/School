@@ -750,7 +750,7 @@ namespace cafe
         std::string getDate()
         {
 
-            long currentTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+            std::time_t currentTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
             std::tm *timeinfo = std::localtime(&currentTime);
 

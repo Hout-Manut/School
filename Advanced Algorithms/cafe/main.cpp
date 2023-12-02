@@ -320,6 +320,12 @@ void cart()
         cout << endl;
         cafe::printMiddle("==== Your Cart ====");
         cout << endl;
+        if (cartSize == 0)
+        {
+            cout << "Your cart is empty!" << endl;
+            cafe::sleep(2);
+            return;
+        }
         cout << "ID  Item name            Size     Qty   Price\n\n";
         cafeList.showCart();
         cout << "Total:                                  $" << total << endl;
@@ -338,6 +344,7 @@ void cart()
 
             cafe::printMiddle("==== Remove an item from cart ====");
             cout << endl;
+            cout << "ID  Item name            Size     Qty   Price\n\n";
             cafeList.showCart();
             cout << "\nEnter the ID of the cart item: ";
             selected_id = cafe::getInt(cartSize);
@@ -383,7 +390,7 @@ void cart()
             {
                 cout << "Input not recognized. Proceeding as 'No'\n";
             cafe:
-                sleep(1);
+                cafe::sleep(1);
                 return;
             }
         default:
