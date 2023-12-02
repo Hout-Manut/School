@@ -272,11 +272,11 @@ namespace cafe
             }
             menuAmount = 0;
 
-            CartItemNode *currentOrder = cartHead;
-            while (currentOrder != NULL)
+            CartItemNode *currentCart = cartHead;
+            while (currentCart != NULL)
             {
-                CartItemNode *temp = currentOrder;
-                currentOrder = currentOrder->next;
+                CartItemNode *temp = currentCart;
+                currentCart = currentCart->next;
                 delete temp;
             }
             cartAmount = 0;
@@ -317,6 +317,7 @@ namespace cafe
             std::fstream f;
             f.open(file, std::ios::out);
             MenuItemNode *current = menuHead;
+            f << std::fixed << std::setprecision(2);
             if (f.is_open())
             {
                 while (current != NULL)
@@ -651,14 +652,14 @@ namespace cafe
         //     MenuItem item;
         //     bool found = false;
         // }
-        bool removeFromCart(int id)
+        void removeCartItem(int id)
         {
             CartItemNode *current = cartHead;
             CartItemNode *previous = NULL;
 
             while (current != NULL)
             {
-                if (current->data.productId == id)
+                if (current->data.id == id)
                 {
                     if (previous == NULL)
                     {
@@ -670,14 +671,15 @@ namespace cafe
                     }
                     cartAmount--;
                     delete current;
-                    return true;
+                    updateCartIDs();
+                    return;
                 }
                 previous = current;
                 current = current->next;
             }
-            return false;
+            return;
         }
-        bool removeFromCart(std::string name)
+        void removeCartItem(std::string name)
         {
             CartItemNode *current = cartHead;
             CartItemNode *previous = NULL;
@@ -696,12 +698,24 @@ namespace cafe
                     }
                     cartAmount--;
                     delete current;
-                    return true;
+                    return;
                 }
                 previous = current;
                 current = current->next;
             }
-            return false;
+            return;
+        }
+        void clearCart()
+        {
+            CartItemNode *currentCart = cartHead;
+            while (currentCart != NULL)
+            {
+                CartItemNode *temp = currentCart;
+                currentCart = currentCart->next;
+                delete temp;
+            }
+            cartAmount = 0;
+            cartHead = nullptr;
         }
         float getTotalPrice()
         {
@@ -710,6 +724,7 @@ namespace cafe
             while (current != NULL)
             {
                 total += current->data.price;
+                current = current->next;
             }
             return total;
         }
@@ -725,29 +740,69 @@ namespace cafe
                 std::cout << std::left << std::setfill(' ') << std::setw(3) << current->data.id << " ";
                 std::cout << std::left << std::setw(20) << current->data.productName << " ";
                 std::cout << std::setw(8) << current->data.size << " ";
-                std::cout << "$" << std::fixed << std::setprecision(2) << std::setw(7) << current->data.price << " ";
-                std::cout << std::setw(7) << current->data.quantity << "\n";
+                std::cout << std::fixed << std::setprecision(2) << std::setw(5) << current->data.quantity << " ";
+                std::cout << "$" << std::setw(7) << current->data.price << "\n";
 
                 current = current->next;
             }
             std::cout << std::endl;
         }
+        std::string getDate()
+        {
+
+            long currentTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+            std::tm *timeinfo = std::localtime(&currentTime);
+
+            std::ostringstream oss;
+            oss << std::put_time(timeinfo, "%d/%m/%y-%H:%M:%S");
+            return oss.str();
+        }
+        void showReciept(std::string name)
+        {
+            std::string current_time = getDate();
+            float total = getTotalPrice();
+            CartItemNode *current = cartHead;
+            std::cout << "Cafe:                                 Unnamed Cafe\n"
+                      << "Customer Name:" << std::right << std::setw(36) << name << "\n"
+                      << "Date:" << std::right << std::setw(45) << current_time << "\n"
+                      << "\n"
+                      << "Item name                       Size   Qty   Price\n" << std::endl;
+            std::cout << std::fixed << std::setprecision(2);
+            while (current != NULL)
+            {
+                CartItem item = current->data;
+                std::cout << std::left << std::setw(32) << item.productName
+                          << std::setw(7) << item.size << std::setw(6) << item.quantity
+                          << "$" << item.price << "\n";
+                current = current->next;
+            }
+            std::cout << "\nTotal:                                       $" << total << std::endl;
+
+        }
         void checkout(std::string customer_name)
         {
             CartItemNode *current = cartHead;
             std::fstream f;
-            auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+            float total = getTotalPrice();
+            std::string current_time = getDate();
 
-            // Convert to local time
-            std::tm localTime = *std::localtime(&now);
-
-            std::ostringstream oss;
-            oss << std::put_time(&localTime, "%d/%m/%y %T");
-            current_time = oss.str();
             f.open("data/history.txt", std::ios::app);
-            //
+            // Format: DD/MM/YY-hh:mm:ss | name | total [item1xqty:price, item2:price...]
             if (f.is_open())
             {
+                f << current_time << " | " << customer_name << " | $" << std::fixed << std::setprecision(2) << total << " [";
+                CartItemNode *current = cartHead;
+                while (current != NULL)
+                {
+                    CartItem item = current->data;
+                    f << item.productName << "(" << item.size << "x" << item.quantity << "): $" << item.price;
+
+                    current = current->next;
+                    if (current != NULL) f << ", ";
+                }
+                f << "]" << std::endl;
+                f.close();
             }
             else
             {

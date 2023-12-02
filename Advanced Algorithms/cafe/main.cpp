@@ -127,6 +127,8 @@ bool adminMenu()
             cout << "Enter the name of the item: ";
             cin >> name;
             cin.ignore();
+            if (name == "0")
+                break;
             cout << "Enter the price for the small size: ";
             priceSmall = cafe::getFloat();
             cout << "Enter the price for the medium size: ";
@@ -142,7 +144,7 @@ bool adminMenu()
             cafe::printMiddle("Menu item added successfully!");
             cout << endl;
             cafe::sleep(1);
-            cout << "Press any Enter to continue...";
+            cout << "Press Enter to continue...";
             cafe::awaitEnter();
             break;
         case 2:
@@ -172,7 +174,7 @@ bool adminMenu()
             cafe::printMiddle("Menu item edited successfully!");
             cout << endl;
             cafe::sleep(1);
-            cout << "Press any Enter to continue...";
+            cout << "Press Enter to continue...";
             cafe::awaitEnter();
             break;
         case 3:
@@ -194,7 +196,7 @@ bool adminMenu()
             cafe::printMiddle("Menu item removed successfully!");
             cout << endl;
             cafe::sleep(1);
-            cout << "Press any Enter to continue...";
+            cout << "Press Enter to continue...";
             cafe::awaitEnter();
             break;
         case 4:
@@ -204,7 +206,9 @@ bool adminMenu()
             cout << endl;
             cafeList.showMenuItem('-');
             cout << endl;
-            cout << "Press any Enter to continue...";
+            cin.ignore();
+            cafe::sleep(1);
+            cout << "Press Enter to continue...";
             cafe::awaitEnter();
             break;
         case 5:
@@ -236,14 +240,15 @@ void order()
         cout << "Choose an item (id or name): ";
         cin >> pick;
         cin.ignore();
-        if (pick == "0") return;
+        if (pick == "0")
+            return;
         itemPtr = cafeList.getMenuItem(pick);
 
         if (itemPtr == nullptr)
         {
             cout << "\nItem not found!" << endl;
             cafe::sleep(1);
-            cout << "Press any Enter to continue...";
+            cout << "Press Enter to continue...";
             cafe::awaitEnter();
             continue;
         }
@@ -295,23 +300,138 @@ void order()
 
         cafe::clearScreen();
         cout << endl;
-        cafe::printMiddle("==== Order ====");
-        cout << endl;
-        cout << "Item added to cart\n"
-             << "1. Add another item\n"
-             << "0. Go Back\n"
-             << "Choose an option: ";
+        return;
+    }
+}
 
-        opt = cafe::getInt(1);
+void cart()
+{
+    float total;
+    int opt;
+    int cartSize;
+    int selected_id;
+    char yn;
+    string str;
+    while (true)
+    {
+        total = cafeList.getTotalPrice();
+        cartSize = cafeList.getCartAmount();
         cafe::clearScreen();
+        cout << endl;
+        cafe::printMiddle("==== Your Cart ====");
+        cout << endl;
+        cout << "ID  Item name            Size     Qty   Price\n\n";
+        cafeList.showCart();
+        cout << "Total:                                  $" << total << endl;
+        cout << "\n"
+             << "1. Remove an item\n"
+             << "2. Clear cart\n"
+             << "0. Go back\n"
+             << "Choose an option: ";
+        cin >> opt;
         switch (opt)
         {
-        case 1:
-            break;
         case 0:
-            isUsing = false;
+            return;
+        case 1:
+            cafe::clearScreen();
+
+            cafe::printMiddle("==== Remove an item from cart ====");
+            cout << endl;
+            cafeList.showCart();
+            cout << "\nEnter the ID of the cart item: ";
+            selected_id = cafe::getInt(cartSize);
+            if (selected_id == 0)
+                continue;
+            cout << "Removing item from cart" << endl;
+            cafeList.removeCartItem(selected_id);
+            loadingAnim();
+            cafe::clearScreen();
+            cout << endl;
+            cafe::printMiddle("Cart item removed successfully!");
+            cout << endl;
+            cafe::sleep(1);
+            cout << "Press Enter to continue...";
+            cin.ignore();
+            cafe::awaitEnter();
+            continue;
+        case 2:
+            cafe::clearScreen();
+            cout << endl;
+            if (cartSize == 1)
+                str = "You are about to remove " + to_string(cartSize) + " item from cart.";
+            else
+                str = "You are about to remove " + to_string(cartSize) + " items from cart.";
+            cafe::printMiddle(str);
+            cout << "\n\tAre you sure? (y/n): ";
+            cin >> yn;
+            if (yn == 'y')
+            {
+                cout << "Clearing cart";
+                cafeList.clearCart();
+                loadingAnim();
+                cout << "Cart cleared!";
+                return;
+            }
+            else if (yn == 'n')
+            {
+                cout << "Reverting changes";
+                cafe::sleep(1);
+                return;
+            }
+            else
+            {
+                cout << "Input not recognized. Proceeding as 'No'\n";
+            cafe:
+                sleep(1);
+                return;
+            }
+        default:
             break;
         }
+    }
+}
+
+bool checkout()
+{
+    int opt;
+    float total = cafeList.getTotalPrice();
+    cafe::clearScreen();
+    cout << endl;
+    cafe::printMiddle("==== Checkout ====");
+    cout << endl;
+    cout << "ID  Item name            Size     Qty   Price\n\n";
+    cafeList.showCart();
+    cout << "Total:                                  $" << total << endl;
+    cout << "Please pay with your prefered payment method. Then press Enter to continue.\n";
+    cin.ignore();
+    cafe::awaitEnter();
+    cout << "Processing\n";
+    cafeList.checkout(user);
+    loadingAnim();
+    cafe::clearScreen();
+    cout << endl;
+    cafe::printMiddle("==== Receipt ====");
+    cout << endl;
+    cafeList.showReciept(user);
+    cafeList.clearCart();
+    cafe::sleep(2);
+    cout << "\n1. Go back\n"
+         << "0. Exit the program\n"
+         << "Choose an option: ";
+    cin >> opt;
+    switch (opt)
+    {
+    case 1:
+        return true;
+    case 0:
+        cafe::clearScreen();
+        cafe::printMiddle("Thank you for using the Cafe Management Program!");
+        cout << endl;
+        cafe::sleep(2);
+        exit(0);
+    default:
+        return true;
     }
 }
 
@@ -324,6 +444,7 @@ bool userMenu()
     do
     {
         cafe::clearScreen();
+        cin.ignore();
         cartAmount = cafeList.getCartAmount();
         cafe::printMiddle("==== Welcome to the Cafe Shop ====");
         cout << endl;
@@ -342,8 +463,7 @@ bool userMenu()
                 cartStr = " items";
             cout << "1. Order a drink\n"
                  << "2. View cart (" + to_string(cartAmount) + cartStr + ")\n"
-                 << "3. Remove item from cart\n"
-                 << "4. Clear cart\n"
+                 << "3. Checkout\n"
                  << "0. Go back\n"
                  << "Choose an option: ";
             opt = cafe::getInt(5);
@@ -355,21 +475,17 @@ bool userMenu()
             order();
             break;
         case 2:
-            cafe::clearScreen();
-            cafe::printMiddle("==== Cart ====");
-            cout << endl;
-
-            cafeList.showCart();
-            cafe::sleep(1);
-            cout << "Press any Enter to continue...";
-            cafe::awaitEnter();
+            cart();
+            break;
+        case 3:
+            isUsing = checkout();
             break;
         default:
             isUsing = false;
             break;
         }
     } while (isUsing);
-    return true;
+    return false;
 }
 
 int main()
