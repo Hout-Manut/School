@@ -1,0 +1,16 @@
+;m x 2n
+num_m: @EQU 04
+num_n: @EQU 10
+
+mvi a num_n
+mvi b num_m
+add a
+mov c a
+mvi a 00
+
+jump:add c
+dcr b
+jnz jump
+
+sta 0000
+hlt

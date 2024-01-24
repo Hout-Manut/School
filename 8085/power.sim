@@ -1,0 +1,20 @@
+num1: @EQU 02
+num2: @EQU 08
+
+mvi b num1
+mvi c num1
+mvi d num2
+dcr d
+mov e b
+mvi a 00
+
+pow:add e
+dcr c
+jnz pow
+mov c b
+mov e a
+dcr c
+dcr d
+jnz pow
+
+sta 0001

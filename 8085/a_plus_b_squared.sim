@@ -1,0 +1,17 @@
+;(a+b)2
+num_a: @EQU 03
+num_b: @EQU 03
+
+mvi a num_a
+mvi b num_b
+add b
+mov c a
+mov b a
+mvi a 00
+
+jump: add b
+dcr c
+jnz jump
+
+sta 0000
+hlt

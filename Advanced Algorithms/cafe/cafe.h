@@ -495,11 +495,11 @@ namespace cafe
             }
             catch (const std::invalid_argument &)
             {
-                // query is not an integer
+                // pass
             }
             catch (const std::out_of_range &)
             {
-                // query out of range for int
+                // pass
             }
 
             current = menuHead;
