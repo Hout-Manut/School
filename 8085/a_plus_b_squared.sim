@@ -1,4 +1,4 @@
-;(a+b)2
+;(a+b)^2
 num_a: @EQU 03
 num_b: @EQU 03
 
@@ -9,9 +9,9 @@ mov c a
 mov b a
 mvi a 00
 
-jump: add b
+iuqef: add b
 dcr c
-jnz jump
+jnz iuqef
 
 sta 0000
 hlt
