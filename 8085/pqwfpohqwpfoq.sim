@@ -39,7 +39,7 @@ SHLD 2002
 HLT
 
 
-power_of_1: MVI A num_a
+power_of_1: MOV A B
 STA 2002
 HLT
 
