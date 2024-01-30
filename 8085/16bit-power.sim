@@ -1,0 +1,28 @@
+;a^b
+
+num_a_low: @EQU 05
+num_a_high: @EQU 00
+num_b_low: @EQU 05
+num_b_high: @EQU 00
+
+MVI D num_a_high
+MVI E num_a_low
+MVI B num_b_high
+MVI C num_b_low
+
+LOOP_1: MOV A D
+MOV H C
+MOV L B
+CMA
+
+LOOP_2: CMP A H
+JZ LOOP_3
+
+ADD L
+DCR H
+JNZ LOOP_2
+
+DCR C
+JNZ LOOP_1
+SHLD 2000
+HLT

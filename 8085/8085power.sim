@@ -1,0 +1,34 @@
+;a^b
+@BEGIN 0000
+num_a: @EQU 04
+num_b: @EQU 00
+
+MVI A 00
+MVI B num_a
+MVI C num_a ;Multiply counter
+MVI D num_b ;Power counter
+DCR D
+JZ power_of_1
+JM power_of_0
+MVI E 00 ;
+
+power:ADD B
+DCR C
+JNZ power
+MOV B A
+MVI A 00
+MVI C num_a
+DCR D
+JNZ power
+MOV A B
+
+STA 2000
+HLT
+
+power_of_1: MVI A num_a
+STA 2000
+HLT
+
+power_of_0: MVI A 01
+STA 2000
+HLT
