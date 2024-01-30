@@ -1,0 +1,48 @@
+;a^b
+num_a: @EQU 05
+num_b: @EQU 05
+
+MVI A num_a ;multi counter
+STA 2000
+MOV B A
+MVI A num_b ;power counter
+STA 2001
+MOV C A
+MVI D 00
+MVI E num_a
+MVI H 00
+MVI L num_a
+DCR C ;check
+JZ power_of_1
+JM power_of_0
+
+
+loop_1:MVI L 00
+MVI H 00
+loop_2: MOV A L
+ADD E
+MOV L A
+MOV A H
+ADC D
+MOV H A
+DCR B
+JNZ loop_2
+
+LDA 2000
+MOV B A
+XCHG
+DCR C
+JNZ loop_1
+
+XCHG
+SHLD 2002
+HLT
+
+
+power_of_1: MVI A num_a
+STA 2002
+HLT
+
+power_of_0: MVI A 01
+STA 2002
+HLT
