@@ -1,14 +1,14 @@
-DROP DATABASE IF EXISTS `crud`;
-CREATE DATABASE `crud`;
+DROP DATABASE IF EXISTS crud;
+CREATE DATABASE crud;
 
-USE `crud`;
+USE crud;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `name` char(35) NOT NULL DEFAULT '',
-    `email` char(50) NOT NULL DEFAULT '',
-    PRIMARY KEY (`id`)
+    id int NOT NULL AUTO_INCREMENT,
+    name char(35) NOT NULL DEFAULT '',
+    email char(50) NOT NULL DEFAULT '',
+    PRIMARY KEY (id)
 );
 
 INSERT INTO users (name, email) VALUES ('Ida Hogan', 'ukuguf@ze.fi');

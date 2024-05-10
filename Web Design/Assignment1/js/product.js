@@ -2,7 +2,7 @@ function createPhoneCard(phone) {
     const col = document.createElement("div");
     col.classList.add("col");
 
-    col.innerHTML = `
+    col.innerHTML =
         <a href="detail.html?phoneIndex=${phone.id}">
             <img src="${phone.img}" alt="${phone.modal}" />
         </a>
@@ -10,7 +10,7 @@ function createPhoneCard(phone) {
             <h2>${phone.modal}</h2>
             <p class="price">${phone.price}</p>
         </a>
-    `;
+    ;
 
     return col;
 }

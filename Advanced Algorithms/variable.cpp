@@ -10,7 +10,7 @@ int main()
     char firstLetter = 'A';
     bool isTrue = true;
 
-    system("cls");
+
     cout << age << "\n"
          << "$" << price << "\n"
          << "$" << bigPrice << "\n"

@@ -14,7 +14,7 @@ function createPhoneCard(phone) {
 	const col = document.createElement("div");
 	col.classList.add("col");
 
-	col.innerHTML = `
+	col.innerHTML =
     <ul>
     <li><p>${phone.brand}</p></li>
     <li><p>${phone.modal}</p></li>
@@ -23,7 +23,7 @@ function createPhoneCard(phone) {
     <li><p>${phone.camera}</p></li>
     <li><p>${phone.battery}</p></li>
 </ul>
-    `;
+    ;
 
 	return col;
 }

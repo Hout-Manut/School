@@ -1,0 +1,11 @@
+Customers(#idCustomers, name, phone, email, address),
+Suppliers(#idSuppliers, name, contactPerson, phone, email, address),
+Categories(idCategories, name, type, description),
+Products(#idProducts, *idCategories, name, description, buyPrice, salePrice),
+Warehouses(#idWarehouses, name, address, capacity),
+Inventories(#idInventories, *idProducts, *idWarehouses, quantity),
+Employees(#idEmployees, *idWarehouses, name, position), gender, dateOfBirth, dateHired, phone, email),
+Purchases($idPurchases, *idSuppliers, #idEmployees, date, totalPrice),
+PurchaseDetails(#idPurchaseDetails, *idPurchases, idProducts, quantity, pricePerItem),
+Orders(#idOrders, *idCustomers, *idEmployees, date, totalPrice, status),
+OrderDetails(#idOrderDetails, *idOrders, *idProducts, quantity, pricePerItem)
