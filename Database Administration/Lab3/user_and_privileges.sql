@@ -60,8 +60,6 @@ GRANT ALL PRIVILEGES ON School.* TO 'admin'@'localhost';
 -- 13. Re-do the quesQon 9 again with select, delete, update.
 
 
--- 14. NoQfy the server to reload the privileges when you change it by using insert, update
-
-
--- or delete commands on privileges table.
+-- 14. NoQfy the server to reload the privileges when you change it by using insert,
+--     update or delete commands on privileges table.
 
