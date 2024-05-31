@@ -1,7 +1,19 @@
-import os
-import dotenv
-
 import hikari
 import lightbulb
 
-bot = lightbulb.BotApp()
+import automata
+from automata import TOKEN, DEFAULT_GUILDS
+
+bot = lightbulb.BotApp(
+    token=TOKEN,
+    default_enabled_guilds=DEFAULT_GUILDS,
+    intent=hikari.Intents.ALL,
+    help_class=None,
+    ignore_bots=True,
+    prefix="+",
+)
+
+bot.load_extensions_from("automata/Extensions")
+
+if __name__ == '__main__':
+    automata.run(bot)
