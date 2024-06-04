@@ -7,7 +7,7 @@ from automata import TOKEN, DEFAULT_GUILDS
 bot = lightbulb.BotApp(
     token=TOKEN,
     default_enabled_guilds=DEFAULT_GUILDS,
-    intent=hikari.Intents.ALL,
+    intents=hikari.Intents.ALL,
     help_class=None,
     ignore_bots=True,
     prefix="+",

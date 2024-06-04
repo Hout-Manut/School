@@ -72,8 +72,9 @@ GRANT ALL ON School.* TO 'Hout Manut'@'localhost';
 -- 12. Revoke Select permission from the user and screenshot with queries.
 REVOKE SELECT ON movierating.* FROM 'Hout Manut'@'localhost';
 
--- 13. Re-do the quesQon 9 again with select, delete, update.
+-- 13. Re-do the question 9 again with select, delete, update.
 -- ...
 
 -- 14. NoQfy the server to reload the privileges when you change it by using insert,
 --     update or delete commands on privileges table.
+FLUSH PRIVILEGES;
