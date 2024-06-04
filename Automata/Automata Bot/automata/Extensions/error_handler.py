@@ -22,7 +22,7 @@ class InvalidFAError(UserError):
     """
 
 
-@error.listenr(lightbulb.CommandErrorEvent)
+@error.listener(lightbulb.CommandErrorEvent)
 async def error_handler(event: lightbulb.CommandErrorEvent) -> None:
     if isinstance(event.exception.__cause__, UserError):
         error = event.exception.__cause__

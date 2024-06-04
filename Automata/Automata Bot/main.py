@@ -1,5 +1,6 @@
 import hikari
 import lightbulb
+import miru
 
 import automata
 from automata import TOKEN, DEFAULT_GUILDS
@@ -12,6 +13,9 @@ bot = lightbulb.BotApp(
     ignore_bots=True,
     prefix="+",
 )
+
+miru_client = miru.Client(bot)
+
 
 bot.load_extensions_from("automata/Extensions")
 
