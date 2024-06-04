@@ -5,7 +5,6 @@ import miru
 
 test_command = lightbulb.Plugin("test")
 
-
 @test_command.command
 @lightbulb.command("test", "Testing")
 @lightbulb.implements(lightbulb.SlashCommandGroup)
