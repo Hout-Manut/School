@@ -21,9 +21,9 @@ String name = "Manut";     // Explicitly typed as String
 `ANSWER:` Nullable variables can be assigned a value later and can be used as an optional value.
 
 ```dart
-int? examScore;            // Nullable variable with a null value
+int? examScore;       // Nullable variable with a null value
 
-int age = 20;              // Non-nullable variable
+int age = 20;         // Non-nullable variable
 
 examScore = 80;
 ```
@@ -83,8 +83,8 @@ Map<String, int> map = {
     "two": 2,
     "three": 3,
 };
-map["four"] = 4;     //  {one: 1, two: 2, three: 3, four: 4}
-map.remove("two");   //  {one: 1, three: 3, four: 4}
+map["four"] = 4;    //  {one: 1, two: 2, three: 3, four: 4}
+map.remove("two");  //  {one: 1, three: 3, four: 4}
 map.forEach((k, v) => print(k + " = " + v.toString()));
 //  one = 1
 //  three = 3
@@ -126,22 +126,40 @@ print(sum(1, 2));  // 3
 
 //  Positional vs Named Arguments
 double getCircleArea(double r) => 3.14 * r * r;
-double getRectArea({required double width, required double height}) {
-    return width * height;
-}
+double getRectArea({
+  required double width,
+  required double height,
+}) => return width * height;
+
 print(getCircleArea(4))                     //  50.24
 print(getRectArea(width: 20, height: 10));  //  200.0
+
+//  Arrow Syntax (also used above)
+int square(int x) => x * x;
+
+print(square(8));  // 64
 ```
 
-`EXPLAIN:` Can positional argument be ommited? Show an example
+`EXPLAIN:` Can positional argument be ommited? Show an example.
 
-`EXPLAIN:` Can named argument be ommited? Show an example
+`EXPLAIN:` Can named argument be ommited? Show an example.
 
 `ANSWER:` Both type of arguments can be omitted by using default values when writing the function parameters or if the parameter is nullable, its default value will be null.
 
 ```dart
-//  Arrow Syntax
-int square(int x) => x * x;
+double getRectArea(double width, [double? height]) {
+  // The default value of height is null
+  double w = height ?? width;
 
-print(square(8));  // 64
+  return width * w;
+}
+
+double getCircleArea(double x, {bool isDiameter = false}) {
+  double r = isDiameter ? x / 2 : x;
+
+  return 3.14 * r * r;
+}
+
+print(getRectArea(20));   //  400.0
+print(getCircleArea(3));  //  78.5
 ```
