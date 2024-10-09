@@ -61,7 +61,6 @@ int age = 20;
 String nameAge = firstName + lastName + age.toString();
 
 print(nameAge); //  ManutHout20
-
 ```
 #### Lists
 ```dart
