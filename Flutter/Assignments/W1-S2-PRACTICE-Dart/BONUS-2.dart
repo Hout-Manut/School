@@ -17,13 +17,11 @@ void main() {
 
 bool validate(String input) {
   List<String> buffer = [];
-  String last = "";
   for (String c in input.split("")) {
     if (map.containsKey(c)) {
-        buffer.add(c);
+      buffer.add(c);
     } else if (mapInversed.containsKey(c)) {
-      last = buffer.removeLast();
-      if (last != mapInversed[c]) return false;
+      if (buffer.removeLast() != mapInversed[c]) return false;
     }
   }
   return buffer.length == 0;
