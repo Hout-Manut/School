@@ -1,3 +1,6 @@
+Map<String, String> map = {"(": ")", "[": "]", "{": "}"};
+Map<String, String> mapInversed = {")": "(", "]": "[", "}": "{"};
+
 void main() {
   List<String> inputs = [
     "{what is (42)}?",
@@ -16,26 +19,11 @@ bool validate(String input) {
   List<String> buffer = [];
   String last = "";
   for (String c in input.split("")) {
-    switch (c) {
-      case "(":
-      case "[":
-      case "{":
+    if (map.containsKey(c)) {
         buffer.add(c);
-        break;
-      case ")":
-        last = buffer.removeLast();
-        if (last != "(") return false;
-        break;
-      case "]":
-        last = buffer.removeLast();
-        if (last != "[") return false;
-        break;
-      case "}":
-        last = buffer.removeLast();
-        if (last != "{") return false;
-        break;
-      default:
-        break;
+    } else if (mapInversed.containsKey(c)) {
+      last = buffer.removeLast();
+      if (last != mapInversed[c]) return false;
     }
   }
   return buffer.length == 0;
