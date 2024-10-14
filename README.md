@@ -1,1 +1,1 @@
-This is my repo for various small school assignments. Pls dont judge it too much.
+This is my repo for various small school assignments.
