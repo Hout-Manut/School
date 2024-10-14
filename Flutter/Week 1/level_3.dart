@@ -3,7 +3,6 @@ class Point {
 
   Point(this.x, this.y);
 
-
   @override
   String toString() {
     return "Point($x, $y)";
@@ -12,21 +11,21 @@ class Point {
 
 
 class Shape {
-  late Point orgin;
+  late Point origin;
   late int width, height;
   int? backgroundColor;
 
-  Shape(Point orgin, { required int width,  required int height, int? backgroundColor }) {
-    this.orgin = orgin;
+  Shape(Point origin, { required int width,  required int height, int? backgroundColor }) {
+    this.origin = origin;
     this.width = width;
     this.height = height;
     this.backgroundColor = backgroundColor;
   }
 
-  Point get topLeft => Point(orgin.x, orgin.y + height);
-  Point get topRight => Point(orgin.x + width, orgin.y + height);
-  Point get bottomLeft => orgin;
-  Point get bottomRight => Point(orgin.x + width, orgin.y);
+  Point get topLeft => Point(origin.x, origin.y + height);
+  Point get topRight => Point(origin.x + width, origin.y + height);
+  Point get bottomLeft => origin;
+  Point get bottomRight => Point(origin.x + width, origin.y);
 }
 
 
