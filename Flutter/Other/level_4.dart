@@ -15,6 +15,14 @@ class Distance {
 
   Distance.km(double km) : this._meter = km * 1000;
 
+  Distance.inch(double inch) : this._meter = inch / 39.3701;
+
+  Distance.yard(double yard) : this._meter = yard / 1.09361;
+
+  Distance.foot(double foot) : this._meter = foot / 3.28084;
+
+  Distance.mile(double mile) : this._meter = mile * 1609.34;
+
   Distance operator +(covariant Distance other) =>
       Distance.m(this._meter + other._meter);
 
@@ -41,11 +49,15 @@ class Distance {
   double get dam => _meter / 10;
   double get hm => _meter / 100;
   double get km => _meter / 1000;
+  double get inch => _meter * 39.3701;
+  double get foot => _meter * 3.28084;
+  double get yard => _meter * 1.09361;
+  double get mile => _meter / 1609.34;
 }
 
 void main() {
-  Distance d1 = Distance.km(3.4);
-  Distance d2 = Distance.m(1000);
+  Distance d1 = Distance.km(1);
+  Distance d2 = Distance.m(0);
 
-  print((d1 + d2).km);
+  print((d1 + d2).yard);
 }
