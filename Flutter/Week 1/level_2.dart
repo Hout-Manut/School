@@ -1,25 +1,22 @@
-class String {
-  final String value;
+class FrozenPoint {
+  final double x, y;
 
-  const String(this.value);
+  FrozenPoint(this.x, this.y);
 
-  String subString(int index, [int? endIndex]) {
-    int startIndex;
-    if (endIndex == null) {
-      endIndex = index;
-      startIndex = 0;
-    } else {
-      startIndex = index;
-    }
+  FrozenPoint translate(double dx, double dy) {
+    return FrozenPoint(x + dx, y + dy);
+  }
 
-    return this.value
+  @override
+  String toString() {
+    return "FrozenPoint($x, $y)";
   }
 }
 
 void main() {
-  const point1 = FrozenPoint(1, 3);
+  FrozenPoint point1 = FrozenPoint(1, 3);
+  print(point1);
 
-  print("${point1.x} ${point1.y}");
-
-  const point2 = point1.translate
+  FrozenPoint point1After = point1.translate(2, 4);
+  print(point1After);
 }
