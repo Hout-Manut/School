@@ -59,5 +59,5 @@ void main() {
   Distance d1 = Distance.km(1);
   Distance d2 = Distance.m(0);
 
-  print((d1 + d2).yard);
+  print((d1 + d2).km);
 }
