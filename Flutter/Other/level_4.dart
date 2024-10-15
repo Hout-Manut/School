@@ -56,8 +56,8 @@ class Distance {
 }
 
 void main() {
-  Distance d1 = Distance.km(1);
-  Distance d2 = Distance.m(0);
+  Distance d1 = Distance.km(3.4);
+  Distance d2 = Distance.m(1000);
 
-  print((d1 + d2).yard);
+  print((d1 + d2).km);
 }
