@@ -1,1 +1,1 @@
-[MataBot](https://github.com/Hout-Manut/Automata-Bot)
+My Automata project is located in another git reposity [here.](https://github.com/Hout-Manut/Automata-Bot)
