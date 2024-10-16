@@ -1,6 +1,20 @@
 class Distance {
   final double _meter;
 
+  // Distance({
+  //   required double mm,
+  //   required double cm,
+  //   required double dm,
+  //   required double m,
+  //   required double dam,
+  //   required double hm,
+  //   required double km,
+  //   required double inch,
+  //   required double yard,
+  //   required double foot,
+  //   required double mile,
+  // })
+
   Distance.mm(double mm) : this._meter = mm / 1000;
 
   Distance.cm(double cm) : this._meter = cm / 100;
