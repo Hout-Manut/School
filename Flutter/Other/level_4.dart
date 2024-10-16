@@ -1,5 +1,5 @@
 class Distance {
-  late final double _meter;
+  final double _meter;
 
   Distance.mm(double mm) : this._meter = mm / 1000;
 
@@ -23,19 +23,19 @@ class Distance {
 
   Distance.mile(double mile) : this._meter = mile * 1609.34;
 
-  Distance operator +(covariant Distance other) =>
+  Distance operator +(Distance other) =>
       Distance.m(this._meter + other._meter);
 
   @override
   bool operator ==(covariant Distance other) => this._meter == other._meter;
 
-  bool operator >(covariant Distance other) => this._meter > other._meter;
+  bool operator >(Distance other) => this._meter > other._meter;
 
-  bool operator >=(covariant Distance other) => this._meter >= other._meter;
+  bool operator >=(Distance other) => this._meter >= other._meter;
 
-  bool operator <(covariant Distance other) => this._meter < other._meter;
+  bool operator <(Distance other) => this._meter < other._meter;
 
-  bool operator <=(covariant Distance other) => this._meter <= other._meter;
+  bool operator <=(Distance other) => this._meter <= other._meter;
 
   @override
   String toString() {
@@ -59,5 +59,5 @@ void main() {
   Distance d1 = Distance.km(3.4);
   Distance d2 = Distance.m(1000);
 
-  print((d1 + d2).km);
+  print((d1 + d2).mile);
 }
