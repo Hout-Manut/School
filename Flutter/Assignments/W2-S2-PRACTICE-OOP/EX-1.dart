@@ -1,12 +1,12 @@
 enum Skill { FLUTTER, DART, OTHER }
 
+enum Country { CAMBODIA, FRANCE, USA }
+
 Map<Skill, double> skillSalary = {
   Skill.FLUTTER: 5000,
   Skill.DART: 3000,
   Skill.OTHER: 1000,
 };
-
-enum Country { CAMBODIA, FRANCE, USA }
 
 class Address {
   final Country country;
@@ -54,8 +54,6 @@ class Employee {
   }) {
     List<Skill> defaultSkills = [Skill.DART, Skill.FLUTTER];
     if (skills != null) {
-      skills.remove(Skill.DART);
-      skills.remove(Skill.FLUTTER);
       defaultSkills.addAll(skills);
     }
 
@@ -73,7 +71,7 @@ class Employee {
   int get yearsOfExperience => _yearsOfExperience;
 
   void printDetails() {
-    print('Employee: $_name, Address: $_address, Base Salary: \$${_baseSalary}, Skills($_skills), $_yearsOfExperience');
+    print('Employee($_name, $_address, Base Salary: \$${_baseSalary}, Skills($_skills), $_yearsOfExperience)');
   }
 
   double getSalary() {

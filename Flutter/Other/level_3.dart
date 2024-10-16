@@ -1,3 +1,5 @@
+import 'level_4.dart';
+
 class Point {
   double x, y;
 
@@ -12,27 +14,27 @@ class Point {
 
 class Shape {
   late Point origin;
-  late int width, height;
+  late Distance width, height;
   int? backgroundColor;
 
-  Shape(Point origin, { required int width,  required int height, int? backgroundColor }) {
+  Shape(Point origin, { required Distance width,  required Distance height, int? backgroundColor }) {
     this.origin = origin;
     this.width = width;
     this.height = height;
     this.backgroundColor = backgroundColor;
   }
 
-  Point get topLeft => Point(origin.x, origin.y + height);
-  Point get topRight => Point(origin.x + width, origin.y + height);
+  Point get topLeft => Point(origin.x, origin.y + height.m);
+  Point get topRight => Point(origin.x + width.m, origin.y + height.m);
   Point get bottomLeft => origin;
-  Point get bottomRight => Point(origin.x + width, origin.y);
+  Point get bottomRight => Point(origin.x + width.m, origin.y);
 }
 
 
 void main() {
   Point p1 = Point(1, 2);
 
-  Shape s1 = Shape(p1, width: 4, height: 8);
+  Shape s1 = Shape(p1, width: Distance.m(4), height: Distance.m(8));
 
   print("Top Light: ${s1.topLeft}");
   print("Top Right: ${s1.topRight}");

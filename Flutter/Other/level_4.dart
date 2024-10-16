@@ -1,19 +1,33 @@
 class Distance {
-  final double _meter;
+  late final double _meter;
 
-  // Distance({
-  //   required double mm,
-  //   required double cm,
-  //   required double dm,
-  //   required double m,
-  //   required double dam,
-  //   required double hm,
-  //   required double km,
-  //   required double inch,
-  //   required double yard,
-  //   required double foot,
-  //   required double mile,
-  // })
+  Distance({
+    double mm = 0,
+    double cm = 0,
+    double dm = 0,
+    double m = 0,
+    double dam = 0,
+    double hm = 0,
+    double km = 0,
+    double inch = 0,
+    double yard = 0,
+    double foot = 0,
+    double mile = 0,
+  }) {
+    double value = 0;
+    value += mm / 1000;
+    value += cm / 100;
+    value += dm / 10;
+    value += m;
+    value += dam * 10;
+    value += hm * 100;
+    value += km * 1000;
+    value += inch / 39.3701;
+    value += yard / 1.09361;
+    value += foot / 3.28084;
+    value += mile * 1609.34;
+    _meter = value;
+  }
 
   Distance.mm(double mm) : this._meter = mm / 1000;
 
@@ -70,8 +84,6 @@ class Distance {
 }
 
 void main() {
-  Distance d1 = Distance.km(3.4);
-  Distance d2 = Distance.m(1000);
-
-  print((d1 + d2).mile);
+  Distance d1 = Distance();
+  print(d1);
 }

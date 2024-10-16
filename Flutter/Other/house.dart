@@ -1,5 +1,5 @@
-// import 'level_3.dart';
-// import 'level_4.dart';
+import 'level_3.dart';
+import 'level_4.dart';
 
 enum Color {
   BLUE,
@@ -36,36 +36,6 @@ enum RoomType {
   BATHROOM,
 }
 
-class Point {
-  double x, y;
-
-  Point(this.x, this.y);
-
-  @override
-  String toString() {
-    return "Point($x, $y)";
-  }
-}
-
-class Shape {
-  late Point origin;
-  late int width, height;
-  int? backgroundColor;
-
-  Shape(Point origin,
-      {required int width, required int height, int? backgroundColor}) {
-    this.origin = origin;
-    this.width = width;
-    this.height = height;
-    this.backgroundColor = backgroundColor;
-  }
-
-  Point get topLeft => Point(origin.x, origin.y + height);
-  Point get topRight => Point(origin.x + width, origin.y + height);
-  Point get bottomLeft => origin;
-  Point get bottomRight => Point(origin.x + width, origin.y);
-
-}
 
 class Window {
   final Color color;
@@ -74,8 +44,14 @@ class Window {
 
   Window({required this.color, required this.shape}) : this.isOpen = true;
 
-  void closeWindow() => this.isOpen = false;
-  void openWindow() => this.isOpen = true;
+  void close() => this.isOpen = false;
+  void open() => this.isOpen = true;
+
+  @override
+  String toString() {
+    String opened = isOpen ? "Opened" : "Closed";
+    return "Window($opened, $color)";
+  }
 }
 
 class Chimney {
@@ -87,10 +63,10 @@ class Chimney {
 
 class Wall {
   final Material material;
-  final List<Window> windows;
-  final List<Door> doors;
+  final List<Window> windows = [];
+  final List<Door> doors = [];
 
-  Wall({required this.material, required this.windows, required this.doors});
+  Wall({required this.material});
 
   void addWindow(Window window) => this.windows.add(window);
   void addDoor(Door door) => this.doors.add(door);
@@ -113,15 +89,16 @@ class Floor {
   final Shape shape;
   final double height;
   final List<Room> rooms;
+  final Wall wall;
 
-  final List<Door>? doors;
+  final List<Door>? externalDoors;
 
   Floor(
       {required this.shape,
       required this.height,
       required this.rooms,
-      this.doors});
-
+      required this.wall,
+      this.externalDoors});
 
   // int get numOfDoor {
   //   if (!doors) return 0;
@@ -132,7 +109,7 @@ class Floor {
   String toString() {
     List<RoomType> roomNames = [];
     rooms.forEach((room) => roomNames.add(room.type));
-    return "Floor(${shape.width}x${shape.height}x$height, Rooms($roomNames), Doors(${doors}))";
+    return "Floor(${shape.width}x${shape.height}x$height, Rooms($roomNames), Doors(${externalDoors}))";
   }
 }
 
@@ -144,6 +121,15 @@ class Door {
 
   Door({required this.material, required this.color, required this.shape})
       : this.isOpen = true;
+
+  void close() => this.isOpen = false;
+  void open() => this.isOpen = true;
+
+  @override
+  String toString() {
+    String opened = isOpen ? "Opened" : "Closed";
+    return "Door($opened, $color, $material)";
+  }
 }
 
 class Roof {
@@ -156,9 +142,14 @@ class Roof {
 
 class Tree {
   final String type;
-  double height;
+  Distance height;
 
-  Tree(this.height, {required this.type});
+  Tree({required this.height, required this.type});
+
+  @override
+  String toString() {
+    return "Tree($type, $height)";
+  }
 }
 
 class House {
@@ -177,8 +168,7 @@ class House {
 
   @override
   String toString() {
-
-    String floorNum = floors.length == 1  ? "floor" : "floors";
+    String floorNum = floors.length == 1 ? "floor" : "floors";
     return "House(${floors.length} $floorNum, floors($floors), Shape(${shape.width}, ${shape.height}), Trees($trees))";
   }
 }
@@ -186,50 +176,95 @@ class House {
 void main() {
   Room kitchen = Room(
     type: RoomType.KITCHEN,
-    shape: Shape(Point(0, 0), width: 2, height: 3),
+    shape: Shape(Point(0, 0), width: Distance.m(2), height: Distance.m(3)),
     doors: [
       Door(
         material: Material.WOOD,
         color: Color.YELLOW,
-        shape: Shape(Point(1, 0), width: 1, height: 2),
+        shape: Shape(Point(1, 0), width: Distance.m(1), height: Distance.m(2)),
       ),
     ],
   );
   Room livingRoom = Room(
     type: RoomType.LIVING_ROOM,
-    shape: Shape(Point(0, 0), width: 3, height: 3),
+    shape: Shape(Point(0, 0), width: Distance.m(3), height: Distance.m(3)),
     doors: [
       Door(
         material: Material.WOOD,
         color: Color.RED,
-        shape: Shape(Point(1, 0), width: 1, height: 2),
+        shape: Shape(Point(1, 0), width: Distance.m(1), height: Distance.m(2)),
       ),
     ],
     chimey: Chimney(material: Material.BRICK, color: Color.YELLOW),
+  );
+  Room livingRoom2 = Room(
+    type: RoomType.LIVING_ROOM,
+    shape: Shape(Point(0, 0), width: Distance.m(2), height: Distance.m(3)),
+    doors: [
+      Door(
+        material: Material.WOOD,
+        color: Color.RED,
+        shape: Shape(Point(0.5, 0), width: Distance.m(1), height: Distance.m(2)),
+      ),
+    ],
+  );
+  Room bedroom = Room(
+    type: RoomType.BEDROOM,
+    shape: Shape(Point(0, 0), width: Distance.m(3), height: Distance.m(3)),
+    doors: [
+      Door(
+        material: Material.WOOD,
+        color: Color.WHITE,
+        shape: Shape(Point(1, 0), width: Distance.m(1), height: Distance.m(2)),
+      ),
+    ],
+  );
+  Room toilet = Room(
+    type: RoomType.BATHROOM,
+    shape: Shape(Point(0, 0), width: Distance.m(2), height: Distance.m(2)),
+    doors: [
+      Door(
+        material: Material.GLASS,
+        color: Color.WHITE,
+        shape: Shape(Point(0.5, 0), width: Distance.m(1), height: Distance.m(2)),
+      ),
+    ],
   );
 
   Door entrance = Door(
     material: Material.WOOD,
     color: Color.BLACK,
-    shape: Shape(Point(4, 0), width: 2, height: 3),
+    shape: Shape(Point(4, 0), width: Distance.m(2), height: Distance.m(3)),
   );
 
   Floor firstFloor = Floor(
-    shape: Shape(Point(0, 0), width: 10, height: 20),
+    shape: Shape(Point(0, 0), width: Distance.m(10), height: Distance.m(20)),
     height: 4,
     rooms: [kitchen, livingRoom],
-    doors: [entrance],
+    wall: Wall(material: Material.BRICK),
+    externalDoors: [entrance],
+  );
+
+  Floor secondFloor = Floor(
+    shape: Shape(Point(0, 0), width: Distance.m(10), height: Distance.m(20)),
+    height: 4,
+    rooms: [bedroom, toilet, livingRoom2],
+    wall: Wall(material: Material.BRICK)
   );
 
   Roof roof = Roof(
       roofType: RoofType.FLAT, material: Material.BRICK, color: Color.WHITE);
 
   House myHouse = House(
-    floors: [firstFloor],
+    floors: [firstFloor, secondFloor],
     roof: roof,
-    shape: Shape(Point(0, 0), width: 10, height: 20),
+    shape: Shape(Point(0, 0), width: Distance.m(10), height: Distance.m(20)),
     trees: [],
   );
+
+  Tree palmTree = Tree(height: Distance(m:6, cm: 27), type: "TreeType.PALM");  // Pretend this is enum
+
+  myHouse.addTree(palmTree);
 
   print(myHouse);
 }
