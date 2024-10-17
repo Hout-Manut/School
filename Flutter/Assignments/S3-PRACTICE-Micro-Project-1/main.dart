@@ -5,21 +5,26 @@ import 'quiz.dart';
 void main() {
   Quiz quiz = preset();
 
-  Player guest = quiz.createPlayer(firstName: "Gue", lastName: "st");
+  Player guest = quiz.createPlayer(firstName: "Manut", lastName: "Hout");
 
-  Question q1 = quiz.ask();
+  while (true) {
+    Question q = quiz.randomQuestion();
 
-  print(q1.title);
-  print("Choices:");
-  q1.availibleChoices.getNames().forEach((name) => print("  $name"));
-  String? answer = stdin.readLineSync();
-  Result result = quiz.answer(
-    player: guest,
-    choices: Choices.one(
-      Choice.auto(answer ?? 0),
-    ),
-    question: q1,
-  );
-  
-  print(result.isCorrect ? "Correct" : "Incorrect");
+    Set<int> indexes = quiz.askAndGetIndexes(q);
+    Result result = quiz.answer(
+      player: guest,
+      choiceIndex: indexes,
+      question: q,
+    );
+
+    print(result.isCorrect ? "Correct" : "Incorrect");
+
+    print("Continue? (Enter):");
+    String? opt = stdin.readLineSync();
+    if (opt == "") continue;
+    break;
+  }
+
+  print("${guest.firstName}'s Histories:");
+  guest.history.forEach((data)=>print(data));
 }
