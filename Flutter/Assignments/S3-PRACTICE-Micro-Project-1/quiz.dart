@@ -1,46 +1,74 @@
+import 'dart:math';
+
 enum QuestionType { SINGLE, MULTI }
 
 /// A class made to store choices/answers and provide comparision
 class Choices {
-  final Set<Choice> _answers;
+  final Set<Choice> choices;
 
-  Choices(Iterable<Choice> answers) : _answers = answers.toSet();
-  Choices.one(Choice answers) : _answers = {answers};
+  Choices(Iterable<Choice> answers) : choices = answers.toSet();
+  Choices.one(Choice answers) : choices = {answers};
 
-  int get length => _answers.length;
+  int get length => choices.length;
 
-  @override
-  bool operator ==(covariant Choices other) {
-    if (_answers.length != other._answers.length) return false;
+  bool contains(Choices other) {
+    if (choices.length < other.choices.length) return false;
 
-    if (_answers.length == 0) return true;
+    if (choices.length == 0) return true;
 
-    for (Choice answer in other._answers)
-      if (!_answers.contains(answer)) return false;
+    for (Choice answer in other.choices)
+      for (Choice correctAnswer in choices)
+        if (answer != correctAnswer) return false;
 
     return true;
   }
 
   @override
+  bool operator ==(covariant Choices other) {
+    if (choices.length != other.choices.length) return false;
+
+    if (choices.length == 0) return true;
+
+    for (Choice answer in other.choices)
+      for (Choice correctAnswer in choices)
+        if (answer != correctAnswer) return false;
+
+    return true;
+  }
+
+  List<String> getNames() {
+    List<String> buffer = [];
+    choices.forEach((choice) => buffer.add(choice.name));
+    return buffer;
+  }
+
+  @override
   String toString() {
-    return _answers.toString();
+    return choices.toString();
   }
 }
 
 class Choice {
   final String name;
-  final dynamic _value;
+  final String value;
 
-  Choice({required this.name, required dynamic value}) : _value = value;
+  Choice({
+    required this.name,
+    required dynamic value,
+  }) : this.value = value.toString();
+
+  Choice.auto(dynamic value)
+      : value = value.toString(),
+        name = value.toString();
 
   @override
   bool operator ==(covariant Choice other) {
-    return name == other.name && _value == other._value;
+    return value == other.value;
   }
 
   @override
   String toString() {
-    return "Choice($name)";
+    return "Choice($name, $value)";
   }
 }
 
@@ -88,7 +116,7 @@ class Question {
   @override
   String toString() {
     String ans = _correctAnswers.length == 1 ? "Answer" : "Answers";
-    return "Question($title, $type, $ans(REDACTED))";
+    return "Question($title, $type, $ans(REDACTED), $availibleChoices)";
   }
 
   Result answer({required Choices answers, required Player player}) {
@@ -107,23 +135,27 @@ class Result {
     required this.player,
   });
 
-  bool get isCorrect => choices == question._correctAnswers;
+  bool get isCorrect {
+    if (question.type == QuestionType.SINGLE)
+      return question._correctAnswers.contains(choices);
+    return question._correctAnswers == choices;
+  }
 
   @override
   String toString() {
-    return "Result(correct: $isCorrect, $question, $choices)";
+    return "Result(correct: $isCorrect, $question, guessed: $choices, by $player)";
   }
 }
 
 class Player {
   final String firstName;
   final String lastName;
-  final Quiz quiz;
+  Quiz? quiz;
 
   Player({
     required this.firstName,
     required this.lastName,
-    required this.quiz,
+    this.quiz,
   });
 
   @override
@@ -131,35 +163,88 @@ class Player {
     return firstName == other.firstName && lastName == other.lastName;
   }
 
+  void link(Quiz quiz) => this.quiz = quiz;
+
   Result answer({
     required Choices choices,
     Question? question,
     int? questionId,
   }) {
-    return quiz.answer(
+    if (quiz == null) throw "Player is not linked to a quiz instance.";
+    return quiz!.answer(
       player: this,
       choices: choices,
       question: question,
       questionId: questionId,
     );
   }
+
+  @override
+  String toString() {
+    return "Player($firstName $lastName)";
+  }
 }
 
 class Quiz {
   final Set<Player> players = {};
   final Set<Question> questions = {};
+  final Random _rand = Random();
 
-  Player createPlayer({required String firstName, required String lastName}) {
+  Question createQuestion({
+    required String title,
+    required QuestionType type,
+    required Choices answers,
+    required Choices choices,
+    int? id,
+  }) {
+    int idToUse = id ?? this.generateNewId();
+    Question newQuestion = Question(
+      id: idToUse,
+      title: title,
+      type: type,
+      answers: answers,
+      choices: choices,
+    );
+    this.addQuestion(newQuestion);
+    return newQuestion;
+  }
+
+  Player createPlayer({
+    required String firstName,
+    required String lastName,
+  }) {
     Player newPlayer =
         Player(firstName: firstName, lastName: lastName, quiz: this);
-    players.forEach((p) {
-      if (p == newPlayer) throw "Name already taken.";
-    });
-    players.add(newPlayer);
+    this.addPlayer(newPlayer);
     return newPlayer;
   }
 
-  void addQuestions(Question question) => questions.add(question);
+  void addQuestion(Question question) {
+    questions.forEach((q) {
+      if (q._id == question._id)
+        throw "Error: Question with ID ${q._id} already exists!";
+    });
+    questions.add(question);
+  }
+
+  void addPlayer(Player player) {
+    players.forEach((p) {
+      if (p == player) throw "Name already taken.";
+    });
+    players.add(player);
+  }
+
+  int generateNewId() {
+    Set<int> existingIds = {};
+    questions.forEach((q) => existingIds.add(q._id));
+    int newId;
+    while (true) {
+      newId = _rand.nextInt(8999) + 1000;
+      if (existingIds.contains(newId)) continue;
+      break;
+    }
+    return newId;
+  }
 
   Result answer({
     required Player player,
@@ -169,21 +254,32 @@ class Quiz {
   }) {
     if (question == null && questionId == null)
       throw "Error: invalid Quiz.answer() arguments. Requires `question` or `questionId` to be entered.";
-    else if (question != null) return question.answer(answers: choices, player: player);
+    else if (question != null)
+      return question.answer(answers: choices, player: player);
 
     for (Question q in questions) {
-      if (q._id == questionId) return q.answer(answers: choices, player: player);
+      if (q._id == questionId)
+        return q.answer(answers: choices, player: player);
     }
     throw "Error: no questions found with id $questionId.";
   }
+
+  Question ask() {
+    int length = questions.length;
+    int randomIndex = _rand.nextInt(length);
+    return questions.elementAt(randomIndex);
+  }
+
+  @override
+  String toString() {
+    return "Quiz($questions)";
+  }
 }
 
-void main() {
+Quiz preset() {
   Quiz quiz = Quiz();
 
-  Player p1 = quiz.createPlayer(firstName: "Manut", lastName: "Hout");
-
-  quiz.addQuestions(
+  quiz.addQuestion(
     Question(
       id: 0,
       title: "Whats 9 + 10?",
@@ -197,6 +293,16 @@ void main() {
     ),
   );
 
-  print(p1.answer(
-      choices: Choices.one(Choice(name: "21", value: 21)), questionId: 0));
+  quiz.createQuestion(
+      title: "Whats the meaning of life?",
+      type: QuestionType.SINGLE,
+      answers: Choices.one(Choice.auto(42)),
+      choices: Choices({
+        Choice.auto(40),
+        Choice.auto(41),
+        Choice.auto(42),
+        Choice.auto(43),
+      }));
+
+  return quiz;
 }
