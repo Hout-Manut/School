@@ -12,10 +12,9 @@ class BankAccount {
   double get balance => _balance;
   int get id => _id;
 
-  double withdraw(double amount) {
-    if (amount > _balance) throw Error;
+  void withdraw(double amount) {
+    if (amount > _balance) throw "Error: Insufficient balance for withdrawal!";
     _balance -= amount;
-    return amount;
   }
 
   void credit(double amount) => _balance += amount;
@@ -28,8 +27,10 @@ class Bank {
   Bank({required this.name});
 
   BankAccount createAccount({required int id, required String username}) {
+
+    // Check existing accounts.
     users.forEach((acc) {
-      if (acc.id == id) throw Error;
+      if (acc.id == id) throw "Error: Account with ID $id already exists!";
     });
 
     BankAccount acc = BankAccount(id: id, username: username);

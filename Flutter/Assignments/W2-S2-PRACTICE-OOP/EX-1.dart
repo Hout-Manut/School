@@ -30,7 +30,7 @@ class Employee {
   late final String _name;
   late final Address _address;
   late double _baseSalary;
-  late final List<Skill> _skills;
+  late final Set<Skill> _skills; // Converted to Set to not have duplicates.
   late int _yearsOfExperience;
 
   Employee({
@@ -38,24 +38,25 @@ class Employee {
     required Address address,
     required int yearsOfExperience,
     required double baseSalary,
-    required List<Skill> skills,
+    required Iterable<Skill> skills,
   })  : this._name = name,
         this._address = address,
         this._baseSalary = baseSalary,
-        this._skills = skills,
+        this._skills = skills.toSet(),
         this._yearsOfExperience = yearsOfExperience;
 
+  /// Mobile developers have Dart & Flutter as their default skills.
   Employee.mobileDeveloper({
     required String name,
     required double baseSalary,
     required Address address,
     required int yearsOfExperience,
-    List<Skill>? skills,
+    Iterable<Skill>? skills,
   }) {
-    List<Skill> defaultSkills = [Skill.DART, Skill.FLUTTER];
-    if (skills != null) {
-      defaultSkills.addAll(skills);
-    }
+    Set<Skill> defaultSkills = {Skill.DART, Skill.FLUTTER};
+
+    // Add any provided skills other than the default.
+    if (skills != null) defaultSkills.addAll(skills);
 
     this._name = name;
     this._baseSalary = baseSalary;
@@ -66,30 +67,49 @@ class Employee {
 
   String get name => _name;
   double get baseSalary => _baseSalary;
-  List<Skill> get skills => _skills;
+  Set<Skill> get skills => _skills;
   Address get address => _address;
   int get yearsOfExperience => _yearsOfExperience;
 
   void printDetails() {
-    print('Employee($_name, $_address, Base Salary: \$${_baseSalary}, Skills($_skills), $_yearsOfExperience)');
+    print(
+        'Employee($_name, $_address, Base Salary: \$${_baseSalary}, Skills($_skills), $_yearsOfExperience)');
   }
 
   double getSalary() {
     double salary = this._baseSalary;
     salary += 2000 * _yearsOfExperience;
+    // Add for every skills, default 1000 if not found.
     this._skills.forEach((skill) => salary += skillSalary[skill] ?? 1000);
     return salary;
   }
 }
 
 void main() {
-  Address address1 = Address(country: Country.CAMBODIA, city: "Phnom Penh", zipCode: "12102", street: "2004");
-  Employee emp1 = Employee(name: 'Manut', address: address1, yearsOfExperience: 0, baseSalary: 4000, skills: []);
+  Address address1 = Address(
+      country: Country.CAMBODIA,
+      city: "Phnom Penh",
+      zipCode: "12102",
+      street: "2004");
+  Employee emp1 = Employee(
+      name: 'Manut',
+      address: address1,
+      yearsOfExperience: 0,
+      baseSalary: 4000,
+      skills: [/*No skills*/]);
   emp1.printDetails();
   print("\$${emp1.getSalary()}");
 
-  Address address2 = Address(country: Country.FRANCE, city: "Paris", zipCode: "70123", street: "Basin Street");
-  var emp2 = Employee.mobileDeveloper(name: 'Ronan', address: address2, yearsOfExperience: 10, baseSalary: 6000);
+  Address address2 = Address(
+      country: Country.FRANCE,
+      city: "Paris",
+      zipCode: "70123",
+      street: "Basin Street");
+  var emp2 = Employee.mobileDeveloper(
+      name: 'Ronan',
+      address: address2,
+      yearsOfExperience: 10,
+      baseSalary: 6000);
   emp2.printDetails();
   print("\$${emp2.getSalary()}");
 }

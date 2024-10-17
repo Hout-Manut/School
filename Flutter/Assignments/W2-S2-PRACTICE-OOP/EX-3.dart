@@ -39,7 +39,7 @@ class Duration {
   Duration operator +(Duration other) => Duration.fromMilli(this._milliseconds + other._milliseconds);
 
   Duration operator -(Duration other) {
-    double value = this._milliseconds - other._milliseconds;
+    final double value = this._milliseconds - other._milliseconds;
     if (value < 0) throw Error;
     return Duration.fromMilli(value);
   }
