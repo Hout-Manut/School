@@ -79,8 +79,8 @@ class Employee {
   double getSalary() {
     double salary = this._baseSalary;
     salary += 2000 * _yearsOfExperience;
-    // Add for every skills, default 1000 if not found.
-    this._skills.forEach((skill) => salary += skillSalary[skill] ?? 1000);
+    // Add for every skills, default to `Other` if not found. (the ! should never trigger dont worry).
+    this._skills.forEach((skill) => salary += skillSalary[skill] ?? skillSalary[Skill.OTHER]!);
     return salary;
   }
 }
@@ -96,7 +96,7 @@ void main() {
       address: address1,
       yearsOfExperience: 0,
       baseSalary: 4000,
-      skills: [/*No skills*/]);
+      skills: []);
   emp1.printDetails();
   print("\$${emp1.getSalary()}");
 
