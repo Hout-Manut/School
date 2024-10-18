@@ -333,17 +333,15 @@ class Quiz {
   }
 
   @override
-  String toString() {
-    return "Quiz($questions)";
-  }
+  String toString() => "Quiz($questions)";
 }
 
-Quiz preset() {
+Quiz demo() {
   Quiz quiz = Quiz();
 
   quiz.addQuestion(
     Question(
-      id: 0,
+      id: 0, // optionally add an id.
       title: "Whats 9 + 10?",
       type: QuestionType.SINGLE,
       answers: Choices.one(Choice(name: "21", value: 21)),
@@ -356,7 +354,7 @@ Quiz preset() {
   );
 
   quiz.createQuestion(
-    title: "Whats the meaning of life?",
+    title: "Whats the answer to life, the universe and everything?",
     type: QuestionType.SINGLE,
     answers: Choices.one(Choice.auto(42)),
     choices: Choices({
@@ -366,6 +364,8 @@ Quiz preset() {
       Choice.auto(43),
     }),
   );
+
+  // Questions below graciously provided by ChatGPT.
 
   quiz.createQuestion(
     title: "What are the primary colors?",
@@ -492,12 +492,12 @@ Quiz preset() {
       Choice.auto(6),
     }),
     choices: Choices({
-      Choice.auto(1),
-      Choice.auto(2),
-      Choice.auto(3),
-      Choice.auto(4),
-      Choice.auto(5),
-      Choice.auto(6),
+      Choice(name: "< Look here", value: 1),
+      Choice(name: "", value: 2),
+      Choice(name: "", value: 3),
+      Choice(name: "", value: 4),
+      Choice(name: "", value: 5),
+      Choice(name: "", value: 6),
     }),
   );
 

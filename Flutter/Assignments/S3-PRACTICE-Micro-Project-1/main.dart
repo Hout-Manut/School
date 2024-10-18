@@ -3,7 +3,7 @@ import 'dart:io';
 import 'quiz.dart';
 
 void main() {
-  Quiz quiz = preset();
+  Quiz quiz = demo();
 
   Player guest = quiz.createPlayer(firstName: "Manut", lastName: "Hout");
 
