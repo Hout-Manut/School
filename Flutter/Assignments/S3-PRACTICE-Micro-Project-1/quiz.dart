@@ -99,18 +99,18 @@ class Question {
         availibleChoices = choices {
     // if (type == QuestionType.SINGLE && _correctAnswers.length != 1)
     //   throw "Error: invalid Question arguments. Expected 1 answer.";
-    // else if (type == QuestionType.MULTI && _correctAnswers.length == 1)
-    //   throw "Error: invalid Question arguments. Expected multiple answers.";
+    if (type == QuestionType.MULTI && _correctAnswers.length == 1)
+      throw "Error: invalid Question arguments. Expected multiple answers.";
   }
 
   Question.single({
     required int id,
     required this.title,
-    required Choice answers,
+    required Choices answers,
     required Choices choices,
   })  : _id = id,
         type = QuestionType.SINGLE,
-        _correctAnswers = Choices({answers}),
+        _correctAnswers = answers,
         availibleChoices = choices;
   Question.multi({
     required int id,
@@ -128,7 +128,7 @@ class Question {
     return "Question($title, $type, $ans{$_correctAnswers}, Choices{$availibleChoices)}";
   }
 
-  Result answer({required Iterable<int> choiceIndex, required Player player}) {
+  Result _answer({required Iterable<int> choiceIndex, required Player player}) {
     Choices choices = availibleChoices.elementsAt(choiceIndex);
     return Result(question: this, choices: choices, player: player);
   }
@@ -271,15 +271,22 @@ class Quiz {
     int? questionId,
   }) {
     if (question == null && questionId == null)
-      throw "Error: invalid Quiz.answer() arguments. Requires `question` or `questionId` to be entered.";
+      throw "Error: invalid `answer` arguments. Requires `question` or `questionId` to be entered.";
     else if (question != null)
-      return question.answer(choiceIndex: choiceIndex, player: player);
+      return question._answer(choiceIndex: choiceIndex, player: player);
 
     for (Question q in questions) {
       if (q._id == questionId)
-        return q.answer(choiceIndex: choiceIndex, player: player);
+        return q._answer(choiceIndex: choiceIndex, player: player);
     }
     throw "Error: no questions found with id $questionId.";
+  }
+
+  Result ask({required Player player, Question? question}) {
+    Question q = question ?? this.randomQuestion();
+
+    Set<int> guesses = askAndGetIndexes(q);
+    return this.answer(player: player, choiceIndex: guesses, question: q);
   }
 
   Question randomQuestion() {
@@ -293,6 +300,13 @@ class Quiz {
       if (question._id == id) return question;
     }
     throw "Error: no question found with id $id.";
+  }
+
+  Player playerWithId(int id) {
+    for (Player player in players) {
+      if (player._id == id) return player;
+    }
+    throw "Error: no player found with id $id.";
   }
 
   Set<int> askAndGetIndexes(Question question) {

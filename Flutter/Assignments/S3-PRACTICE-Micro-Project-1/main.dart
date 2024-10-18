@@ -5,18 +5,10 @@ import 'quiz.dart';
 void main() {
   Quiz quiz = demo();
 
-  Player guest = quiz.createPlayer(firstName: "Manut", lastName: "Hout");
+  Player player = quiz.createPlayer(firstName: "Manut", lastName: "Hout");
 
   while (true) {
-    Question q = quiz.randomQuestion();
-
-    Set<int> indexes = quiz.askAndGetIndexes(q);
-    Result result = quiz.answer(
-      player: guest,
-      choiceIndex: indexes,
-      question: q,
-    );
-
+    Result result = quiz.ask(player: player);
     print(result.isCorrect ? "Correct" : "Incorrect");
 
     print("Continue? (Enter):");
@@ -25,6 +17,7 @@ void main() {
     break;
   }
 
-  print("${guest.firstName}'s Histories:");
-  guest.history.forEach((data)=>print(data));
+
+  print("${player.firstName}'s Histories:");
+  player.history.forEach(print);
 }
