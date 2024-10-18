@@ -150,13 +150,15 @@ class Result {
 class Player {
   final String firstName;
   final String lastName;
+  final int _id;
   Quiz? quiz;
 
   Player({
+    required int id,
     required this.firstName,
     required this.lastName,
     this.quiz,
-  });
+  }): _id = id;
 
   @override
   bool operator ==(covariant Player other) {
@@ -197,7 +199,7 @@ class Quiz {
     required Choices choices,
     int? id,
   }) {
-    int idToUse = id ?? this.generateNewId();
+    int idToUse = id ?? this.generateNewId(questions);
     Question newQuestion = Question(
       id: idToUse,
       title: title,
@@ -212,9 +214,11 @@ class Quiz {
   Player createPlayer({
     required String firstName,
     required String lastName,
+    int? id,
   }) {
+    int idToUse = id ?? this.generateNewId(this.players);
     Player newPlayer =
-        Player(firstName: firstName, lastName: lastName, quiz: this);
+        Player(id: idToUse,firstName: firstName, lastName: lastName, quiz: this);
     this.addPlayer(newPlayer);
     return newPlayer;
   }
@@ -231,12 +235,13 @@ class Quiz {
     players.forEach((p) {
       if (p == player) throw "Name already taken.";
     });
+    player.link(this);
     players.add(player);
   }
 
-  int generateNewId() {
+  int generateNewId(Set<dynamic> questionsOrPlayers) {
     Set<int> existingIds = {};
-    questions.forEach((q) => existingIds.add(q._id));
+    questionsOrPlayers.forEach((q) => existingIds.add(q._id));
     int newId;
     while (true) {
       newId = _rand.nextInt(8999) + 1000;
