@@ -1,6 +1,11 @@
+class Abc {
+  final String name;
 
-void main(){
-  List<String> skills = [];
+  Abc(this.name);
+}
 
-  skills.forEach((a) => print("hi"));
+
+void main() {
+  var ab = Abc("asdasd");
+  // var ad = Abc(name: "asdasd");
 }

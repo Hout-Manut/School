@@ -12,7 +12,9 @@ class Choices {
 
   int get length => choices.length;
 
-  bool containsAll(Choices other) {
+
+  /// Equivalent to `.containsAll()`.
+  bool operator >=(Choices other) {
     if (choices.length < other.choices.length) return false;
 
     if (choices.isEmpty) return true;
@@ -97,20 +99,20 @@ class Question {
   })  : _id = id,
         _correctAnswers = answers,
         availibleChoices = choices {
-    // if (type == QuestionType.SINGLE && _correctAnswers.length != 1)
-    //   throw "Error: invalid Question arguments. Expected 1 answer.";
-    if (type == QuestionType.MULTI && _correctAnswers.length == 1)
+    if (type == QuestionType.SINGLE && _correctAnswers.length != 1)
+      throw "Error: invalid Question arguments. Expected 1 answer. Got ${_correctAnswers.length}.";
+    else if (type == QuestionType.MULTI && _correctAnswers.length == 1)
       throw "Error: invalid Question arguments. Expected multiple answers.";
   }
 
   Question.single({
     required int id,
     required this.title,
-    required Choices answers,
+    required Choice answer,
     required Choices choices,
   })  : _id = id,
         type = QuestionType.SINGLE,
-        _correctAnswers = answers,
+        _correctAnswers = Choices.one(answer),
         availibleChoices = choices;
   Question.multi({
     required int id,
@@ -149,7 +151,7 @@ class Result {
 
   bool get isCorrect {
     if (question.type == QuestionType.SINGLE)
-      return question._correctAnswers.containsAll(choices);
+      return question._correctAnswers >= choices;
     return question._correctAnswers == choices;
   }
 
@@ -164,18 +166,27 @@ class Player {
   final String lastName;
   final List<Result> history = [];
   final int _id;
-  Quiz? quiz;
+  Quiz quiz;
 
   Player({
     required int id,
     required this.firstName,
     required this.lastName,
-    this.quiz,
+    required this.quiz,
   }): _id = id;
 
   @override
   bool operator ==(covariant Player other) {
     return firstName == other.firstName && lastName == other.lastName;
+  }
+
+  bool hasAnswered(Question question) {
+    if (quiz.questions.length <= history.length) return false;
+
+    for (Result r in this.history) {
+      if (r.question._id == question._id) return true;
+    }
+    return false;
   }
 
   void link(Quiz quiz) => this.quiz = quiz;
@@ -185,8 +196,7 @@ class Player {
     Question? question,
     int? questionId,
   }) {
-    if (quiz == null) throw "Player is not linked to a quiz instance.";
-    return quiz!.answer(
+    return quiz.answer(
       player: this,
       choiceIndex: choiceIndex,
       question: question,
@@ -283,16 +293,27 @@ class Quiz {
   }
 
   Result ask({required Player player, Question? question}) {
-    Question q = question ?? this.randomQuestion();
+    Question q = question ?? this.randomQuestion(player);
 
     Set<int> guesses = askAndGetIndexes(q);
     return this.answer(player: player, choiceIndex: guesses, question: q);
   }
 
-  Question randomQuestion() {
-    int length = questions.length;
+  Question trueRandomQuestion([Iterable<Question>? customQuestions]) {
+    Iterable<Question> questionsToUse = customQuestions ?? this.questions;
+    int length = questionsToUse.length;
     int randomIndex = _rand.nextInt(length);
-    return questions.elementAt(randomIndex);
+    return questionsToUse.elementAt(randomIndex);
+  }
+
+  Question randomQuestion([Player? player]) {
+    if (player == null) return trueRandomQuestion();
+
+    Iterable<Question> unansweredQuestions = this.questions.where((q) =>
+      !player.hasAnswered(q)
+    );
+    return trueRandomQuestion(unansweredQuestions);
+
   }
 
   Question questionWithId(int id) {
@@ -471,22 +492,6 @@ Quiz demo() {
       Choice.auto(6),
     }),
   );
-  quiz.createQuestion(
-    title: "What is a synonym for 'Happy'?",
-    type: QuestionType.SINGLE,
-    answers: Choices({
-      Choice.auto("Joyful"),
-      Choice.auto("Content"),
-      Choice.auto("Glad"),
-    }),
-    choices: Choices({
-      Choice.auto("Sad"),
-      Choice.auto("Joyful"),
-      Choice.auto("Angry"),
-      Choice.auto("Glad"),
-      Choice.auto("Content"),
-    }),
-  );
 
   quiz.createQuestion(
     title: "Which city is known as 'The Big Apple'?",
@@ -504,7 +509,7 @@ Quiz demo() {
   quiz.createQuestion(
     id: 20,
     title: "Which numbers are considered even?",
-    type: QuestionType.SINGLE,
+    type: QuestionType.MULTI,
     answers: Choices({
       Choice.auto(2),
       Choice.auto(4),
@@ -517,21 +522,6 @@ Quiz demo() {
       Choice(name: "", value: 4),
       Choice(name: "", value: 5),
       Choice(name: "", value: 6),
-    }),
-  );
-
-  quiz.createQuestion(
-    title: "Who discovered gravity?",
-    type: QuestionType.SINGLE,
-    answers: Choices({
-      Choice.auto("Isaac Newton"),
-      Choice.auto("Newton"),
-    }),
-    choices: Choices({
-      Choice.auto("Albert Einstein"),
-      Choice.auto("Galileo Galilei"),
-      Choice.auto("Isaac Newton"),
-      Choice.auto("Newton"),
     }),
   );
 
