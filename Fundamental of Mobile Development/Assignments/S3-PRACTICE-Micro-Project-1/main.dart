@@ -5,10 +5,10 @@ import 'quiz.dart';
 void main() {
   Quiz quiz = demo();
 
-  Player player = quiz.createPlayer(firstName: "Manut", lastName: "Hout");
+  User player = quiz.newUser(firstName: "Manut", lastName: "Hout");
 
   while (true) {
-    Result result = quiz.ask(player: player);
+    Result result = quiz.ask(user: player);
     print(result.isCorrect ? "Correct" : "Incorrect");
 
     print("Continue? (Enter):");
@@ -17,7 +17,6 @@ void main() {
     break;
   }
 
-
-  print("${player.firstName}'s Histories:");
-  player.history.forEach(print);
+  print("\n\n\n\n");
+  player.printHistory();
 }
