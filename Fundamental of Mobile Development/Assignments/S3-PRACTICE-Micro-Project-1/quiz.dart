@@ -14,19 +14,6 @@ class Choices extends Iterable<Choice> {
 
   int get length => choices.length;
 
-  /// Equivalent to `.containsAll()`.
-  bool operator >=(Choices other) {
-    if (choices.length < other.choices.length) return false;
-
-    if (choices.isEmpty) return true;
-
-    for (Choice answer in other.choices)
-      if (!choices.any((correctAnswer) => correctAnswer == answer))
-        return false;
-
-    return true;
-  }
-
   @override
   bool operator ==(covariant Choices other) {
     if (choices.length != other.choices.length) return false;
@@ -47,11 +34,12 @@ class Choices extends Iterable<Choice> {
     return buffer;
   }
 
+  /// Like `elementAt()` but plural.
   Choices elementsAt(Iterable<int> indexes) {
-    List<Choice> buffer = [];
+    Set<Choice> buffer = {};
     indexes.forEach((index) => buffer.add(choices.elementAt(index)));
     if (buffer.isEmpty)
-      throw "Error: cannot find choices with index: $indexes.";
+      throw Exception("Cannot find choices with index: $indexes.");
     return Choices(buffer);
   }
 
@@ -60,7 +48,7 @@ class Choices extends Iterable<Choice> {
 
   @override
   String toString() => choices.toString();
-  
+
   @override
   Iterator<Choice> get iterator => choices.iterator;
 }
@@ -76,8 +64,8 @@ class Choice {
 
   /// Automatically use the value as the name.
   Choice.auto(dynamic value)
-      : value = value.toString(),
-        name = value.toString();
+      : this.value = value.toString(),
+        this.name = value.toString();
 
   @override
   bool operator ==(covariant Choice other) {
@@ -93,7 +81,8 @@ class Choice {
 class Question {
   final int _id;
   final String title;
-  final QuestionType type; // Might be redundant, kept because it's in the question
+  final QuestionType
+      type; // Might be redundant, kept because it's in the question
   final Choices _correctAnswers;
   final Choices availibleChoices;
 
@@ -107,9 +96,10 @@ class Question {
         _correctAnswers = answers,
         availibleChoices = choices {
     if (type == QuestionType.SINGLE && _correctAnswers.length != 1)
-      throw "Error: invalid Question arguments. Expected 1 answer. Got ${_correctAnswers.length}.";
+      throw Exception(
+          "Invalid Question arguments. Expected 1 answer. Got ${_correctAnswers.length}.");
     else if (type == QuestionType.MULTI && _correctAnswers.length == 1)
-      throw "Error: invalid Question arguments. Expected multiple answers.";
+      throw Exception("Invalid Question arguments. Expected multiple answers.");
   }
 
   Question.single({
@@ -162,15 +152,7 @@ class Result {
     this.user.history.add(this);
   }
 
-  /// If the question type is SINGLE, returns `true` if what answered is a subset of the correct answers.\
-  /// Else, returns `true` if what answered is the same as the correct answers.\
-  /// Else else, `false`.
-  bool get isCorrect {
-
-    if (question.type == QuestionType.SINGLE)
-      return question._correctAnswers >= choices;
-    return question._correctAnswers == choices;
-  }
+  bool get isCorrect => question._correctAnswers == choices;
 
   @override
   String toString() {
@@ -197,19 +179,31 @@ class User {
     return firstName == other.firstName && lastName == other.lastName;
   }
 
-  /// Check if the user has answered a question.
+  /// Check if this user has answered a question.
+  /// Count how many times a question needs to be answered before it's marked as answered.
+  ///
+  /// At first, it's 1 so if the question has been answered once, the fucntion returns `true`.\
+  /// If the length of history is longer than the amount of questions by a few, the counter will be 2.\
+  /// Meaning the function will check if the question has been answered twice before returning `true`.\
+  /// Same for 3.
+  ///
+  /// TLDR: This acts like a reset when the user has answered every questions.
   bool hasAnswered(Question question) {
-    // Fall back to true random if the user has answered every questions.
-    if (quiz.questions.length <= history.length) return false;
+    int counter = (history.length / quiz.questions.length).ceil();
+    counter = counter < 1 ? 1 : counter;
 
+    int occurrences = 0;
     for (Result r in this.history) {
-      if (r.question._id == question._id) return true;
+      if (r.question._id == question._id) {
+        occurrences++;
+        if (occurrences >= counter) return true;
+      }
     }
     return false;
   }
 
-
-  /// Answer a question.\
+  /// Answer a question.
+  ///
   /// One of `question` or `questionId` must be provided.
   Result answer({
     required Iterable<int> choiceIndex,
@@ -233,7 +227,8 @@ class User {
     print("$firstName's histories:");
     history.indexed.forEach((result) {
       String correct = result.$2.isCorrect ? "Correct" : "Incorrect";
-      print("${(result.$1 + 1).toString().padLeft(3)}: ${result.$2.question.title}");
+      print(
+          "${(result.$1 + 1).toString().padLeft(3)}: ${result.$2.question.title}");
       print("Correct answers:");
       print("     ${result.$2.question._correctAnswers.getNames()}");
       print("Answered:");
@@ -249,7 +244,8 @@ class Quiz {
   final Set<Question> questions = {};
   final Random _rand = Random();
 
-  /// Returns a Question object and add it to the quiz instance.\
+  /// Returns a Question object and add it to the quiz instance.
+  ///
   /// `id` is optional and will generate one if not provided.
   Question newQuestion({
     required String title,
@@ -258,7 +254,7 @@ class Quiz {
     required Choices choices,
     int? id,
   }) {
-    int idToUse = id ?? this.generateNewId(this.questions);
+    int idToUse = id ?? this._generateNewId(this.questions);
     Question newQuestion = Question(
       id: idToUse,
       title: title,
@@ -270,16 +266,17 @@ class Quiz {
     return newQuestion;
   }
 
-  /// Returns a User object and add it to the quiz instance.\
+  /// Returns a User object and add it to the quiz instance.
+  ///
   /// `id` is optional and will generate one if not provided.
   User newUser({
     required String firstName,
     required String lastName,
     int? id,
   }) {
-    int idToUse = id ?? this.generateNewId(this.users);
-    User newUser = User(
-        id: idToUse, firstName: firstName, lastName: lastName, quiz: this);
+    int idToUse = id ?? this._generateNewId(this.users);
+    User newUser =
+        User(id: idToUse, firstName: firstName, lastName: lastName, quiz: this);
     this.addUser(newUser);
     return newUser;
   }
@@ -288,7 +285,7 @@ class Quiz {
   void addQuestion(Question question) {
     questions.forEach((q) {
       if (q._id == question._id)
-        throw "Error: Question with ID ${q._id} already exists!";
+        throw Exception("Question with ID ${q._id} already exists!");
     });
     questions.add(question);
   }
@@ -296,26 +293,38 @@ class Quiz {
   /// Same as newUser but takes a User object.
   void addUser(User user) {
     users.forEach((p) {
-      if (p == user) throw "Name already taken.";
+      if (p == user) throw Exception("Name already taken.");
     });
     users.add(user);
   }
 
-  int generateNewId(Set<dynamic> questionsOrPlayers) {
+  /// Generates a random 6 digits number to be used as an id.
+  int _generateNewId(Set<dynamic> questionsOrPlayers,
+      {int min = 100000, int max = 999999}) {
     Set<int> existingIds = {};
-    questionsOrPlayers.forEach((q) => existingIds.add(q._id));
+
+    // Find existing ids that are of 6 digits.
+    questionsOrPlayers.forEach((questionOrPlayer) {
+      int id = questionOrPlayer._id;
+      if (id >= min || id <= max) existingIds.add(id);
+    });
     int newId;
 
     // If somehow there are 999,999 users/questions with 6 digits id already.
-    if (existingIds.length >= 999999) throw Exception("Error: Unable to generate a new random id, program might loop forever.");
+    if (existingIds.length >= max)
+      throw Exception(
+          "Unable to generate a new random id, program might loop forever.");
     while (true) {
-      newId = _rand.nextInt(899999) + 100000;
+      newId = _rand.nextInt(max - min) + min;
       if (existingIds.contains(newId)) continue;
       break;
     }
     return newId;
   }
 
+  /// Answer a question as a user.
+  ///
+  /// One of `question` or `questionId` must be provided.
   Result answer({
     required User user,
     required Iterable<int> choiceIndex,
@@ -323,7 +332,8 @@ class Quiz {
     int? questionId,
   }) {
     if (question == null && questionId == null)
-      throw "Error: invalid `answer` arguments. Requires `question` or `questionId` to be entered.";
+      throw Exception(
+          "Invalid `answer` arguments. Requires `question` or `questionId` to be entered.");
     else if (question != null)
       return question._answer(choiceIndex: choiceIndex, user: user);
 
@@ -331,9 +341,10 @@ class Quiz {
       if (q._id == questionId)
         return q._answer(choiceIndex: choiceIndex, user: user);
     }
-    throw "Error: no questions found with id $questionId.";
+    throw Exception("No questions found with id $questionId.");
   }
 
+  /// Ask a user a question. If `question` is not provided, gets a random question.
   Result ask({required User user, Question? question}) {
     Question q = question ?? this.randomQuestion(user);
 
@@ -341,7 +352,8 @@ class Quiz {
     return this.answer(user: user, choiceIndex: guesses, question: q);
   }
 
-  Question trueRandomQuestion([Iterable<Question>? customQuestions]) {
+  /// Private function for picking a random question of a list of questions.
+  Question _trueRandomQuestion([Iterable<Question>? customQuestions]) {
     Iterable<Question> questionsToUse = customQuestions ?? this.questions;
     int length = questionsToUse.length;
     if (length == 0) throw Exception("Not enough questions to use.");
@@ -349,28 +361,35 @@ class Quiz {
     return questionsToUse.elementAt(randomIndex);
   }
 
-  Question randomQuestion([User? player]) {
-    if (player == null) return trueRandomQuestion();
+  /// Gets a random question from the list of questions.
+  ///
+  /// If `user` is passed, returns a random question that this user has never answered before.
+  Question randomQuestion([User? user]) {
+    if (user == null) return _trueRandomQuestion();
 
     Iterable<Question> unansweredQuestions =
-        this.questions.where((q) => !player.hasAnswered(q));
-    return trueRandomQuestion(unansweredQuestions);
+        this.questions.where((q) => !user.hasAnswered(q));
+    return _trueRandomQuestion(unansweredQuestions);
   }
 
   Question getQuestionWithId(int id) {
     for (Question question in questions) {
       if (question._id == id) return question;
     }
-    throw "Error: no question found with id $id.";
+    throw Exception("no question found with id $id.");
   }
 
   User getUserWithId(int id) {
     for (User player in users) {
       if (player._id == id) return player;
     }
-    throw "Error: no player found with id $id.";
+    throw Exception("no player found with id $id.");
   }
 
+  /// Print the question and choices to the console
+  /// and reads the input for indexes.
+  ///
+  /// Returns a set of indexes of the chosen choices.
   Set<int> askAndGetIndexes(Question question) {
     print(question.title);
     print("Choices:");
@@ -387,12 +406,15 @@ class Quiz {
         prompt = "Choose all matches: ";
     }
 
+    int choicesLength = question.availibleChoices.length;
+
     while (true) {
       try {
         stdout.write(prompt);
-        indexes = this.parseInput(stdin.readLineSync());
+        indexes = this._parseInput(stdin.readLineSync(), choicesLength);
       } catch (e) {
         print(e);
+        print("");
         continue;
       }
       break;
@@ -400,172 +422,26 @@ class Quiz {
     return indexes;
   }
 
-  Set<int> parseInput(String? input) {
-    if (input == null) throw "Invalid input.";
+  /// Parses the input string to extract integers and returns them as a set.
+  ///
+  /// Each integer is adjusted by subtracting 1 (i.e., input `n` becomes `n - 1`).
+  Set<int> _parseInput(String? input, int? max) {
+    String errorMessage = "Invalid input.";
+    if (input == null) throw errorMessage;
 
     List<String> chunks = input.split(RegExp(r"[ ,]+"));
     Set<int> buffer = {};
     chunks.forEach((chunk) {
       int? index = int.tryParse(chunk);
-      if (index != null) buffer.add(index - 1);
+      if (index == null || index < 1)
+        throw errorMessage;
+      else if (max != null && index > max) throw errorMessage;
+      buffer.add(index - 1);
     });
-    if (buffer.isEmpty) throw "Invalid input.";
+    if (buffer.isEmpty) throw errorMessage;
     return buffer;
   }
 
   @override
   String toString() => "Quiz($questions)";
-}
-
-/// Returns a quiz object with predefined questions
-Quiz demo() {
-  Quiz quiz = Quiz();
-
-  quiz.addQuestion(
-    Question(
-      id: 0, // optionally add an id.
-      title: "Whats 9 + 10?",
-      type: QuestionType.SINGLE,
-      answers: Choices.one(Choice(name: "21", value: 21)),
-      choices: Choices({
-        Choice(name: "19", value: 19),
-        Choice(name: "20", value: 20),
-        Choice(name: "21", value: 21),
-      }),
-    ),
-  );
-
-  quiz.newQuestion(
-    title: "Whats the answer to life, the universe and everything?",
-    type: QuestionType.SINGLE,
-    answers: Choices.one(Choice.auto(42)),
-    choices: Choices({
-      Choice.auto(40),
-      Choice.auto(41),
-      Choice.auto(42),
-      Choice.auto(43),
-    }),
-  );
-
-  // Questions below graciously provided by ChatGPT.
-
-  quiz.newQuestion(
-    title: "What are the primary colors?",
-    type: QuestionType.MULTI,
-    answers: Choices({
-      Choice.auto("Red"),
-      Choice.auto("Blue"),
-      Choice.auto("Yellow"),
-    }),
-    choices: Choices({
-      Choice.auto("Green"),
-      Choice.auto("Orange"),
-      Choice.auto("Red"),
-      Choice.auto("Blue"),
-      Choice.auto("Yellow"),
-    }),
-  );
-
-  quiz.newQuestion(
-    title: "Which animals are mammals?",
-    type: QuestionType.MULTI,
-    answers: Choices({
-      Choice.auto("Dolphin"),
-      Choice.auto("Bat"),
-    }),
-    choices: Choices({
-      Choice.auto("Dolphin"),
-      Choice.auto("Shark"),
-      Choice.auto("Bat"),
-      Choice.auto("Eagle"),
-    }),
-  );
-
-  quiz.newQuestion(
-    title: "Who wrote 'To Kill a Mockingbird'?",
-    type: QuestionType.SINGLE,
-    answers: Choices.one(Choice.auto("Harper Lee")),
-    choices: Choices({
-      Choice.auto("Mark Twain"),
-      Choice.auto("Harper Lee"),
-      Choice.auto("Ernest Hemingway"),
-      Choice.auto("F. Scott Fitzgerald"),
-    }),
-  );
-
-  quiz.newQuestion(
-    title: "Which of these are programming languages?",
-    type: QuestionType.MULTI,
-    answers: Choices({
-      Choice.auto("Python"),
-      Choice.auto("Java"),
-    }),
-    choices: Choices({
-      Choice.auto("Python"),
-      Choice.auto("Java"),
-      Choice.auto("HTML"),
-      Choice.auto("CSS"),
-    }),
-  );
-
-  quiz.newQuestion(
-    title: "How many continents are there?",
-    type: QuestionType.SINGLE,
-    answers: Choices.one(Choice.auto(7)),
-    choices: Choices({
-      Choice.auto(5),
-      Choice.auto(6),
-      Choice.auto(7),
-      Choice.auto(8),
-    }),
-  );
-
-  quiz.newQuestion(
-    title: "Which numbers are prime?",
-    type: QuestionType.MULTI,
-    answers: Choices({
-      Choice.auto(2),
-      Choice.auto(5),
-    }),
-    choices: Choices({
-      Choice.auto(2),
-      Choice.auto(4),
-      Choice.auto(5),
-      Choice.auto(6),
-    }),
-  );
-
-  quiz.newQuestion(
-    title: "Which city is known as 'The Big Apple'?",
-    type: QuestionType.SINGLE,
-    answers: Choices({
-      Choice.auto("New York"),
-    }),
-    choices: Choices({
-      Choice.auto("Los Angeles"),
-      Choice.auto("New York"),
-      Choice.auto("Chicago"),
-    }),
-  );
-
-  quiz.newQuestion(
-    id: 20,
-    title: "Which numbers are considered even?",
-    type: QuestionType.MULTI,
-    answers: Choices({
-      Choice.auto(2),
-      Choice.auto(4),
-      Choice.auto(6),
-    }),
-    choices: Choices({
-      Choice(name: "< Look here", value: 1),
-      Choice(name: "", value: 2),
-      Choice(name: "", value: 3),
-      Choice(name: "", value: 4),
-      Choice(name: "", value: 5),
-      Choice(name: "", value: 6),
-    }),
-  );
-
-  return quiz;
 }
