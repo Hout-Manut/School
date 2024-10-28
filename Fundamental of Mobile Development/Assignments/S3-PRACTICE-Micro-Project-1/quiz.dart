@@ -81,8 +81,8 @@ class Choice {
 class Question {
   final int _id;
   final String title;
-  final QuestionType
-      type; // Might be redundant, kept because it's in the question
+  // Might be redundant, kept because it's in the question
+  final QuestionType type;
   final Choices _correctAnswers;
   final Choices availibleChoices;
 
