@@ -59,7 +59,7 @@ class Choice {
 
   Choice({
     required this.name,
-    required dynamic value, // casted to String for comparision
+    required dynamic value, // casted to String for comparision.
   }) : this.value = value.toString();
 
   /// Automatically use the value as the name.
@@ -81,8 +81,8 @@ class Choice {
 class Question {
   final int _id;
   final String title;
-  final QuestionType
-      type; // Might be redundant, kept because it's in the question
+  // Might be redundant, kept because it's in the question.
+  final QuestionType type;
   final Choices _correctAnswers;
   final Choices availibleChoices;
 
@@ -180,12 +180,12 @@ class User {
   }
 
   /// Check if this user has answered a question.
-  /// Count how many times a question needs to be answered before it's marked as answered.
+  /// Count how many times that question needs to be in the history before it's marked as answered.
   ///
   /// At first, it's 1 so if the question has been answered once, the fucntion returns `true`.\
   /// If the length of history is longer than the amount of questions by a few, the counter will be 2.\
   /// Meaning the function will check if the question has been answered twice before returning `true`.\
-  /// Same for 3.
+  /// Same for 3 and so on.
   ///
   /// TLDR: This acts like a reset when the user has answered every questions.
   bool hasAnswered(Question question) {
