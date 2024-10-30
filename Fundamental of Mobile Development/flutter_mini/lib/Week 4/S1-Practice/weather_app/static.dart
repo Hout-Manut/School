@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-const double roundThingHeight = 54;
+const double roundThingHeight = 28;
 
 void main() {
   runApp(
@@ -10,141 +10,136 @@ void main() {
         child: Container(
           padding: EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 100),
           color: Colors.white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Center(
-                    child: Text(
-                      "Phnom Penh",
-                      style: TextStyle(
-                        fontFamily: 'FiraMono',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      "25°",
-                      style: TextStyle(
-                        fontFamily: 'AdventPro',
-                        fontSize: 216,
-                        color: Color(0xffF15D46),
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      "Cloudy",
-                      style: TextStyle(
-                        fontFamily: 'Afacad',
-                        fontSize: 48,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      padding: EdgeInsets.only(top: 80, bottom: 40),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            HeaderText("Conditions"),
-                            SubText("H: 32° L: 24°"),
-                            SubText("Feels like 34°"),
-                            Image.asset("assets/images/graph.png"),
-                            HeaderText("Precipitation"),
-                            SubText("0% Chance"),
-                            Image.asset("assets/images/graph_2.png"),
-                            Image.asset("assets/images/graph_3.png"),
-                          ]),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: [0.0, 1.0],
-                            colors: [Colors.white, Color(0x00ffffff)],
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Bottom Gradient Overlay
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            stops: [0.0, 1.0],
-                            colors: [Colors.white, Color(0x00ffffff)],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Center(
-                    child: Text(
-                      "Today",
-                      style: TextStyle(
-                        fontFamily: 'Afacad',
-                        fontSize: 34,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    padding: EdgeInsets.all(4),
-                    height: roundThingHeight + 8,
-                    width: (roundThingHeight * 7) + 8,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFD9D9D9),
-                      borderRadius:
-                          BorderRadius.circular((roundThingHeight + 8) / 2),
-                    ),
-                    child: Row(
+              Padding(
+                padding: const EdgeInsets.only(top: 160, bottom: 50),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(top: 120, bottom: 40),
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        RoundThing(active: false),
-                        RoundThing(active: true),
-                        RoundThing(active: false),
-                        RoundThing(active: false),
-                        RoundThing(active: false),
-                        RoundThing(active: false),
-                        RoundThing(active: false),
-                      ],
+                        HeaderText("Conditions"),
+                        SubText("H: 32° L: 24°"),
+                        SubText("Feels like 34°"),
+                        Image.asset("assets/images/graph.png"),
+                        HeaderText("Precipitation"),
+                        SubText("0% Chance"),
+                        Image.asset("assets/images/graph_2.png"),
+                        Image.asset("assets/images/graph_3.png"),
+                      ]),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.7, 1.0],
+                      colors: [Colors.white, Color(0x00FFFFFF)],
                     ),
-                  )
-                ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: Text(
+                          "Phnom Penh",
+                          style: TextStyle(
+                            fontFamily: 'FiraMono',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Center(
+                        child: Text(
+                          "25°",
+                          style: TextStyle(
+                            fontFamily: 'AdventPro',
+                            fontSize: 108,
+                            color: Color(0xFFF15D46),
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Center(
+                        child: Text(
+                          "Cloudy",
+                          style: TextStyle(
+                            fontFamily: 'Afacad',
+                            fontSize: 24,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      stops: [0.8, 1.0],
+                      colors: [Colors.white, Color(0x00FFFFFF)],
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Center(
+                        child: Text(
+                          "Today",
+                          style: TextStyle(
+                            fontFamily: 'Afacad',
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        padding: EdgeInsets.all(2),
+                        height: roundThingHeight + 4,
+                        width: (roundThingHeight * 7) + 4,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFD9D9D9),
+                          borderRadius:
+                              BorderRadius.circular((roundThingHeight + 4) / 2),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            RoundThing(active: false),
+                            RoundThing(active: true),
+                            RoundThing(active: false),
+                            RoundThing(active: false),
+                            RoundThing(active: false),
+                            RoundThing(active: false),
+                            RoundThing(active: false),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -165,7 +160,7 @@ class HeaderText extends StatelessWidget {
       style: TextStyle(
         fontFamily: "Afacad",
         fontWeight: FontWeight.w700,
-        fontSize: 48,
+        fontSize: 24,
         color: Colors.black,
         decoration: TextDecoration.none,
       ),
@@ -184,7 +179,7 @@ class SubText extends StatelessWidget {
       style: TextStyle(
         fontFamily: "Afacad",
         fontWeight: FontWeight.w400,
-        fontSize: 32,
+        fontSize: 16,
         color: Colors.black,
         decoration: TextDecoration.none,
       ),
