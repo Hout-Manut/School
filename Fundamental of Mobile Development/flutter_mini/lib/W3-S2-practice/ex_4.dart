@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'gradient_button.dart';
+
 void main() {
   runApp(
     MaterialApp(
@@ -22,11 +24,22 @@ void main() {
                   "FLUTTER",
                   gradient: LinearGradient(
                     colors: [
-                      Colors.blue[300]!,
-                      Colors.blue[600]!,
+                      Colors.blue[100]!,
+                      Colors.blue[800]!,
                     ],
                   ),
                 ),
+                const GradientButton(
+                  "This is a gradient button",
+                  start: Color(0xffe354ff),
+                  middle: [
+                    Color(0xffff546b),
+                    Color(0xffcbd950),
+                    Color(0xff546eff),
+                  ],
+                  end: Color(0xffe354ff),
+                  borderRadius: 60,
+                )
               ],
             ),
           ),
@@ -42,8 +55,7 @@ class Card extends StatelessWidget {
   final LinearGradient? gradient;
 
   const Card(
-    this.text,
-    {
+    this.text, {
     this.color,
     this.gradient,
     super.key,

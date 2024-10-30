@@ -19,9 +19,10 @@ void main() {
                   "DART",
                   start: Colors.blue[300]!,
                   end: Colors.red[300]!,
+                  width: 240,
                 ),
                 const GradientButton(
-                  "SAIHONG",
+                  "HAO",
                   start: Color(0xffe354ff),
                   middle: [
                     Color(0xffff546b),
@@ -44,12 +45,28 @@ class GradientButton extends StatelessWidget {
   final Color start;
   final List<Color>? middle;
   final Color end;
+  final EdgeInsets margin;
+  final EdgeInsets? padding;
+  final TextDecoration textDecoration;
+  final Color color;
+  final double fontSize;
+  final double? width;
+  final double height;
+  final double borderRadius;
 
   const GradientButton(
     this.text, {
     required this.start,
     this.middle,
     required this.end,
+    this.width,
+    this.height = 64,
+    this.margin = const EdgeInsets.all(24),
+    this.padding,
+    this.textDecoration = TextDecoration.none,
+    this.color = Colors.white,
+    this.fontSize = 32,
+    this.borderRadius = 16,
     super.key,
   });
 
@@ -64,19 +81,21 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 64,
-      margin: const EdgeInsets.all(24),
+      width: width,
+      height: height,
+      margin: margin,
+      padding: padding,
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: unwrapColors()),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            decoration: TextDecoration.none,
-            color: Colors.white,
-            fontSize: 32,
+          style: TextStyle(
+            decoration: textDecoration,
+            color: color,
+            fontSize: fontSize
           ),
         ),
       ),
