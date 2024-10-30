@@ -4,8 +4,8 @@ import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'cities.dart';
-import 'exceptions.dart';
+import 'weather_widgets/cities.dart';
+import 'weather_widgets/exceptions.dart';
 
 class WeatherService {
   final String _apiKey = dotenv.env["1FIZcFAB7TAlN0yCefXy2QNa7HOFx6xX"] ?? "";

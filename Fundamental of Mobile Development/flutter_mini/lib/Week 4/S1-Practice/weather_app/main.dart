@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_mini/Week%204/S1-Practice/weather_app/cities.dart';
+import 'package:flutter_mini/Week%204/S1-Practice/weather_app/weather_widgets/cities.dart';
 import 'package:flutter_mini/Week%204/S1-Practice/weather_app/weather_service.dart';
 
 Future<void> main() async {

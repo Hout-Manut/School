@@ -6,6 +6,7 @@ const double roundThingHeight = 28;
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Container(
           padding: EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 100),
@@ -22,11 +23,20 @@ void main() {
                         HeaderText("Conditions"),
                         SubText("H: 32° L: 24°"),
                         SubText("Feels like 34°"),
-                        Image.asset("assets/images/graph.png"),
+                        SizedBox(height: 70),
+                        SubText("Pretend this is a cool graph"),
+                        SizedBox(height: 120),
                         HeaderText("Precipitation"),
                         SubText("0% Chance"),
-                        Image.asset("assets/images/graph_2.png"),
-                        Image.asset("assets/images/graph_3.png"),
+                        SizedBox(height: 150),
+                        HeaderText("Humidity"),
+                        SubText("70% Humid"),
+                        SubText("c"),
+                        SubText("c"),
+                        SubText("c"),
+                        SubText("c"),
+                        SubText("c"),
+                        SubText("c"),
                       ]),
                 ),
               ),
