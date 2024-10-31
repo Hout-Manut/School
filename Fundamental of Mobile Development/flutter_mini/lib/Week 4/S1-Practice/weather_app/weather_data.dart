@@ -3,18 +3,49 @@ import 'enums.dart';
 
 class WeatherData {
   final List<Timeline> timelines;
+  final Values realtime;
 
-  WeatherData({required this.timelines});
+  WeatherData({required this.timelines, required this.realtime});
 
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
+  factory WeatherData.fromJson(
+      Map<String, dynamic> json, Map<String, dynamic> realtimeData) {
     var timelinesJson = json['data']['timelines'] as List;
     List<Timeline> timelinesList =
         timelinesJson.map((e) => Timeline.fromJson(e)).toList();
 
-    return WeatherData(timelines: timelinesList);
+    Values realtimeValue = Values.override(realtimeData["data"]["values"], timelinesList[0].intervals[2].values);
+
+    return WeatherData(timelines: timelinesList, realtime: realtimeValue);
   }
 
   Timeline get dayIntervals => timelines[0];
+
+  Values getValueDataByDay(SelectedDay day) {
+    try {
+      switch (day) {
+        case SelectedDay.beforeYesterday:
+          return dayIntervals.intervals[0].values;
+        case SelectedDay.yesterday:
+          return dayIntervals.intervals[1].values;
+        case SelectedDay.today:
+          return realtime;
+        case SelectedDay.tomorrow:
+          return dayIntervals.intervals[3].values;
+        case SelectedDay.thirdDay:
+          return dayIntervals.intervals[4].values;
+        case SelectedDay.fourthDay:
+          return dayIntervals.intervals[5].values;
+        case SelectedDay.fifthDay:
+          return dayIntervals.intervals[6].values;
+      }
+    } catch (e) {
+      if (e is RangeError) {
+        return Values.empty();
+      } else {
+        rethrow;
+      }
+    }
+  }
 
   WeatherInterval getIntervalDataByDay(SelectedDay day) {
     try {
@@ -35,32 +66,15 @@ class WeatherData {
           return dayIntervals.intervals[6];
       }
     } catch (e) {
-      // Catch index errors specifically and return a default WeatherInterval
       if (e is RangeError) {
-        return WeatherInterval(
-          startTime: DateTime.now().toString(),
-          values: Values(
-            cloudCover: 0.0,
-            humidity: 0.0,
-            precipitationProbability: 0.0,
-            rainIntensity: 0.0,
-            temperature: 0.0,
-            temperatureMax: 0.0,
-            temperatureMin: 0.0,
-            temperatureApparent: 0.0,
-            windDirection: 0.0,
-            windGust: 0.0,
-            windSpeed: 0.0,
-          ),
-        );
+        return WeatherInterval.empty();
       } else {
-        rethrow; // Re-throw if it’s a different exception
+        rethrow;
       }
     }
   }
 
-
-WindDirection getWindDirection(double windDirection) {
+  WindDirection getWindDirection(double windDirection) {
     if (windDirection >= 337.5 || windDirection < 22.5) {
       return WindDirection.n;
     } else if (windDirection >= 22.5 && windDirection < 67.5) {
@@ -103,19 +117,29 @@ WindDirection getWindDirection(double windDirection) {
     double precipitationProbability = weatherData.precipitationProbability;
     double rainIntensity = weatherData.rainIntensity;
     double windSpeed = weatherData.windSpeed;
-    // double temperature = weatherData["temperature"] ?? 0.0;
 
     // Define conditions
-    bool isRainy = precipitationProbability > 50 && rainIntensity > 0;
-    bool isCloudy = cloudCover > 50;
-    bool isSunny = cloudCover < 20 && precipitationProbability < 20;
+    bool isDrizzle = precipitationProbability > 50 &&
+        rainIntensity > 0 &&
+        rainIntensity < 2.5;
+    bool isRainy = precipitationProbability > 50 && rainIntensity >= 2.5;
+    bool isOvercast = cloudCover > 90;
+    bool isCloudy = cloudCover > 50 && cloudCover <= 90;
+    bool isPartlyCloudy = cloudCover > 20 && cloudCover <= 50;
+    bool isSunny = cloudCover <= 20 && precipitationProbability < 20;
     bool isWindy = windSpeed > 20; // Arbitrary threshold for windy conditions
 
     // Return descriptions based on conditions
-    if (isRainy) {
+    if (isDrizzle) {
+      return "Drizzle";
+    } else if (isRainy) {
       return "Rainy";
+    } else if (isOvercast) {
+      return "Overcast";
     } else if (isCloudy) {
       return "Cloudy";
+    } else if (isPartlyCloudy) {
+      return "Partly Cloudy";
     } else if (isSunny) {
       return "Sunny";
     } else if (isWindy) {
@@ -162,6 +186,10 @@ class WeatherInterval {
     required this.values,
   });
 
+  WeatherInterval.empty()
+      : startTime = DateTime.now().toString(),
+        values = Values.empty();
+
   factory WeatherInterval.fromJson(Map<String, dynamic> json) {
     return WeatherInterval(
       startTime: json['startTime'],
@@ -171,31 +199,81 @@ class WeatherInterval {
 }
 
 class Values {
+  final double cloudBase;
+  final double cloudCeiling;
   final double cloudCover;
+  final double dewPoint;
+  final double freezingRainIntensity;
   final double humidity;
   final double precipitationProbability;
+  final double pressureSurfaceLevel;
   final double rainIntensity;
+  final double sleetIntensity;
+  final double snowIntensity;
   final double temperature;
-  final double temperatureMax;
-  final double temperatureMin;
   final double temperatureApparent;
+  final double uvHealthConcern;
+  final double uvIndex;
+  final double visibility;
+  final double weatherCode;
   final double windDirection;
   final double windGust;
   final double windSpeed;
+  final double temperatureMax;
+  final double temperatureMin;
 
   Values({
+    required this.cloudBase,
+    required this.cloudCeiling,
     required this.cloudCover,
+    required this.dewPoint,
+    required this.freezingRainIntensity,
     required this.humidity,
     required this.precipitationProbability,
+    required this.pressureSurfaceLevel,
     required this.rainIntensity,
+    required this.sleetIntensity,
+    required this.snowIntensity,
     required this.temperature,
-    required this.temperatureMax,
-    required this.temperatureMin,
     required this.temperatureApparent,
+    required this.uvHealthConcern,
+    required this.uvIndex,
+    required this.visibility,
+    required this.weatherCode,
     required this.windDirection,
     required this.windGust,
     required this.windSpeed,
+    required this.temperatureMax,
+    required this.temperatureMin,
   });
+
+  factory Values.override(Map<String, dynamic> json, Values backup) {
+    return Values(
+      cloudCover: json['cloudCover']?.toDouble() ?? backup.cloudCover,
+      humidity: json['humidity']?.toDouble() ?? backup.humidity,
+      precipitationProbability:
+          json['precipitationProbability']?.toDouble() ?? backup.precipitationProbability,
+      rainIntensity: json['rainIntensity']?.toDouble() ?? backup.rainIntensity,
+      temperature: json['temperature']?.toDouble() ?? backup.temperature,
+      temperatureMax: json['temperatureMax']?.toDouble() ?? backup.temperatureMax,
+      temperatureMin: json['temperatureMin']?.toDouble() ?? backup.temperatureMin,
+      temperatureApparent: json['temperatureApparent']?.toDouble() ?? backup.temperatureApparent,
+      windDirection: json['windDirection']?.toDouble() ?? backup.windDirection,
+      windGust: json['windGust']?.toDouble() ?? backup.windGust,
+      windSpeed: json['windSpeed']?.toDouble() ?? backup.windSpeed,
+      cloudBase: json['cloudBase']?.toDouble() ?? backup.cloudBase,
+      cloudCeiling: json['cloudCeiling']?.toDouble() ?? backup.cloudCeiling,
+      dewPoint: json['dewPoint']?.toDouble() ?? backup.dewPoint,
+      freezingRainIntensity: json['freezingRainIntensity']?.toDouble() ?? backup.freezingRainIntensity,
+      pressureSurfaceLevel: json['pressureSurfaceLevel']?.toDouble() ?? backup.pressureSurfaceLevel,
+      sleetIntensity: json['sleetIntensity']?.toDouble() ?? backup.sleetIntensity,
+      snowIntensity: json['snowIntensity']?.toDouble() ?? backup.snowIntensity,
+      uvHealthConcern: json['uvHealthConcern']?.toDouble() ?? backup.uvHealthConcern,
+      uvIndex: json['uvIndex']?.toDouble() ?? backup.uvIndex,
+      visibility: json['visibility']?.toDouble() ?? backup.visibility,
+      weatherCode: json['weatherCode']?.toDouble() ?? backup.weatherCode,
+    );
+  }
 
   factory Values.fromJson(Map<String, dynamic> json) {
     return Values(
@@ -211,6 +289,40 @@ class Values {
       windDirection: json['windDirection']?.toDouble() ?? 0.0,
       windGust: json['windGust']?.toDouble() ?? 0.0,
       windSpeed: json['windSpeed']?.toDouble() ?? 0.0,
+      cloudBase: json['cloudBase']?.toDouble() ?? 0.0,
+      cloudCeiling: json['cloudCeiling']?.toDouble() ?? 0.0,
+      dewPoint: json['dewPoint']?.toDouble() ?? 0.0,
+      freezingRainIntensity: json['freezingRainIntensity']?.toDouble() ?? 0.0,
+      pressureSurfaceLevel: json['pressureSurfaceLevel']?.toDouble() ?? 0.0,
+      sleetIntensity: json['sleetIntensity']?.toDouble() ?? 0.0,
+      snowIntensity: json['snowIntensity']?.toDouble() ?? 0.0,
+      uvHealthConcern: json['uvHealthConcern']?.toDouble() ?? 0.0,
+      uvIndex: json['uvIndex']?.toDouble() ?? 0.0,
+      visibility: json['visibility']?.toDouble() ?? 0.0,
+      weatherCode: json['weatherCode']?.toDouble() ?? 0.0,
     );
   }
+  Values.empty()
+      : cloudCover = 0.0,
+        humidity = 0.0,
+        precipitationProbability = 0.0,
+        rainIntensity = 0.0,
+        temperature = 0.0,
+        temperatureMax = 0.0,
+        temperatureMin = 0.0,
+        temperatureApparent = 0.0,
+        windDirection = 0.0,
+        windGust = 0.0,
+        windSpeed = 0.0,
+        cloudBase = 0.0,
+        cloudCeiling = 0.0,
+        dewPoint = 0.0,
+        freezingRainIntensity = 0.0,
+        pressureSurfaceLevel = 0.0,
+        sleetIntensity = 0.0,
+        snowIntensity = 0.0,
+        uvHealthConcern = 0.0,
+        uvIndex = 0.0,
+        visibility = 0.0,
+        weatherCode = 0.0;
 }

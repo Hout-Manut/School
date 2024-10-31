@@ -69,12 +69,16 @@ enum SelectedDay {
 }
 
 enum WindDirection {
-  n, // North
-  ne, // North-East
-  e, // East
-  se, // South-East
-  s, // South
-  sw, // South-West
-  w, // West
-  nw // North-West
+  n("North"),
+  ne("North East"),
+  e("East"),
+  se("South East"),
+  s("South"),
+  sw("South West"),
+  w("West"),
+  nw("North West");
+
+  final String displayString;
+
+  const WindDirection(this.displayString);
 }

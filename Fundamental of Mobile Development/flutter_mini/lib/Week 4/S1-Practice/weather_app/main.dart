@@ -5,8 +5,6 @@ import 'package:flutter_mini/Week%204/S1-Practice/weather_app/weather_service.da
 import 'package:flutter_mini/Week%204/S1-Practice/weather_app/weather_data.dart';
 import 'dart:async';
 
-import 'dart:math';
-
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   runApp(MaterialApp(
@@ -34,6 +32,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
   dynamic selectedDayData = [];
   Cities currentCity = Cities.phnomPenh;
 
+  String message = "";
+  void setMessage(String message) {
+    setState(() {
+      this.message = message;
+    });
+  }
+
+  String get dynamicMessage {
+    if (message != "") return message;
+    if (isLoading) return "Loading...";
+    if (currentDay == SelectedDay.today) return "Now";
+    return "24 hours average";
+  }
+
   String get dayString {
     if (isLoading) return "Loading...";
     selectedDayData = weatherData.getIntervalDataByDay(currentDay);
@@ -47,7 +59,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   String get weatherDescription {
     if (isLoading) return "Loading...";
     return weatherData.getWeatherDescription(
-        weatherData.getIntervalDataByDay(currentDay).values);
+        weatherData.getValueDataByDay(currentDay));
   }
 
   String get temperatureString {
@@ -80,7 +92,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Cities getCity() => currentCity;
 
   Values get currentDayValues =>
-      weatherData.getIntervalDataByDay(currentDay).values;
+      weatherData.getValueDataByDay(currentDay);
 
   Future<void> clearAndFetchData() async {
     setState(() {
@@ -109,7 +121,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   Future<void> _fetchData() async {
-    final data = await _weatherService.fetchWeatherData(currentCity);
+    final data =
+        await _weatherService.fetchWeatherData(currentCity, setMessage);
     setState(() {
       weatherData = data;
       isLoading = false;
@@ -120,8 +133,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     if (isLoading) return "--";
     return weatherData
         .getWindDirection(currentDayValues.windDirection)
-        .name
-        .toUpperCase();
+        .displayString;
   }
 
   String get chanceOfRainString {
@@ -168,6 +180,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   // Widget getWeatherCard() {
   //   if (isLoading) return
   // }
@@ -184,10 +202,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
               child: SizedBox(
                 width: 390,
                 child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // 2 items per row
-                    mainAxisSpacing: 10, // spacing between rows
-                    crossAxisSpacing: 10, // spacing between columns
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
                   ),
                   children: [
                     const SizedBox(height: 200, width: 200), // Padding
@@ -198,27 +216,34 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     CustomWeatherCard(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 12),
+                          vertical: 10,
+                          horizontal: 12,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const Text(
-                              "Temperature",
-                              style: TextStyle(
-                                color: Color(0xFF717171),
-                                fontSize: 12,
-                                fontFamily: "Afacad",
-                              ),
-                            ),
-                            Text(
-                              textAlign: TextAlign.left,
-                              minMaxTempString,
-                              style: TextStyle(
-                                color: Color(0xFFF15D46),
-                                fontSize: 24,
-                                fontFamily: "Afacad",
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const Text(
+                                  "Temperature",
+                                  style: TextStyle(
+                                    color: Color(0xFF717171),
+                                    fontSize: 12,
+                                    fontFamily: "Afacad",
+                                  ),
+                                ),
+                                Text(
+                                  textAlign: TextAlign.left,
+                                  minMaxTempString,
+                                  style: TextStyle(
+                                    color: const Color(0xFFF15D46),
+                                    fontSize: 24,
+                                    fontFamily: "Afacad",
+                                  ),
+                                ),
+                              ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -233,7 +258,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                                 Text(
                                   temperatureApparentString,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFF15D46),
                                     fontSize: 24,
                                     fontFamily: "Afacad",
@@ -248,13 +273,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     CustomWeatherCard(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 12),
-                        child: Row(
+                          vertical: 10,
+                          horizontal: 12,
+                        ),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 const Text(
                                   "Wind Speed",
@@ -266,7 +293,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                                 Text(
                                   windSpeed,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFF15D46),
                                     fontSize: 18,
                                     fontFamily: "Afacad",
@@ -282,7 +309,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                                 Text(
                                   gustSpeed,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFF15D46),
                                     fontSize: 18,
                                     fontFamily: "Afacad",
@@ -291,7 +318,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               ],
                             ),
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 const Text(
                                   "Direction",
@@ -303,7 +330,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                                 Text(
                                   getWindDirectionString,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFF15D46),
                                     fontSize: 24,
                                     fontFamily: "Afacad",
@@ -318,7 +345,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     CustomWeatherCard(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 12),
+                          vertical: 10,
+                          horizontal: 12,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -332,7 +361,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             ),
                             Text(
                               chanceOfRainString,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFF009CBF),
                                 fontSize: 36,
                                 fontFamily: "Afacad",
@@ -360,7 +389,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               ),
                               Text(
                                 currentDayValues.rainIntensity.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(0xFF009CBF),
                                   fontSize: 36,
                                   fontFamily: "Afacad",
@@ -379,7 +408,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
             Stack(
               children: [
                 AnimatedOpacity(
-                  opacity: overlay ? 0.5 : 0,
+                  opacity: overlay ? 0.75 : 0,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutExpo,
                   child: IgnorePointer(
@@ -393,7 +422,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
@@ -405,18 +434,27 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Center(
-                          child: Text(
-                            dayString,
-                            style: TextStyle(
-                              fontFamily: 'Afacad',
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.none,
+                          child: AnimatedScale(
+                            scale: overlay ? 1.5 : 1,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOutExpo,
+                            child: Text(
+                              dayString,
+                              style: const TextStyle(
+                                fontFamily: 'Afacad',
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                                decoration: TextDecoration.none,
+                              ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        AnimatedContainer(
+                          height: overlay ? 32 : 6,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOutExpo,
+                        ),
                         Tabs(
                           indexGetter: getDayIndex,
                           overlaySetter: setOverlay,
@@ -433,7 +471,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
               alignment: Alignment.topCenter,
               child: Container(
                 height: 250,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -451,7 +489,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     Center(
                       child: Text(
                         temperatureString,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'AdventPro',
                           fontSize: 108,
                           color: Color(0xFFF15D46),
@@ -463,8 +501,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                     Center(
                       child: Text(
                         // "Cloudy",
-                        weatherDescription,
-                        style: TextStyle(
+                        dynamicMessage,
+                        style: const TextStyle(
                           fontFamily: 'Afacad',
                           fontSize: 18,
                           color: Colors.black,
@@ -476,7 +514,30 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   ],
                 ),
               ),
-            )
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+                child: Transform.translate(
+                  offset: Offset(-10, 17),
+                  child: RichText(
+                    text: const TextSpan(
+                      text: "Data provided by ",
+                      style: TextStyle(
+                          fontFamily: "Afacad",
+                          fontSize: 12,
+                          color: Colors.black),
+                      children: [
+                        TextSpan(
+                          text: "tomorrow.io",
+                          style: TextStyle(
+                            color: Color(0xFFF15D46),
+                          ),
+                        )
+                      ],
+                    ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -597,11 +658,9 @@ class _TabsState extends State<Tabs> {
           onHorizontalDragUpdate: onDragUpdate,
           onHorizontalDragEnd: onDragEnd,
           child: AnimatedContainer(
-            // width: expanded ? containerWidth + 20 : containerWidth,
             width: currentContainerWidth,
             height: 32,
             curve: currentCurve,
-            // padding: EdgeInsets.symmetric(horizontal: expanded ? containerPadding + 10 : containerPadding),
             padding: EdgeInsets.symmetric(horizontal: currentContainerPadding),
             decoration: BoxDecoration(
               color: Color(0xFFD9D9D9),
@@ -617,16 +676,19 @@ class _TabsState extends State<Tabs> {
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(daysCount, (index) {
-                        return Container(
-                          width: dotWidth,
-                          height: dotWidth,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF9B9B9B),
-                            shape: BoxShape.circle,
-                          ),
-                        );
-                      }),
+                      children: List.generate(
+                        daysCount,
+                        (index) {
+                          return Container(
+                            width: dotWidth,
+                            height: dotWidth,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF9B9B9B),
+                              shape: BoxShape.circle,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -674,10 +736,12 @@ class _CitySelectorState extends State<CitySelector> {
 
   // void toggleOpen() => opened = !opened;
 
-  void getRandomCity() {
+  void nextCity() {
     setState(() {
-      int result = Random().nextInt(Cities.values.length);
-      Cities newCity = Cities.values[result];
+      int cityLength = Cities.values.length;
+      int currentCityIndex = widget.cityGetter().index;
+      Cities newCity = Cities.values[(currentCityIndex + 1) % cityLength];
+
       widget.citySetter(newCity);
     });
   }
@@ -690,10 +754,10 @@ class _CitySelectorState extends State<CitySelector> {
           IntrinsicWidth(
             child: TextButton(
               style: TextButton.styleFrom(
-                textStyle: TextStyle(fontFamily: "FiraMono"),
+                textStyle: const TextStyle(fontFamily: "FiraMono"),
                 foregroundColor: Colors.black,
               ),
-              onPressed: getRandomCity,
+              onPressed: nextCity,
               child: Center(child: Text(widget.cityGetter().displayName)),
             ),
           ),
