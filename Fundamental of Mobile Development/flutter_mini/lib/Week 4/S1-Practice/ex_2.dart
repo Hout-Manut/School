@@ -2,26 +2,30 @@ import 'package:flutter/material.dart';
 
 enum Products {
   dart(
-      title: "Dart",
-      description: "the best object language",
-      imagePath: "images/dart.png"),
+    title: "Dart",
+    description: "the best object language",
+    imagePath: "assets/images/dart.png",
+  ),
   flutter(
-      title: "Flutter",
-      description: "the best mobile widet library",
-      imagePath: "images/flutter.png"),
+    title: "Flutter",
+    description: "the best mobile widet library",
+    imagePath: "assets/images/flutter.png",
+  ),
   firebase(
-      title: "Firebase",
-      description: "the best cloud database",
-      imagePath: "images/firebase.png");
+    title: "Firebase",
+    description: "the best cloud database",
+    imagePath: "assets/images/firebase.png",
+  );
 
   final String title;
   final String description;
   final String imagePath;
 
-  const Products(
-      {required this.title,
-      required this.description,
-      required this.imagePath});
+  const Products({
+    required this.title,
+    required this.description,
+    required this.imagePath,
+  });
 }
 
 void main() {
