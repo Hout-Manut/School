@@ -4,29 +4,31 @@ import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'weather_widgets/cities.dart';
-import 'weather_widgets/exceptions.dart';
+import 'enums.dart';
+import 'weather_data.dart';
 
 class WeatherService {
-  final String _apiKey = dotenv.env["1FIZcFAB7TAlN0yCefXy2QNa7HOFx6xX"] ?? "";
+  final String _apiKey = dotenv.env["TOMORROW_API_KEY"] ?? "";
   final String _endpoint = "https://api.tomorrow.io/v4/timelines";
+
+  // For testing
+  // final String _endpoint = "http://172.20.160.1:5000/mock-endpoint";
   final Map<Cities, Map<String, dynamic>> _cache = HashMap();
 
   Map<String, String> getTimes() {
     DateTime currentTime = DateTime.now();
-    DateTime startOfDay =
-        DateTime(currentTime.year, currentTime.month, currentTime.day);
+    DateTime startOfYesterday = currentTime.subtract(Duration(hours: 23));
 
-    DateTime fiveDaysLater = currentTime.add(Duration(days: 5));
+    DateTime fiveDaysLater = currentTime.add(Duration(days: 4, hours: 23));
 
     return {
-      "startTime": startOfDay.toUtc().toIso8601String(),
+      "startTime": startOfYesterday.toUtc().toIso8601String(),
       "endTime": fiveDaysLater.toUtc().toIso8601String(),
       "timezone": currentTime.timeZoneName,
     };
   }
 
-  Future<List<Map<String, dynamic>>> fetchWeatherData(Cities city) async {
+  Future<WeatherData> fetchWeatherData(Cities city) async {
     final currentTimestamp = DateTime.now();
 
     if (_cache.containsKey(city)) {
@@ -38,7 +40,7 @@ class WeatherService {
         return cacheEntry!["data"];
       }
     }
-    final data = await _fetch(city.name);
+    final data = await _fetch(city);
     _cache[city] = {
       "timestamp": currentTimestamp,
       "data": data,
@@ -46,28 +48,30 @@ class WeatherService {
     return data;
   }
 
-  Future<List<Map<String, dynamic>>> _fetch(String cityName) async {
+  Future<WeatherData> _fetch(Cities city) async {
     final Uri url = Uri.parse("$_endpoint?apikey=$_apiKey");
     final Map<String, String> time = getTimes();
 
     final Map<String, dynamic> payload = {
-      "location": "11.5564,104.9282",
+      "location": city.latLon,
       "fields": [
         "cloudCover",
         "humidity",
         "precipitationProbability",
         "rainIntensity",
         "temperature",
+        "temperatureMax",
+        "temperatureMin",
         "temperatureApparent",
         "windDirection",
         "windGust",
         "windSpeed",
       ],
       "units": "metric",
-      "timesteps": ["1h"],
+      "timesteps": ["1h", "1d"],
       "startTime": time["startTime"],
       "endTime": time["endTime"],
-      "timezone": "auto"
+      "timezone": city.timezone,
     };
 
     final Map<String, String> headers = {
@@ -89,10 +93,9 @@ class WeatherService {
     }
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return data['data']['timelines'][0]['intervals'];
+      return WeatherData.fromJson(data);
     } else {
-      throw HttpStatusCodes.fromCode(response.statusCode) ??
-          Exception("Failed with status: ${response.statusCode}");
+      throw Exception("Failed with status: ${response.statusCode}");
     }
   }
 }
