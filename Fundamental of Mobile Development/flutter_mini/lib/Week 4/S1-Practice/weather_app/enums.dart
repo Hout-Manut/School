@@ -17,17 +17,18 @@ enum Cities {
 }
 
 enum SelectedDay {
-  beforeYesterday(0),
-  yesterday(1),
-  today(2),
-  tomorrow(3),
-  thirdDay(4),
-  fourthDay(5),
-  fifthDay(6);
+  beforeYesterday(0, "2 Days Ago"),
+  yesterday(1, "Yesterday"),
+  today(2, "Today"),
+  tomorrow(3, "Tomorrow"),
+  thirdDay(4, "The Day After Tomorrow"),
+  fourthDay(5, "The Day After The Day After Tomorrow"),
+  fifthDay(6, "The Day After The Day After The Day After Tomorrow");
 
-  const SelectedDay(this.i);
+  const SelectedDay(this.i, this.placeholderName);
 
   final int i;
+  final String placeholderName;
 
   SelectedDay next() {
     switch (this) {

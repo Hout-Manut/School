@@ -94,8 +94,7 @@ class WeatherData {
     }
   }
 
-  String getDayStringFromData(
-      SelectedDay selectedDay, WeatherInterval dayData) {
+  String getDayStringFromData(SelectedDay selectedDay, WeatherInterval dayData) {
     String suffix = "";
 
     if (selectedDay.i == 1) {

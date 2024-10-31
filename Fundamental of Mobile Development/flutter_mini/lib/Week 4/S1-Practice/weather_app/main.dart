@@ -47,7 +47,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   String get dayString {
-    if (isLoading) return "Loading...";
+    if (isLoading) return currentDay.placeholderName;
     selectedDayData = weatherData.getIntervalDataByDay(currentDay);
     return weatherData.getDayStringFromData(currentDay, selectedDayData);
   }
@@ -152,6 +152,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
     if (isLoading) return "-- km/h";
     double speed = currentDayValues.windGust;
     return "$speed kh/h";
+  }
+
+  void resetDay() {
+    setState(() {
+      currentDay = SelectedDay.today;
+    });
   }
 
   Widget getConditionImage() {
@@ -458,6 +464,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         Tabs(
                           indexGetter: getDayIndex,
                           overlaySetter: setOverlay,
+                          resetIndex: resetDay,
                           setIndexPrevious: setDayPrevious,
                           setIndexNext: setDayNext,
                         )
@@ -505,7 +512,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         style: const TextStyle(
                           fontFamily: 'Afacad',
                           fontSize: 18,
-                          color: Colors.black,
+                          color: Color(0xFF5E5E5E),
                           fontWeight: FontWeight.w700,
                           decoration: TextDecoration.none,
                         ),
@@ -548,12 +555,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
 class Tabs extends StatefulWidget {
   final int Function() indexGetter;
   final void Function() setIndexPrevious;
+  final void Function() resetIndex;
   final void Function() setIndexNext;
   final void Function(bool) overlaySetter;
 
   const Tabs({
     required this.indexGetter,
     required this.overlaySetter,
+    required this.resetIndex,
     required this.setIndexPrevious,
     required this.setIndexNext,
     super.key,
@@ -582,7 +591,11 @@ class _TabsState extends State<Tabs> {
   static const double totalDistance = containerWidth - 2;
   static const double stepSize = totalDistance / daysCount;
 
-  Curve currentCurve = Curves.elasticOut;
+  Curve containerCurve = Curves.elasticOut;
+  Curve ballCurve = Curves.easeOutExpo;
+  static const Duration ballNormalDuration = Duration(milliseconds: 150);
+  static const Duration ballReturnDuration = Duration(milliseconds: 500);
+  Duration ballDuration = ballNormalDuration;
   double dragStartX = 0.0;
   bool expanded = false;
   int get tabIndex => widget.indexGetter();
@@ -595,19 +608,26 @@ class _TabsState extends State<Tabs> {
   }
 
   void resetState() {
-    currentCurve = Curves.easeOutExpo;
+    containerCurve = Curves.easeOutExpo;
     setState(() {
       expanded = false;
       widget.overlaySetter(false);
     });
   }
 
-  void onTapUp(TapUpDetails details) => resetState();
+  void onTapUp(TapUpDetails details) {
+    widget.resetIndex();
+    ballCurve = Curves.elasticOut;
+    ballDuration = ballReturnDuration;
+    resetState();
+  }
 
   void onLongPressUp() => resetState();
 
   void onDragStart(DragStartDetails details) {
-    currentCurve = Curves.elasticOut;
+    containerCurve = Curves.elasticOut;
+    ballCurve = Curves.easeOutExpo;
+    ballDuration = ballNormalDuration;
     dragStartX = details.globalPosition.dx;
     setState(() {
       expanded = true;
@@ -660,7 +680,7 @@ class _TabsState extends State<Tabs> {
           child: AnimatedContainer(
             width: currentContainerWidth,
             height: 32,
-            curve: currentCurve,
+            curve: containerCurve,
             padding: EdgeInsets.symmetric(horizontal: currentContainerPadding),
             decoration: BoxDecoration(
               color: Color(0xFFD9D9D9),
@@ -693,8 +713,8 @@ class _TabsState extends State<Tabs> {
                   ),
                 ),
                 AnimatedPositioned(
-                  duration: const Duration(milliseconds: 150),
-                  curve: Curves.easeOutExpo,
+                  duration: ballDuration,
+                  curve: ballCurve,
                   left: indicatorLeft,
                   top: (32 - indicatorWidth) / 2,
                   child: Container(
