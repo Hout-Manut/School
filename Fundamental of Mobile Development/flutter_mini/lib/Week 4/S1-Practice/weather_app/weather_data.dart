@@ -13,7 +13,8 @@ class WeatherData {
     List<Timeline> timelinesList =
         timelinesJson.map((e) => Timeline.fromJson(e)).toList();
 
-    Values realtimeValue = Values.override(realtimeData["data"]["values"], timelinesList[0].intervals[2].values);
+    Values realtimeValue = Values.override(
+        realtimeData["data"]["values"], timelinesList[0].intervals[2].values);
 
     return WeatherData(timelines: timelinesList, realtime: realtimeValue);
   }
@@ -94,7 +95,8 @@ class WeatherData {
     }
   }
 
-  String getDayStringFromData(SelectedDay selectedDay, WeatherInterval dayData) {
+  String getDayStringFromData(
+      SelectedDay selectedDay, WeatherInterval dayData) {
     String suffix = "";
 
     if (selectedDay.i == 1) {
@@ -111,7 +113,7 @@ class WeatherData {
     return "$suffix${formatter.format(date)}";
   }
 
-  String getWeatherDescription(Values weatherData) {
+  WeatherCondition getWeatherDescription(Values weatherData) {
     double cloudCover = weatherData.cloudCover;
     double precipitationProbability = weatherData.precipitationProbability;
     double rainIntensity = weatherData.rainIntensity;
@@ -125,26 +127,24 @@ class WeatherData {
     bool isOvercast = cloudCover > 90;
     bool isCloudy = cloudCover > 50 && cloudCover <= 90;
     bool isPartlyCloudy = cloudCover > 20 && cloudCover <= 50;
-    bool isSunny = cloudCover <= 20 && precipitationProbability < 20;
     bool isWindy = windSpeed > 20; // Arbitrary threshold for windy conditions
+    // bool isSunny = cloudCover <= 20 && precipitationProbability < 20;
 
     // Return descriptions based on conditions
     if (isDrizzle) {
-      return "Drizzle";
+      return WeatherCondition.drizzle;
     } else if (isRainy) {
-      return "Rainy";
+      return WeatherCondition.rainy;
     } else if (isOvercast) {
-      return "Overcast";
+      return WeatherCondition.overcast;
     } else if (isCloudy) {
-      return "Cloudy";
+      return WeatherCondition.cloudy;
     } else if (isPartlyCloudy) {
-      return "Partly Cloudy";
-    } else if (isSunny) {
-      return "Sunny";
+      return WeatherCondition.partlyCloudy;
     } else if (isWindy) {
-      return "Windy";
+      return WeatherCondition.windy;
     } else {
-      return "Clear";
+      return WeatherCondition.sunny;
     }
   }
 }
@@ -250,24 +250,31 @@ class Values {
     return Values(
       cloudCover: json['cloudCover']?.toDouble() ?? backup.cloudCover,
       humidity: json['humidity']?.toDouble() ?? backup.humidity,
-      precipitationProbability:
-          json['precipitationProbability']?.toDouble() ?? backup.precipitationProbability,
+      precipitationProbability: json['precipitationProbability']?.toDouble() ??
+          backup.precipitationProbability,
       rainIntensity: json['rainIntensity']?.toDouble() ?? backup.rainIntensity,
       temperature: json['temperature']?.toDouble() ?? backup.temperature,
-      temperatureMax: json['temperatureMax']?.toDouble() ?? backup.temperatureMax,
-      temperatureMin: json['temperatureMin']?.toDouble() ?? backup.temperatureMin,
-      temperatureApparent: json['temperatureApparent']?.toDouble() ?? backup.temperatureApparent,
+      temperatureMax:
+          json['temperatureMax']?.toDouble() ?? backup.temperatureMax,
+      temperatureMin:
+          json['temperatureMin']?.toDouble() ?? backup.temperatureMin,
+      temperatureApparent:
+          json['temperatureApparent']?.toDouble() ?? backup.temperatureApparent,
       windDirection: json['windDirection']?.toDouble() ?? backup.windDirection,
       windGust: json['windGust']?.toDouble() ?? backup.windGust,
       windSpeed: json['windSpeed']?.toDouble() ?? backup.windSpeed,
       cloudBase: json['cloudBase']?.toDouble() ?? backup.cloudBase,
       cloudCeiling: json['cloudCeiling']?.toDouble() ?? backup.cloudCeiling,
       dewPoint: json['dewPoint']?.toDouble() ?? backup.dewPoint,
-      freezingRainIntensity: json['freezingRainIntensity']?.toDouble() ?? backup.freezingRainIntensity,
-      pressureSurfaceLevel: json['pressureSurfaceLevel']?.toDouble() ?? backup.pressureSurfaceLevel,
-      sleetIntensity: json['sleetIntensity']?.toDouble() ?? backup.sleetIntensity,
+      freezingRainIntensity: json['freezingRainIntensity']?.toDouble() ??
+          backup.freezingRainIntensity,
+      pressureSurfaceLevel: json['pressureSurfaceLevel']?.toDouble() ??
+          backup.pressureSurfaceLevel,
+      sleetIntensity:
+          json['sleetIntensity']?.toDouble() ?? backup.sleetIntensity,
       snowIntensity: json['snowIntensity']?.toDouble() ?? backup.snowIntensity,
-      uvHealthConcern: json['uvHealthConcern']?.toDouble() ?? backup.uvHealthConcern,
+      uvHealthConcern:
+          json['uvHealthConcern']?.toDouble() ?? backup.uvHealthConcern,
       uvIndex: json['uvIndex']?.toDouble() ?? backup.uvIndex,
       visibility: json['visibility']?.toDouble() ?? backup.visibility,
       weatherCode: json['weatherCode']?.toDouble() ?? backup.weatherCode,

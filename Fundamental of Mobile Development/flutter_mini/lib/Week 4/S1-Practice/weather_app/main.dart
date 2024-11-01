@@ -56,10 +56,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
     return weatherData.getIntervalDataByDay(currentDay);
   }
 
-  String get weatherDescription {
-    if (isLoading) return "Loading...";
-    return weatherData.getWeatherDescription(
-        weatherData.getValueDataByDay(currentDay));
+  WeatherCondition? get weatherCondition {
+    if (isLoading) return null;
+    return weatherData
+        .getWeatherDescription(weatherData.getValueDataByDay(currentDay));
   }
 
   String get temperatureString {
@@ -91,8 +91,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   Cities getCity() => currentCity;
 
-  Values get currentDayValues =>
-      weatherData.getValueDataByDay(currentDay);
+  Values get currentDayValues => weatherData.getValueDataByDay(currentDay);
 
   Future<void> clearAndFetchData() async {
     setState(() {
@@ -161,17 +160,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   Widget getConditionImage() {
-    if (isLoading) {
+    WeatherCondition? condition = weatherCondition;
+    if (condition == null) {
       return Center(
         child: SizedBox(
-          width: 64,
-          height: 64,
+          width: 32,
+          height: 32,
           child: CircularProgressIndicator(),
         ),
       );
     }
-    String condition = weatherDescription;
-    return Image.asset("assets/images/weather/$condition.png");
+    return Image.asset(condition.imagePath);
   }
 
   bool get isRaining {
@@ -182,7 +181,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   void initState() {
     _fetchData();
-    timer = Timer.periodic(Duration(seconds: 30), (Timer t) => _fetchData());
+    timer =
+        Timer.periodic(const Duration(minutes: 1), (Timer t) => _fetchData());
     super.initState();
   }
 
@@ -524,24 +524,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
             ),
             Align(
               alignment: Alignment.bottomLeft,
-                child: Transform.translate(
-                  offset: Offset(-10, 17),
-                  child: RichText(
-                    text: const TextSpan(
-                      text: "Data provided by ",
-                      style: TextStyle(
-                          fontFamily: "Afacad",
-                          fontSize: 12,
-                          color: Colors.black),
-                      children: [
-                        TextSpan(
-                          text: "tomorrow.io",
-                          style: TextStyle(
-                            color: Color(0xFFF15D46),
-                          ),
-                        )
-                      ],
-                    ),
+              child: Transform.translate(
+                offset: Offset(-10, 17),
+                child: RichText(
+                  text: const TextSpan(
+                    text: "Data provided by ",
+                    style: TextStyle(
+                        fontFamily: "Afacad",
+                        fontSize: 12,
+                        color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: "tomorrow.io",
+                        style: TextStyle(
+                          color: Color(0xFFF15D46),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -600,12 +600,8 @@ class _TabsState extends State<Tabs> {
   bool expanded = false;
   int get tabIndex => widget.indexGetter();
 
-  void onTapDown(TapDownDetails details) {
-    setState(() {
-      expanded = true;
-      widget.overlaySetter(true);
-    });
-  }
+  void onTapDown(TapDownDetails details) =>
+      calculateStart(details.globalPosition.dx);
 
   void resetState() {
     containerCurve = Curves.easeOutExpo;
@@ -624,20 +620,28 @@ class _TabsState extends State<Tabs> {
 
   void onLongPressUp() => resetState();
 
-  void onDragStart(DragStartDetails details) {
+  void onDragStart(DragStartDetails details) =>
+      calculateStart(details.globalPosition.dx);
+
+  void onDragEnd(DragEndDetails details) => resetState();
+
+  void onLongPressStart(LongPressStartDetails details) =>
+      calculateStart(details.globalPosition.dx);
+
+  void calculateStart(double globalPositionX) {
     containerCurve = Curves.elasticOut;
     ballCurve = Curves.easeOutExpo;
     ballDuration = ballNormalDuration;
-    dragStartX = details.globalPosition.dx;
+    dragStartX = globalPositionX;
     setState(() {
       expanded = true;
       widget.overlaySetter(true);
     });
   }
 
-  void onDragUpdate(DragUpdateDetails details) {
+  void calculateMovement(double globalPositionX) {
     setState(() {
-      final dragOffset = details.globalPosition.dx - dragStartX;
+      final dragOffset = globalPositionX - dragStartX;
 
       if (dragOffset.abs() > dragThreshold) {
         if (dragOffset < 0) {
@@ -645,14 +649,15 @@ class _TabsState extends State<Tabs> {
         } else {
           widget.setIndexNext();
         }
-        dragStartX = details.globalPosition.dx;
+        dragStartX = globalPositionX;
       }
     });
   }
 
-  void onDragEnd(DragEndDetails details) {
-    resetState();
-  }
+  void onLongPressMoveUpdate(LongPressMoveUpdateDetails details) =>
+      calculateMovement(details.globalPosition.dx);
+  void onDragUpdate(DragUpdateDetails details) =>
+      calculateMovement(details.globalPosition.dx);
 
   double get currentContainerWidth =>
       expanded ? containerWidth + 20 : containerWidth;
@@ -677,6 +682,8 @@ class _TabsState extends State<Tabs> {
           onHorizontalDragStart: onDragStart,
           onHorizontalDragUpdate: onDragUpdate,
           onHorizontalDragEnd: onDragEnd,
+          onLongPressStart: onLongPressStart,
+          onLongPressMoveUpdate: onLongPressMoveUpdate,
           child: AnimatedContainer(
             width: currentContainerWidth,
             height: 32,

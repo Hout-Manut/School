@@ -69,6 +69,21 @@ enum SelectedDay {
   }
 }
 
+enum WeatherCondition {
+  cloudy("Cloudy", "assets/images/weather/Cloudy.png"),
+  drizzle("Drizzle", "assets/images/weather/Drizzle.png"),
+  overcast("Overcast", "assets/images/weather/Overcast.png"),
+  partlyCloudy("Partly CLoudy", "assets/images/weather/Partly Cloudy.png"),
+  rainy("Rainy", "assets/images/weather/Rainy.png"),
+  sunny("Sunny", "assets/images/weather/Sunny.png"),
+  windy("Windy", "assets/images/weather/Windy.png");
+
+  const WeatherCondition(this.displayName, this.imagePath);
+
+  final String displayName;
+  final String imagePath;
+}
+
 enum WindDirection {
   n("North"),
   ne("North East"),
