@@ -666,9 +666,6 @@ class _TabsState extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
-    // Constants
-
-    // Recalculate spaceBetweenDots
     double spaceBetweenDots =
         (effectiveContainerWidth - totalDotsWidth) / (daysCount - 1);
 
