@@ -243,8 +243,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 Text(
                                   textAlign: TextAlign.left,
                                   minMaxTempString,
-                                  style: TextStyle(
-                                    color: const Color(0xFFF15D46),
+                                  style: const TextStyle(
+                                    color: Color(0xFFF15D46),
                                     fontSize: 24,
                                     fontFamily: "Afacad",
                                   ),
