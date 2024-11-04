@@ -5,7 +5,7 @@ void main() {
     debugShowCheckedModeBanner: false,
     home: Scaffold(
       appBar: AppBar(
-        title: Text("Scores"),
+        title: const Text("Scores"),
       ),
       backgroundColor: Colors.lightGreen,
       body: Center(
@@ -19,33 +19,27 @@ void main() {
                   "My score in Flutter",
                   gradient: [
                     Colors.green[200]!,
-                    Colors.green,
                     Colors.green[900]!,
                   ],
-                  maxValue: 9,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ProgressCard(
                   "My score in Dart",
                   gradient: [
                     Colors.green[200]!,
-                    Colors.green,
                     Colors.green[900]!,
                   ],
-                  maxValue: 9,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ProgressCard(
                   "My score in React",
                   gradient: [
                     Colors.green[200]!,
-                    Colors.green,
                     Colors.green[900]!,
                   ],
-                  maxValue: 9,
                 ),
-                SizedBox(height: 10),
-                ProgressCard(
+                const SizedBox(height: 10),
+                const ProgressCard(
                   "Saihong O' Meter",
                   gradient: [
                     Colors.red,
@@ -56,7 +50,8 @@ void main() {
                     Colors.indigo,
                     Colors.purple,
                   ],
-                  maxValue: 50,
+                  maxValue: 49, // 50 steps
+                  minimumPercentage: 0.01, // Bar always is 1% filled
                 )
               ],
             ),
@@ -77,7 +72,7 @@ class ProgressCard extends StatefulWidget {
 
   /// The minimum value from 0.0 to 1.0 of the range you can set to.
   /// Setting this to above 0.0 will make the bar never empty.
-  final double minimumAllowedFactor;
+  final double minimumPercentage;
 
   const ProgressCard(
     this.title, {
@@ -86,7 +81,7 @@ class ProgressCard extends StatefulWidget {
     this.minValue = 0,
     this.defaultValue,
     this.maxValue = 9,
-    this.minimumAllowedFactor = 0.01,
+    this.minimumPercentage = 0,
     super.key,
   });
 
@@ -98,7 +93,7 @@ class _ProgressState extends State<ProgressCard> {
   late int currentValue;
   late double extrusionAmount;
   final int extrudeTime = 90;
-  double minimumAllowedFactor = 0.01;
+  double minimumPercentage = 0.01;
   static const double basePadding = 20;
   static const double borderRadius = 16;
 
@@ -124,14 +119,14 @@ class _ProgressState extends State<ProgressCard> {
   @override
   void initState() {
     currentValue = widget.defaultValue ?? widget.minValue;
-    minimumAllowedFactor = widget.minimumAllowedFactor;
+    minimumPercentage = widget.minimumPercentage;
     calculateExtrusionAmount();
     super.initState();
   }
 
   void resetPadding() {
     setState(() {
-      minimumAllowedFactor = widget.minimumAllowedFactor;
+      minimumPercentage = widget.minimumPercentage;
       leftPadding = basePadding;
       rightPadding = basePadding;
     });
@@ -142,7 +137,7 @@ class _ProgressState extends State<ProgressCard> {
   /// The normalized value from 0.0 to 1.0.
   double get currentFactor {
     double factor = currentValue / widget.maxValue;
-    if (factor <= minimumAllowedFactor) return minimumAllowedFactor;
+    if (factor <= minimumPercentage) return minimumPercentage;
     return factor;
   }
 
@@ -179,7 +174,7 @@ class _ProgressState extends State<ProgressCard> {
       if (currentValue == widget.maxValue) {
         rightPadding = basePadding - extrusionAmount;
         leftPadding = basePadding + extrusionAmount / 2;
-        minimumAllowedFactor = 0;
+        minimumPercentage = 0;
         return;
       }
       currentValue += 1;
@@ -191,7 +186,7 @@ class _ProgressState extends State<ProgressCard> {
       if (currentValue == widget.minValue) {
         leftPadding = basePadding - extrusionAmount;
         rightPadding = basePadding + extrusionAmount / 2;
-        minimumAllowedFactor = 0;
+        minimumPercentage = 0;
         return;
       }
       currentValue -= 1;
