@@ -4,8 +4,6 @@ This app shows a few weather information from various cities.
 
 Due to the API's limitations, you can only see the past 2 days, today and the next 4 days.
 
-Currently you cannot change the city yourself. Tapping it will loop through a set of cities for now.
-
 
 #### Set up:
 

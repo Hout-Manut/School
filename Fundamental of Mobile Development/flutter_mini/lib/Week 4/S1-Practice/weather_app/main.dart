@@ -25,12 +25,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
   final WeatherService _weatherService = WeatherService();
   Timer? timer;
 
+  final List<Cities> cities = Cities.values;
+  int currentCityIndex = 0;
+
+  Cities get currentCity => cities[currentCityIndex];
+  set currentCity(Cities newCity) => currentCityIndex = newCity.index;
+
   late WeatherData weatherData;
   bool isLoading = true;
   SelectedDay currentDay = SelectedDay.today;
   bool overlay = false;
+  bool zoomText = false;
   dynamic selectedDayData = [];
-  Cities currentCity = Cities.phnomPenh;
 
   String message = "";
   void setMessage(String message) {
@@ -43,7 +49,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     if (message != "") return message;
     if (isLoading) return "Loading...";
     if (currentDay == SelectedDay.today) return "Now";
-    return "24 hours average";
+    return "";
   }
 
   String get dayString {
@@ -64,6 +70,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   String get temperatureString {
     if (isLoading) return "--°";
+    if (currentDay != SelectedDay.today) return minMaxTempString;
     int temp = currentDayValues.temperature.round();
 
     return "$temp°";
@@ -441,7 +448,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       children: [
                         Center(
                           child: AnimatedScale(
-                            scale: overlay ? 1.5 : 1,
+                            scale: zoomText ? 1.5 : 1,
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeOutExpo,
                             child: Text(
@@ -457,7 +464,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           ),
                         ),
                         AnimatedContainer(
-                          height: overlay ? 32 : 6,
+                          height: zoomText ? 32 : 6,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.easeOutExpo,
                         ),
@@ -467,6 +474,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           resetIndex: resetDay,
                           setIndexPrevious: setDayPrevious,
                           setIndexNext: setDayNext,
+                          zoomSetter: (bool b) => setState(() {
+                            zoomText = b;
+                            overlay = b;
+                          }),
                         )
                       ],
                     ),
@@ -476,50 +487,53 @@ class _WeatherScreenState extends State<WeatherScreen> {
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: Container(
-                height: 250,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.7, 1.0],
-                    colors: [Colors.white, Color(0x00FFFFFF)],
+              child: Column(
+                children: [
+                  Container(
+                    height: 48,
+                    color: Colors.white,
                   ),
-                ),
-                child: Column(
-                  children: [
-                    CitySelector(
-                      citySetter: setCity,
-                      cityGetter: getCity,
-                      overlaySetter: setOverlay,
-                    ),
-                    Center(
-                      child: Text(
-                        temperatureString,
-                        style: const TextStyle(
-                          fontFamily: 'AdventPro',
-                          fontSize: 108,
-                          color: Color(0xFFF15D46),
-                          fontWeight: FontWeight.w400,
-                          decoration: TextDecoration.none,
-                        ),
+                  Container(
+                    height: 250,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: [0.7, 1.0],
+                        colors: [Colors.white, Color(0x00FFFFFF)],
                       ),
                     ),
-                    Center(
-                      child: Text(
-                        // "Cloudy",
-                        dynamicMessage,
-                        style: const TextStyle(
-                          fontFamily: 'Afacad',
-                          fontSize: 18,
-                          color: Color(0xFF5E5E5E),
-                          fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.none,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            temperatureString,
+                            style: const TextStyle(
+                              fontFamily: 'AdventPro',
+                              fontSize: 108,
+                              color: Color(0xFFF15D46),
+                              fontWeight: FontWeight.w400,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
                         ),
-                      ),
+                        Center(
+                          child: Text(
+                            // "Cloudy",
+                            dynamicMessage,
+                            style: const TextStyle(
+                              fontFamily: 'Afacad',
+                              fontSize: 18,
+                              color: Color(0xFF5E5E5E),
+                              fontWeight: FontWeight.w700,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Align(
@@ -545,6 +559,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 ),
               ),
             ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: CitySelector(
+                citySetter: setCity,
+                cityGetter: getCity,
+                overlaySetter: setOverlay,
+                allCitiesGetter: () => cities,
+              ),
+            ),
           ],
         ),
       ),
@@ -558,6 +581,7 @@ class Tabs extends StatefulWidget {
   final void Function() resetIndex;
   final void Function() setIndexNext;
   final void Function(bool) overlaySetter;
+  final void Function(bool) zoomSetter;
 
   const Tabs({
     required this.indexGetter,
@@ -565,6 +589,7 @@ class Tabs extends StatefulWidget {
     required this.resetIndex,
     required this.setIndexPrevious,
     required this.setIndexNext,
+    required this.zoomSetter,
     super.key,
   });
 
@@ -607,7 +632,7 @@ class _TabsState extends State<Tabs> {
     containerCurve = Curves.easeOutExpo;
     setState(() {
       expanded = false;
-      widget.overlaySetter(false);
+      widget.zoomSetter(false);
     });
   }
 
@@ -635,7 +660,7 @@ class _TabsState extends State<Tabs> {
     dragStartX = globalPositionX;
     setState(() {
       expanded = true;
-      widget.overlaySetter(true);
+      widget.zoomSetter(true);
     });
   }
 
@@ -743,11 +768,13 @@ class CitySelector extends StatefulWidget {
   final void Function(Cities) citySetter;
   final void Function(bool) overlaySetter;
   final Cities Function() cityGetter;
+  final List<Cities> Function() allCitiesGetter;
 
   const CitySelector({
     required this.citySetter,
     required this.cityGetter,
     required this.overlaySetter,
+    required this.allCitiesGetter,
     super.key,
   });
 
@@ -758,7 +785,12 @@ class CitySelector extends StatefulWidget {
 class _CitySelectorState extends State<CitySelector> {
   bool opened = false;
 
-  // void toggleOpen() => opened = !opened;
+  void toggleOpen() {
+    setState(() {
+      opened = !opened;
+      widget.overlaySetter(opened);
+    });
+  }
 
   void nextCity() {
     setState(() {
@@ -770,21 +802,76 @@ class _CitySelectorState extends State<CitySelector> {
     });
   }
 
+  List<Widget> citiesList() {
+    List<Cities> allCities = widget.allCitiesGetter();
+    List<Widget> children = [
+      const Divider(),
+    ];
+
+    children.addAll(
+      List.generate(
+        allCities.length,
+        (index) {
+          return TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontFamily: "FiraMono"),
+              foregroundColor: Colors.black,
+              backgroundColor: widget.cityGetter().index == index
+                  ? const Color(0x10000000)
+                  : null,
+            ),
+            onPressed: () {
+              setState(() {
+                widget.citySetter(allCities[index]);
+                toggleOpen();
+              });
+            },
+            child: Center(child: Text(allCities[index].displayName)),
+          );
+        },
+      ),
+    );
+
+    return children;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
+    return AnimatedContainer(
+      height: opened ? 260 : 48,
+      width: 390,
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        // border: opened ? Border.all(color: const Color(0xFF9B9B9B)) : null,
+        borderRadius: BorderRadius.circular(8),
+        color: opened ? const Color(0xEEEEEEEE) : null,
+      ),
+      curve: Curves.easeOutExpo,
+      child: Column(
         children: [
-          IntrinsicWidth(
-            child: TextButton(
-              style: TextButton.styleFrom(
-                textStyle: const TextStyle(fontFamily: "FiraMono"),
-                foregroundColor: Colors.black,
-              ),
-              onPressed: nextCity,
-              child: Center(child: Text(widget.cityGetter().displayName)),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontFamily: "FiraMono"),
+              foregroundColor: Colors.black,
             ),
+            onPressed: toggleOpen,
+            child: Center(child: Text(widget.cityGetter().displayName)),
           ),
+          AnimatedOpacity(
+            opacity: opened ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOutExpo,
+            child: AnimatedContainer(
+              height: opened ? 228 : 0,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutExpo,
+              child: ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                children: citiesList(),
+              ),
+            ),
+          )
         ],
       ),
     );
