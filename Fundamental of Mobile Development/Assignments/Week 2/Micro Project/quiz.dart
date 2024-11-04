@@ -162,7 +162,7 @@ class Result {
 
 class User {
   final String firstName;
-  final String lastName;
+  final String? lastName;
   final List<Result> history = [];
   final int _id;
   final Quiz quiz;
@@ -170,13 +170,13 @@ class User {
   User({
     required int id,
     required this.firstName,
-    required this.lastName,
+    this.lastName,
     required this.quiz,
   }) : _id = id;
 
   @override
   bool operator ==(covariant User other) {
-    return firstName == other.firstName && lastName == other.lastName;
+    return _id == other._id;
   }
 
   /// Check if this user has answered a question.
@@ -220,7 +220,10 @@ class User {
 
   @override
   String toString() {
-    return "User($firstName $lastName)";
+    String displayName = firstName;
+    if (lastName != null) displayName = "$displayName $lastName";
+
+    return "User($displayName)";
   }
 
   void printHistory() {
@@ -271,7 +274,7 @@ class Quiz {
   /// `id` is optional and will generate one if not provided.
   User newUser({
     required String firstName,
-    required String lastName,
+    String? lastName,
     int? id,
   }) {
     int idToUse = id ?? this._generateNewId(this.users);
@@ -345,7 +348,7 @@ class Quiz {
   }
 
   /// Ask a user a question. If `question` is not provided, gets a random question.
-  Result ask({required User user, Question? question}) {
+  Result ask(User user, {Question? question}) {
     Question q = question ?? this.randomQuestion(user);
 
     Set<int> guesses = askAndGetIndexes(q);
@@ -363,7 +366,7 @@ class Quiz {
 
   /// Gets a random question from the list of questions.
   ///
-  /// If `user` is passed, returns a random question that this user has never answered before.
+  /// If `user` is passed, returns a random question that user has never answered before.
   Question randomQuestion([User? user]) {
     if (user == null) return _trueRandomQuestion();
 
@@ -393,10 +396,8 @@ class Quiz {
   Set<int> askAndGetIndexes(Question question) {
     print(question.title);
     print("Choices:");
-    question.availibleChoices
-        .getNames()
-        .indexed
-        .forEach((name) => print("${name.$1 + 1}: ${name.$2}"));
+    List<String> choices = question.availibleChoices.getNames();
+    choices.indexed.forEach((name) => print("${name.$1 + 1}: ${name.$2}"));
     Set<int> indexes;
     String prompt;
     switch (question.type) {

@@ -3,27 +3,34 @@ import 'dart:io';
 import 'quiz.dart';
 
 void main() {
+
+  // this quiz object already has some questions and a guest user with id `0`.
   Quiz quiz = demo();
 
-  User player = quiz.newUser(firstName: "Manut", lastName: "Hout");
+  User guest = quiz.getUserWithId(0);
+
+  // User playerManut = quiz.newUser(firstName: "Manut", lastName: "Hout");
 
   while (true) {
-    Result result = quiz.ask(user: player);
+    Result result = quiz.ask(guest);
+    // Result result = quiz.ask(user: playerManut);
     print(result.isCorrect ? "Correct" : "Incorrect");
 
-    print("Continue? (Enter):");
+    print("Continue? (Enter) (Any input + enter to exit):");
     String? opt = stdin.readLineSync();
     if (opt == "") continue;
     break;
   }
 
   print("\n\n\n\n");
-  player.printHistory();
+  guest.printHistory();
 }
 
 
 Quiz demo() {
   Quiz quiz = Quiz();
+
+  quiz.newUser(id: 0, firstName: "Guest");
 
   quiz.addQuestion(
     Question(
