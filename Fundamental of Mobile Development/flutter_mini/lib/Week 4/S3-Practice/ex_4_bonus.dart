@@ -29,6 +29,7 @@ void main() {
                     Colors.green[200]!,
                     Colors.green[900]!,
                   ],
+                  defaultValue: 2, // starts from 2 (min: 0, max: 9)
                 ),
                 const SizedBox(height: 10),
                 ProgressCard(
