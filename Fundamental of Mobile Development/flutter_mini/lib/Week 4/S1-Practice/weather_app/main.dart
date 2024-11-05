@@ -802,9 +802,10 @@ class _CitySelectorState extends State<CitySelector> {
     });
   }
 
+
   List<Widget> citiesList() {
     List<Cities> allCities = widget.allCitiesGetter();
-    List<Widget> children = [
+    final List<Widget> children = [
       const Divider(),
     ];
 
@@ -817,7 +818,7 @@ class _CitySelectorState extends State<CitySelector> {
               textStyle: const TextStyle(fontFamily: "FiraMono"),
               foregroundColor: Colors.black,
               backgroundColor: widget.cityGetter().index == index
-                  ? const Color(0x10000000)
+                  ? const Color(0x0E000000)
                   : null,
             ),
             onPressed: () {
@@ -837,12 +838,13 @@ class _CitySelectorState extends State<CitySelector> {
 
   @override
   Widget build(BuildContext context) {
+
+    final double height = 260;
     return AnimatedContainer(
-      height: opened ? 260 : 48,
+      height: opened ? height : 48, // Small problem: Static height
       width: 390,
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        // border: opened ? Border.all(color: const Color(0xFF9B9B9B)) : null,
         borderRadius: BorderRadius.circular(8),
         color: opened ? const Color(0xEEEEEEEE) : null,
       ),
@@ -862,7 +864,7 @@ class _CitySelectorState extends State<CitySelector> {
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOutExpo,
             child: AnimatedContainer(
-              height: opened ? 228 : 0,
+              height: opened ? height - 32 : 0,
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutExpo,
               child: ListView(
