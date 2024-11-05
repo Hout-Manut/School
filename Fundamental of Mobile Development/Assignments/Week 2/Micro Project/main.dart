@@ -9,11 +9,11 @@ void main() {
 
   User guest = quiz.getUserWithId(0);
 
-  // User playerManut = quiz.newUser(firstName: "Manut", lastName: "Hout");
+  User playerManut = quiz.newUser(firstName: "Manut", lastName: "Hout");
 
   while (true) {
-    Result result = quiz.ask(guest);
-    // Result result = quiz.ask(user: playerManut);
+    // Result result = quiz.ask(guest);
+    Result result = quiz.ask(playerManut);
     print(result.isCorrect ? "Correct" : "Incorrect");
 
     print("Continue? (Enter) (Any input + enter to exit):");

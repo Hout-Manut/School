@@ -3,7 +3,7 @@ import 'dart:math';
 
 enum QuestionType { SINGLE, MULTI }
 
-/// A class made to store choices/answers and provide comparision
+/// A class made to store choices/answers and provide comparison
 class Choices extends Iterable<Choice> {
   final Set<Choice> choices;
 
@@ -59,7 +59,7 @@ class Choice {
 
   Choice({
     required this.name,
-    required dynamic value, // casted to String for comparision.
+    required dynamic value, // casted to String for comparison.
   }) : this.value = value.toString();
 
   /// Automatically use the value as the name.
@@ -84,7 +84,7 @@ class Question {
   // Might be redundant, kept because it's in the question.
   final QuestionType type;
   final Choices _correctAnswers;
-  final Choices availibleChoices;
+  final Choices availableChoices;
 
   Question({
     required int id,
@@ -94,7 +94,7 @@ class Question {
     required Choices choices,
   })  : _id = id,
         _correctAnswers = answers,
-        availibleChoices = choices {
+        availableChoices = choices {
     if (type == QuestionType.SINGLE && _correctAnswers.length != 1)
       throw Exception(
           "Invalid Question arguments. Expected 1 answer. Got ${_correctAnswers.length}.");
@@ -110,7 +110,7 @@ class Question {
   })  : _id = id,
         type = QuestionType.SINGLE,
         _correctAnswers = Choices.one(answer),
-        availibleChoices = choices;
+        availableChoices = choices;
 
   Question.multi({
     required int id,
@@ -120,7 +120,7 @@ class Question {
   })  : _id = id,
         type = QuestionType.MULTI,
         _correctAnswers = answers,
-        availibleChoices = choices {
+        availableChoices = choices {
     if (_correctAnswers.length == 1)
       throw "Error: invalid Question arguments. Expected multiple answers.";
   }
@@ -128,12 +128,12 @@ class Question {
   @override
   String toString() {
     String ans = _correctAnswers.length == 1 ? "Answer" : "Answers";
-    return "Question($title, $type, $ans{$_correctAnswers}, Choices{$availibleChoices)}";
+    return "Question($title, $type, $ans{$_correctAnswers}, Choices{$availableChoices)}";
   }
 
   /// Private function, use `Quiz.answer()` instead.
   Result _answer({required Iterable<int> choiceIndex, required User user}) {
-    Choices choices = availibleChoices.elementsAt(choiceIndex);
+    Choices choices = availableChoices.elementsAt(choiceIndex);
     return Result(question: this, choices: choices, user: user);
   }
 }
@@ -182,7 +182,7 @@ class User {
   /// Check if this user has answered a question.
   /// Count how many times that question needs to be in the history before it's marked as answered.
   ///
-  /// At first, it's 1 so if the question has been answered once, the fucntion returns `true`.\
+  /// At first, it's 1 so if the question has been answered once, the function returns `true`.\
   /// If the length of history is longer than the amount of questions by a few, the counter will be 2.\
   /// Meaning the function will check if the question has been answered twice before returning `true`.\
   /// Same for 3 and so on.
@@ -216,6 +216,14 @@ class User {
       question: question,
       questionId: questionId,
     );
+  }
+
+  Iterable<Result> get correctHistories {
+    return history.where((result) => result.isCorrect);
+  }
+
+  Iterable<Result> get incorrectHistories {
+    return history.where((result) => !result.isCorrect);
   }
 
   @override
@@ -396,7 +404,7 @@ class Quiz {
   Set<int> askAndGetIndexes(Question question) {
     print(question.title);
     print("Choices:");
-    List<String> choices = question.availibleChoices.getNames();
+    List<String> choices = question.availableChoices.getNames();
     choices.indexed.forEach((name) => print("${name.$1 + 1}: ${name.$2}"));
     Set<int> indexes;
     String prompt;
@@ -407,7 +415,7 @@ class Quiz {
         prompt = "Choose all matches: ";
     }
 
-    int choicesLength = question.availibleChoices.length;
+    int choicesLength = question.availableChoices.length;
 
     while (true) {
       try {
