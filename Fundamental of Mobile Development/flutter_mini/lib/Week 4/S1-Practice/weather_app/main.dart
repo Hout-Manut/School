@@ -10,7 +10,7 @@ Future<void> main() async {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     color: Colors.white,
-    home: SafeArea(child: WeatherScreen()),
+    home: WeatherScreen(),
   ));
 }
 
@@ -49,7 +49,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
     if (message != "") return message;
     if (isLoading) return "Loading...";
     if (currentDay == SelectedDay.today) return "Now";
-    return "";
+    return "Highest Temperature";
   }
 
   String get dayString {
@@ -70,8 +70,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   String get temperatureString {
     if (isLoading) return "--°";
-    if (currentDay != SelectedDay.today) return minMaxTempString;
-    int temp = currentDayValues.temperature.round();
+    int temp;
+    if (currentDay != SelectedDay.today)
+      temp = currentDayValues.temperatureMax.round();
+    temp = currentDayValues.temperature.round();
 
     return "$temp°";
   }
@@ -173,7 +175,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
         child: SizedBox(
           width: 32,
           height: 32,
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: const Color(0xFFF15D46),
+          ),
         ),
       );
     }
@@ -207,193 +211,167 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Stack(
-          children: [
-            Center(
-              child: SizedBox(
-                width: 390,
-                child: GridView(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                  ),
-                  children: [
-                    const SizedBox(height: 200, width: 200), // Padding
-                    const SizedBox(height: 200, width: 200),
-                    const SizedBox(height: 200, width: 200),
-                    const SizedBox(height: 200, width: 200),
-                    WeatherConditionCard(getConditionImage()),
-                    CustomWeatherCard(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 12,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  "Temperature",
-                                  style: TextStyle(
-                                    color: Color(0xFF717171),
-                                    fontSize: 12,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                                Text(
-                                  textAlign: TextAlign.left,
-                                  minMaxTempString,
-                                  style: const TextStyle(
-                                    color: Color(0xFFF15D46),
-                                    fontSize: 24,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  "Feels like",
-                                  style: TextStyle(
-                                    color: Color(0xFF717171),
-                                    fontSize: 12,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                                Text(
-                                  temperatureApparentString,
-                                  style: const TextStyle(
-                                    color: Color(0xFFF15D46),
-                                    fontSize: 24,
-                                    fontFamily: "Afacad",
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Stack(
+            children: [
+              Center(
+                child: SizedBox(
+                  width: 390,
+                  child: GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
                     ),
-                    CustomWeatherCard(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 12,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  "Wind Speed",
-                                  style: TextStyle(
-                                    color: Color(0xFF717171),
-                                    fontSize: 12,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                                Text(
-                                  windSpeed,
-                                  style: const TextStyle(
-                                    color: Color(0xFFF15D46),
-                                    fontSize: 18,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                                const Text(
-                                  "Gust Speed",
-                                  style: TextStyle(
-                                    color: Color(0xFF717171),
-                                    fontSize: 12,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                                Text(
-                                  gustSpeed,
-                                  style: const TextStyle(
-                                    color: Color(0xFFF15D46),
-                                    fontSize: 18,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  "Direction",
-                                  style: TextStyle(
-                                    color: Color(0xFF717171),
-                                    fontSize: 12,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                                Text(
-                                  getWindDirectionString,
-                                  style: const TextStyle(
-                                    color: Color(0xFFF15D46),
-                                    fontSize: 24,
-                                    fontFamily: "Afacad",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    CustomWeatherCard(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 12,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const Text(
-                              "Chance of Rain",
-                              style: TextStyle(
-                                color: Color(0xFF717171),
-                                fontSize: 12,
-                                fontFamily: "Afacad",
-                              ),
-                            ),
-                            Text(
-                              chanceOfRainString,
-                              style: const TextStyle(
-                                color: Color(0xFF009CBF),
-                                fontSize: 36,
-                                fontFamily: "Afacad",
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (isRaining)
+                    children: [
+                      const SizedBox(height: 200, width: 200), // Padding
+                      const SizedBox(height: 200, width: 200),
+                      const SizedBox(height: 200, width: 200),
+                      const SizedBox(height: 200, width: 200),
+                      WeatherConditionCard(getConditionImage()),
                       CustomWeatherCard(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 12),
+                            vertical: 10,
+                            horizontal: 12,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const Text(
+                                    "Temperature",
+                                    style: TextStyle(
+                                      color: Color(0xFF717171),
+                                      fontSize: 12,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                  Text(
+                                    textAlign: TextAlign.left,
+                                    minMaxTempString,
+                                    style: const TextStyle(
+                                      color: Color(0xFFF15D46),
+                                      fontSize: 24,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const Text(
+                                    "Feels like",
+                                    style: TextStyle(
+                                      color: Color(0xFF717171),
+                                      fontSize: 12,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                  Text(
+                                    temperatureApparentString,
+                                    style: const TextStyle(
+                                      color: Color(0xFFF15D46),
+                                      fontSize: 24,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      CustomWeatherCard(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 12,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const Text(
+                                    "Wind Speed",
+                                    style: TextStyle(
+                                      color: Color(0xFF717171),
+                                      fontSize: 12,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                  Text(
+                                    windSpeed,
+                                    style: const TextStyle(
+                                      color: Color(0xFFF15D46),
+                                      fontSize: 18,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                  const Text(
+                                    "Gust Speed",
+                                    style: TextStyle(
+                                      color: Color(0xFF717171),
+                                      fontSize: 12,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                  Text(
+                                    gustSpeed,
+                                    style: const TextStyle(
+                                      color: Color(0xFFF15D46),
+                                      fontSize: 18,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  const Text(
+                                    "Direction",
+                                    style: TextStyle(
+                                      color: Color(0xFF717171),
+                                      fontSize: 12,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                  Text(
+                                    getWindDirectionString,
+                                    style: const TextStyle(
+                                      color: Color(0xFFF15D46),
+                                      fontSize: 24,
+                                      fontFamily: "Afacad",
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      CustomWeatherCard(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 12,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               const Text(
-                                "Rain Intensity",
+                                "Chance of Rain",
                                 style: TextStyle(
                                   color: Color(0xFF717171),
                                   fontSize: 12,
@@ -401,7 +379,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 ),
                               ),
                               Text(
-                                currentDayValues.rainIntensity.toString(),
+                                chanceOfRainString,
                                 style: const TextStyle(
                                   color: Color(0xFF009CBF),
                                   fontSize: 36,
@@ -412,163 +390,192 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           ),
                         ),
                       ),
-                    const SizedBox(height: 50, width: 50),
-                    const SizedBox(height: 50, width: 50),
-                  ],
-                ),
-              ),
-            ),
-            Stack(
-              children: [
-                AnimatedOpacity(
-                  opacity: overlay ? 0.75 : 0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutExpo,
-                  child: IgnorePointer(
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: Colors.white,
-                    ),
+                      if (isRaining)
+                        CustomWeatherCard(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const Text(
+                                  "Rain Intensity",
+                                  style: TextStyle(
+                                    color: Color(0xFF717171),
+                                    fontSize: 12,
+                                    fontFamily: "Afacad",
+                                  ),
+                                ),
+                                Text(
+                                  currentDayValues.rainIntensity.toString(),
+                                  style: const TextStyle(
+                                    color: Color(0xFF009CBF),
+                                    fontSize: 36,
+                                    fontFamily: "Afacad",
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 50, width: 50),
+                      const SizedBox(height: 50, width: 50),
+                    ],
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        stops: [0.7, 1.0],
-                        colors: [Colors.white, Color(0x00FFFFFF)],
+              ),
+              Stack(
+                children: [
+                  AnimatedOpacity(
+                    opacity: overlay ? 0.75 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutExpo,
+                    child: IgnorePointer(
+                      child: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        color: Colors.white,
                       ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                          child: AnimatedScale(
-                            scale: zoomText ? 1.5 : 1,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          stops: [0.7, 1.0],
+                          colors: [Colors.white, Color(0x00FFFFFF)],
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Center(
+                            child: AnimatedScale(
+                              scale: zoomText ? 1.5 : 1,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOutExpo,
+                              child: Text(
+                                dayString,
+                                style: const TextStyle(
+                                  fontFamily: 'Afacad',
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          AnimatedContainer(
+                            height: zoomText ? 32 : 6,
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.easeOutExpo,
+                          ),
+                          Tabs(
+                            indexGetter: getDayIndex,
+                            overlaySetter: setOverlay,
+                            resetIndex: resetDay,
+                            setIndexPrevious: setDayPrevious,
+                            setIndexNext: setDayNext,
+                            zoomSetter: (bool b) => setState(() {
+                              zoomText = b;
+                              overlay = b;
+                            }),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 48,
+                      color: Colors.white,
+                    ),
+                    Container(
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.7, 1.0],
+                          colors: [Colors.white, Color(0x00FFFFFF)],
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Center(
                             child: Text(
-                              dayString,
+                              temperatureString,
+                              style: const TextStyle(
+                                fontFamily: 'AdventPro',
+                                fontSize: 108,
+                                color: Color(0xFFF15D46),
+                                fontWeight: FontWeight.w400,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              // "Cloudy",
+                              dynamicMessage,
                               style: const TextStyle(
                                 fontFamily: 'Afacad',
-                                fontSize: 14,
-                                color: Colors.black,
+                                fontSize: 18,
+                                color: Color(0xFF5E5E5E),
                                 fontWeight: FontWeight.w700,
                                 decoration: TextDecoration.none,
                               ),
                             ),
                           ),
-                        ),
-                        AnimatedContainer(
-                          height: zoomText ? 32 : 6,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeOutExpo,
-                        ),
-                        Tabs(
-                          indexGetter: getDayIndex,
-                          overlaySetter: setOverlay,
-                          resetIndex: resetDay,
-                          setIndexPrevious: setDayPrevious,
-                          setIndexNext: setDayNext,
-                          zoomSetter: (bool b) => setState(() {
-                            zoomText = b;
-                            overlay = b;
-                          }),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Transform.translate(
+                  offset: Offset(-10, 17),
+                  child: RichText(
+                    text: const TextSpan(
+                      text: "Data provided by ",
+                      style: TextStyle(
+                          fontFamily: "Afacad",
+                          fontSize: 12,
+                          color: Colors.black),
+                      children: [
+                        TextSpan(
+                          text: "tomorrow.io",
+                          style: TextStyle(
+                            color: Color(0xFFF15D46),
+                          ),
                         )
                       ],
                     ),
                   ),
-                )
-              ],
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Column(
-                children: [
-                  Container(
-                    height: 48,
-                    color: Colors.white,
-                  ),
-                  Container(
-                    height: 250,
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        stops: [0.7, 1.0],
-                        colors: [Colors.white, Color(0x00FFFFFF)],
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Text(
-                            temperatureString,
-                            style: const TextStyle(
-                              fontFamily: 'AdventPro',
-                              fontSize: 108,
-                              color: Color(0xFFF15D46),
-                              fontWeight: FontWeight.w400,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            // "Cloudy",
-                            dynamicMessage,
-                            style: const TextStyle(
-                              fontFamily: 'Afacad',
-                              fontSize: 18,
-                              color: Color(0xFF5E5E5E),
-                              fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Transform.translate(
-                offset: Offset(-10, 17),
-                child: RichText(
-                  text: const TextSpan(
-                    text: "Data provided by ",
-                    style: TextStyle(
-                        fontFamily: "Afacad",
-                        fontSize: 12,
-                        color: Colors.black),
-                    children: [
-                      TextSpan(
-                        text: "tomorrow.io",
-                        style: TextStyle(
-                          color: Color(0xFFF15D46),
-                        ),
-                      )
-                    ],
-                  ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: CitySelector(
-                citySetter: setCity,
-                cityGetter: getCity,
-                overlaySetter: setOverlay,
-                allCitiesGetter: () => cities,
+              Align(
+                alignment: Alignment.topCenter,
+                child: CitySelector(
+                  citySetter: setCity,
+                  cityGetter: getCity,
+                  overlaySetter: setOverlay,
+                  allCitiesGetter: () => cities,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -618,7 +625,7 @@ class _TabsState extends State<Tabs> {
 
   Curve containerCurve = Curves.elasticOut;
   Curve ballCurve = Curves.easeOutExpo;
-  static const Duration ballNormalDuration = Duration(milliseconds: 150);
+  static const Duration ballNormalDuration = Duration(milliseconds: 200);
   static const Duration ballReturnDuration = Duration(milliseconds: 500);
   Duration ballDuration = ballNormalDuration;
   double dragStartX = 0.0;
@@ -802,7 +809,6 @@ class _CitySelectorState extends State<CitySelector> {
     });
   }
 
-
   List<Widget> citiesList() {
     List<Cities> allCities = widget.allCitiesGetter();
     final List<Widget> children = [
@@ -838,10 +844,10 @@ class _CitySelectorState extends State<CitySelector> {
 
   @override
   Widget build(BuildContext context) {
-
+    List<Cities> allCities = widget.allCitiesGetter();
     final double height = 260;
     return AnimatedContainer(
-      height: opened ? height : 48, // Small problem: Static height
+      height: opened ? height : 48, // Static height
       width: 390,
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
@@ -855,6 +861,7 @@ class _CitySelectorState extends State<CitySelector> {
             style: TextButton.styleFrom(
               textStyle: const TextStyle(fontFamily: "FiraMono"),
               foregroundColor: Colors.black,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(opened ? 8 : 16))
             ),
             onPressed: toggleOpen,
             child: Center(child: Text(widget.cityGetter().displayName)),
@@ -863,15 +870,44 @@ class _CitySelectorState extends State<CitySelector> {
             opacity: opened ? 1 : 0,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOutExpo,
-            child: AnimatedContainer(
-              height: opened ? height - 32 : 0,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutExpo,
-              child: ListView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                children: citiesList(),
-              ),
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Divider(),
+                ),
+                AnimatedContainer(
+                  height: opened ? height - 48 : 0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutExpo,
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    children: List.generate(
+                      allCities.length,
+                      (index) {
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(fontFamily: "FiraMono"),
+                            foregroundColor: Colors.black,
+                            backgroundColor: widget.cityGetter().index == index
+                                ? const Color(0x0E000000)
+                                : null,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              widget.citySetter(allCities[index]);
+                              toggleOpen();
+                            });
+                          },
+                          child:
+                              Center(child: Text(allCities[index].displayName)),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           )
         ],
