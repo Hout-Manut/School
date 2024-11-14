@@ -68,6 +68,7 @@ flutter:
     - assets/images/
     - assets/images/weather/
     - assets/images/w4/
+    - assets/week-6/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
