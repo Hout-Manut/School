@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mini/Week%206/S1/ex_3/screen/screens.dart';
-import 'package:flutter_mini/Week%206/S1/ex_3/screen/welcome.dart';
-import 'package:flutter_mini/Week%206/S1/ex_3/screen/temperature.dart';
+import 'package:flutter_mini/Week%206/S1/bonus/screen/screens.dart';
+import 'package:flutter_mini/Week%206/S1/bonus/screen/welcome.dart';
+import 'package:flutter_mini/Week%206/S1/bonus/screen/temperature.dart';
 
 class TemperatureApp extends StatefulWidget {
   const TemperatureApp({super.key});
@@ -31,6 +31,7 @@ class _TemperatureAppState extends State<TemperatureApp> {
   @override
   Widget build(context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
