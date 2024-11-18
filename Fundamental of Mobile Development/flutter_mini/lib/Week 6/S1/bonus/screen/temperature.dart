@@ -8,13 +8,16 @@ class Temperature extends StatefulWidget {
 }
 
 class _TemperatureState extends State<Temperature> {
+  // Default value
   double celsius = 37;
 
   double get fahrenheit => (celsius * 9 / 5) + 32;
   set fahrenheit(double value) => celsius = (value - 32) * 5 / 9;
 
   bool celsiusError = false;
+  TextEditingController celsiusController = TextEditingController();
   bool fahrenheitError = false;
+  TextEditingController fahrenheitController = TextEditingController();
 
   final BoxDecoration textDecoration = BoxDecoration(
     color: Colors.white,
@@ -22,12 +25,13 @@ class _TemperatureState extends State<Temperature> {
   );
 
   final InputDecoration inputDecoration = InputDecoration(
-      enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.white, width: 1.0),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      hintText: 'Enter a temperature',
-      hintStyle: const TextStyle(color: Colors.white));
+    enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.white, width: 1.0),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    hintText: 'Enter a temperature',
+    hintStyle: const TextStyle(color: Colors.white),
+  );
 
   void onCChange(String newValue) {
     setState(() {
@@ -42,6 +46,8 @@ class _TemperatureState extends State<Temperature> {
       }
       celsius = value;
       celsiusError = false;
+      fahrenheitError = false;
+      fahrenheitController.text = fahrenheit.toString();
     });
   }
 
@@ -58,6 +64,8 @@ class _TemperatureState extends State<Temperature> {
       }
       fahrenheit = value;
       fahrenheitError = false;
+      celsiusError = false;
+      celsiusController.text = celsius.toString();
     });
   }
 
@@ -86,6 +94,7 @@ class _TemperatureState extends State<Temperature> {
           const SizedBox(height: 10),
           TextField(
               onChanged: onCChange,
+              controller: celsiusController,
               decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -94,7 +103,7 @@ class _TemperatureState extends State<Temperature> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        const BorderSide(color: Colors.white, width: 1.0),
+                        BorderSide(color: celsiusError ? Colors.red : Colors.white, width: 1.0),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   hintText: celsius.toString(),
@@ -105,6 +114,7 @@ class _TemperatureState extends State<Temperature> {
           const SizedBox(height: 10),
           TextField(
               keyboardType: TextInputType.number,
+              controller: fahrenheitController,
               onChanged: onFChange,
               decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -114,7 +124,7 @@ class _TemperatureState extends State<Temperature> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        const BorderSide(color: Colors.white, width: 1.0),
+                        BorderSide(color: fahrenheitError ? Colors.red : Colors.white, width: 1.0),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   hintText: fahrenheit.toString(),
