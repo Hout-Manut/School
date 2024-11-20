@@ -68,8 +68,7 @@ class ProfileApp extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              SizedBox(
-                height: 400,
+              Expanded(
                 child: ListView(
                   children: [
                     SizedBox(height: 10),

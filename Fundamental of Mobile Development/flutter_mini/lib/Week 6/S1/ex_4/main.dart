@@ -19,10 +19,6 @@ class JokeScreen extends StatefulWidget {
 }
 
 class _JokeScreenState extends State<JokeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,27 +40,14 @@ class _JokeScreenState extends State<JokeScreen> {
   }
 }
 
-class JokeCard extends StatefulWidget {
+class JokeCard extends StatelessWidget {
   final Joke joke;
-
-  const JokeCard(
-    this.joke, {
-    super.key,
-  });
-  @override
-  State<JokeCard> createState() => _JokeCardState();
-}
-
-class _JokeCardState extends State<JokeCard> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  const JokeCard(this.joke, {super.key});
 
   @override
   Widget build(BuildContext context) {
     final providerJoke = Provider.of<JokeProvider>(context);
-    bool isFavorite = providerJoke.favoriteJoke == widget.joke;
+    bool isFavorite = providerJoke.favoriteJoke == joke;
     return Container(
       decoration: const BoxDecoration(
         border: Border(
@@ -81,19 +64,19 @@ class _JokeCardState extends State<JokeCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.joke.question,
+                  joke.question,
                   style: TextStyle(color: appColor, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  widget.joke.punchline,
+                  joke.punchline,
                   style: TextStyle(color: Colors.grey),
                 )
               ],
             ),
           ),
           IconButton(
-              onPressed: () => providerJoke.favoriteJoke = widget.joke,
+              onPressed: () => providerJoke.favoriteJoke = joke,
               icon: Icon(
                 isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: isFavorite ? Colors.red : Colors.grey,
