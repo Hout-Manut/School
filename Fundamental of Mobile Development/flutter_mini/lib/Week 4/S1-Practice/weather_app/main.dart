@@ -71,8 +71,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
   String get temperatureString {
     if (isLoading) return "--°";
     int temp;
-    if (currentDay != SelectedDay.today)
+    if (currentDay != SelectedDay.today) {
       temp = currentDayValues.temperatureMax.round();
+    }
     temp = currentDayValues.temperature.round();
 
     return "$temp°";
@@ -859,10 +860,10 @@ class _CitySelectorState extends State<CitySelector> {
         children: [
           TextButton(
             style: TextButton.styleFrom(
-              textStyle: const TextStyle(fontFamily: "FiraMono"),
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(opened ? 8 : 16))
-            ),
+                textStyle: const TextStyle(fontFamily: "FiraMono"),
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(opened ? 8 : 16))),
             onPressed: toggleOpen,
             child: Center(child: Text(widget.cityGetter().displayName)),
           ),

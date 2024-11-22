@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
 import '../widgets/app_button.dart';
-import 'screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  final void Function(Screen screen) changeScreen;
+  final void Function() onStart;
   final String title;
 
   const WelcomeScreen({
     super.key,
     required this.title,
-    required this.changeScreen,
+    required this.onStart,
   });
-
-  void startQuiz() {
-    changeScreen(Screen.question);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Image.asset('assets/week7/quiz-logo.png'),
-          Text(title),
-          AppButton(
-            "Start Quiz",
-            onTap: startQuiz,
-          ),
-        ],
+    return Scaffold(
+      backgroundColor: Colors.blue,
+      body: Center(
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/week-7/quiz-logo.png',
+              height: 600,
+            ),
+            Text(
+              title,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            SizedBox(height: 40),
+            AppButton(
+              icon: Icons.arrow_right_alt_rounded,
+              "Start Quiz",
+              onTap: onStart,
+            ),
+          ],
+        ),
       ),
     );
   }
