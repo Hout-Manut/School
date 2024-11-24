@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mini/Week%204/S1-Practice/weather_app/main.dart';
 import '../model/quiz.dart';
 
 class QuestionScreen extends StatelessWidget {
