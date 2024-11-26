@@ -60,6 +60,7 @@ class _QuizAppState extends State<QuizApp> {
       case Screen.started:
         return QuestionScreen(
           onTap: submitAnswer,
+          onSkip: () => changeScreen(Screen.finished),
           question: widget.quiz.questions[currentQuestion],
         );
       case Screen.finished:

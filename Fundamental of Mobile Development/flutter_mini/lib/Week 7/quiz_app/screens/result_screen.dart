@@ -56,6 +56,9 @@ class ResultScreen extends StatelessWidget {
               onPressed: onRestart,
               label: Text("Restart Quiz"),
               icon: Icon(Icons.restart_alt),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.blue.shade400,
+              ),
             )
           ],
         ),

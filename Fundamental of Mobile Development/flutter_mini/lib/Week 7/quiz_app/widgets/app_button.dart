@@ -23,6 +23,7 @@ class AppButton extends StatelessWidget {
             vertical: 10,
             horizontal: 40,
           ),
+          foregroundColor: Colors.blue.shade400,
         ));
   }
 }
