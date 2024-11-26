@@ -1,8 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 const Uuid uuid = Uuid();
 
-enum ExpenseType { food, travel, leisure, work }
+enum ExpenseType {
+  food(Icons.fastfood),
+  travel(Icons.local_airport),
+  leisure(Icons.confirmation_number_sharp),
+  work(Icons.work);
+
+  const ExpenseType(this.icon);
+
+  final IconData icon;
+}
 
 class Expense {
   final String id;

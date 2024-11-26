@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../models/expense.dart';
 
 class ExpensesScreen extends StatefulWidget {
@@ -51,7 +53,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 class ExpensesList extends StatelessWidget {
   final List<Expense> _registeredItems;
   ExpensesList({super.key, required List<Expense> registeredItems})
-      : _registeredItems = registeredItems;
+      : _registeredItems = List<Expense>.unmodifiable(registeredItems);
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +117,8 @@ class ExpenseItem extends StatelessWidget {
                   ],
                 ),
               ],
-            )
+            ),
+          Row(children: [],)
           ],
         ),
       ),
