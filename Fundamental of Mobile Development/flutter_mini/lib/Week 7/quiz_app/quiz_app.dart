@@ -74,6 +74,6 @@ class _QuizAppState extends State<QuizApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: getScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: getScreen());
   }
 }
