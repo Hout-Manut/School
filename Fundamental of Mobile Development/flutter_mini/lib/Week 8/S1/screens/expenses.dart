@@ -26,9 +26,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   }
 
   void onAdd() {
-    showModalBottomSheet(context: context, builder: (context) {
-      return Text("hello");
-    });
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Text("hello");
+        });
   }
 
   @override
@@ -68,7 +70,8 @@ class ExpensesList extends StatelessWidget {
 class ExpenseItem extends StatelessWidget {
   final Expense data;
   final int index;
-  const ExpenseItem({super.key, required this.index, required this.data});
+  final formatter = DateFormat.yMd();
+  ExpenseItem({super.key, required this.index, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +79,7 @@ class ExpenseItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
         height: 80,
+        padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
@@ -88,37 +92,26 @@ class ExpenseItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 64,
-                  height: 80,
-                  child: Center(
-                    child: Text(
-                      (index + 1).toString(),
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                Text(
+                  data.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      data.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text("\$${data.amount}"),
-                  ],
-                ),
+                Text("\$${data.amount}"),
               ],
             ),
-          Row(children: [],)
+            Row(
+              children: [
+                Icon(data.category.icon),
+                SizedBox(width: 8),
+                Text(formatter.format(data.date)),
+              ],
+            )
           ],
         ),
       ),
