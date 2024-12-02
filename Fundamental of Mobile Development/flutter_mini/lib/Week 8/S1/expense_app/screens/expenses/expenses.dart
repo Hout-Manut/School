@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/expense.dart';
+import '../../models/expense.dart';
+import 'expenses_form.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -27,10 +28,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   void onAdd() {
     showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Text("hello");
-        });
+      context: context,
+      builder: (context) => const ExpenseForm()
+    );
   }
 
   @override
