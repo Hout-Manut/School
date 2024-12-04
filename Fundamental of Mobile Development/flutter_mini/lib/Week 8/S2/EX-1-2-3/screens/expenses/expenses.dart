@@ -16,7 +16,11 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [];
 
-  void onExpenseRemoved(Expense expense) {
+  // tracks the removed expense with their index.
+  final List<(int, Expense)> _removedExpenses = [];
+
+  void onExpenseRemoved(Expense expense, int index) {
+    _removedExpenses.add((index, expense));
     _registeredExpenses.remove(expense);
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -24,7 +28,7 @@ class _ExpensesState extends State<Expenses> {
       duration: const Duration(seconds: 4),
       action: SnackBarAction(
         label: "Undo",
-        onPressed: () => undo(expense),
+        onPressed: undo,
         textColor: Colors.blue[100],
       ),
     ));
@@ -47,9 +51,11 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
-  void undo(Expense expense) {
+  void undo() {
     setState(() {
-      _registeredExpenses.add(expense);
+      // get the last removed expense.
+      (int, Expense) redoExpense = _removedExpenses.removeLast();
+      _registeredExpenses.insert(redoExpense.$1, redoExpense.$2);
     });
   }
 

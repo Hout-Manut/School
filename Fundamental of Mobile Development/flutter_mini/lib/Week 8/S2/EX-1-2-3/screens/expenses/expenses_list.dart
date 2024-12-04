@@ -11,7 +11,7 @@ class ExpensesList extends StatelessWidget {
 
   final List<Expense> expenses;
 
-  final Function(Expense) onExpenseRemoved;
+  final void Function(Expense, int) onExpenseRemoved;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ExpensesList extends StatelessWidget {
       child: expenses.isEmpty ? Center(child: Text("No expenses found. Start adding some!")) : ListView.builder(
         itemCount: expenses.length,
         itemBuilder: (context, index) => Dismissible(
-          onDismissed: (direction) => onExpenseRemoved(expenses[index]),
+          onDismissed: (direction) => onExpenseRemoved(expenses[index], index),
           key: Key(expenses[index].id),
           child: ExpenseItem(expenses[index]),
         ),

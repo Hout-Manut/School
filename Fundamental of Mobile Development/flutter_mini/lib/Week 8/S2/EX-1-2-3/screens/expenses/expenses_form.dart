@@ -72,21 +72,21 @@ class _ExpenseFormState extends State<ExpenseForm> {
     String title = _titleController.text;
     String amountString = _valueController.text;
 
-    // 2-1 Validate, use the message as valid flag (null = pass)
-    Widget? dialogContent;
+    // 2-1 Validate, use the message as valid flag where null = pass
+    Widget? warningContent;
     if (title == "" && amountString == "") {
-      dialogContent = Text("The title and amount cannot be empty.");
+      warningContent = Text("The title and amount cannot be empty.");
     } else if (title == "") {
-      dialogContent = Text("The title cannot be empty.");
+      warningContent = Text("The title cannot be empty.");
     } else if (amountString == "") {
-      dialogContent = Text("The amount cannot be empty");
+      warningContent = Text("The amount cannot be empty");
     } else if (amountString.startsWith("-")) {
-      dialogContent = Text("The amount cannot be a negative number.");
+      warningContent = Text("The amount cannot be a negative number.");
     }
 
-    // 2-2 Not null means its not valid.
-    if (dialogContent != null) {
-      _alert(dialogContent);
+    // 2-2 Not null means it's not valid.
+    if (warningContent != null) {
+      _alert(warningContent);
       // Exit the function.
       return;
     }
