@@ -20,10 +20,19 @@ class _ExpensesState extends State<Expenses> {
   final List<(int, Expense)> _removedExpenses = [];
 
   void onExpenseRemoved(Expense expense, int index) {
+    // add the removed item and index to a stack
     _removedExpenses.add((index, expense));
+
+    // set a timer to remove the item from the stack if it didnt get undo'ed
+    Future.delayed(const Duration(seconds: 5), () {
+      bool _ = _removedExpenses.remove((index, expense));
+    });
+
+    // actually remove it from the list
     _registeredExpenses.remove(expense);
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    // show the snack bar
+    SnackBar snackBar = SnackBar(
       content: const Text("Expense deleted."),
       duration: const Duration(seconds: 4),
       action: SnackBarAction(
@@ -31,7 +40,11 @@ class _ExpensesState extends State<Expenses> {
         onPressed: undo,
         textColor: Colors.blue[100],
       ),
-    ));
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    // update
     setState(() {});
   }
 
