@@ -8,14 +8,12 @@ Uuid uuid = Uuid();
 
 
 class NewItem extends StatefulWidget {
-  final NewItemMode mode;
   final GroceryItem? editItem;
   final void Function(GroceryItem) onSubmit;
 
   const NewItem({
     super.key,
     required this.onSubmit,
-    this.mode = NewItemMode.create,
     this.editItem,
   });
 
@@ -23,18 +21,12 @@ class NewItem extends StatefulWidget {
     super.key,
     required this.onSubmit,
     required this.editItem,
-    this.mode = NewItemMode.edit,
   });
 
   @override
   State<NewItem> createState() {
     return _NewItemState();
   }
-}
-
-enum NewItemMode {
-  create,
-  edit;
 }
 
 class _NewItemState extends State<NewItem> {
@@ -48,7 +40,7 @@ class _NewItemState extends State<NewItem> {
 
   @override
   void initState() {
-    if (widget.mode == NewItemMode.edit) {
+    if (widget.editItem != null) {
       _enteredName = widget.editItem!.name;
       _enteredQuantity = widget.editItem!.quantity.toString();
       _selectedCategory = widget.editItem!.category;
@@ -105,11 +97,10 @@ class _NewItemState extends State<NewItem> {
   Widget build(BuildContext context) {
     String title;
     String submit;
-    switch (widget.mode) {
-      case NewItemMode.create:
+    if (widget.editItem == null) {
         title = "Add a new item";
         submit = "Add Item";
-      case NewItemMode.edit:
+    } else {
         title = "Edit an item";
         submit = "Edit Item";
     }
