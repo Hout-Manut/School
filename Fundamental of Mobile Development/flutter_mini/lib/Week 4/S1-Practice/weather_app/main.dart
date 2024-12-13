@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_mini/Week%204/S1-Practice/weather_app/enums.dart';
 import 'package:flutter_mini/Week%204/S1-Practice/weather_app/weather_service.dart';
@@ -649,7 +650,9 @@ class _TabsState extends State<Tabs> {
     ballCurve = Curves.elasticOut;
     ballDuration = ballReturnDuration;
     resetState();
+    HapticFeedback.mediumImpact();
   }
+
 
   void onLongPressUp() => resetState();
 
@@ -683,6 +686,7 @@ class _TabsState extends State<Tabs> {
           widget.setIndexNext();
         }
         dragStartX = globalPositionX;
+        HapticFeedback.mediumImpact();
       }
     });
   }
@@ -794,6 +798,7 @@ class _CitySelectorState extends State<CitySelector> {
   bool opened = false;
 
   void toggleOpen() {
+    HapticFeedback.mediumImpact();
     setState(() {
       opened = !opened;
       widget.overlaySetter(opened);
@@ -846,9 +851,9 @@ class _CitySelectorState extends State<CitySelector> {
   @override
   Widget build(BuildContext context) {
     List<Cities> allCities = widget.allCitiesGetter();
-    final double height = 260;
+    final double height = 276;
     return AnimatedContainer(
-      height: opened ? height : 48, // Static height
+      height: opened ? height : 64, // Static height
       width: 390,
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
@@ -878,7 +883,7 @@ class _CitySelectorState extends State<CitySelector> {
                   child: Divider(),
                 ),
                 AnimatedContainer(
-                  height: opened ? height - 48 : 0,
+                  height: opened ? height - 64 : 0,
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutExpo,
                   child: ListView(
