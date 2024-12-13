@@ -24,7 +24,11 @@ class WelcomeScreen extends StatelessWidget {
             ),
             Text(
               title,
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             SizedBox(height: 40),
             AppButton(
