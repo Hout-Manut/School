@@ -34,7 +34,6 @@ class _GroceryListState extends State<GroceryList> {
     Navigator.of(context).push<GroceryItem>(
       MaterialPageRoute(
         builder: (ctx) => NewItem(
-          mode: NewItemMode.edit,
           editItem: _groceryItems[index],
           onSubmit: (newItem) => setState(() => _groceryItems[index] = newItem),
         ),
