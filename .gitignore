@@ -14,7 +14,7 @@
 _*
 
 
-# Version controlled seperately
+# Version controlled separately
 Advanced Algorithms/cafe/main
 Advanced Algorithms/cafe/cafe
 Web Application/POS/*
@@ -23,3 +23,4 @@ Automata/Automata Bot
 
 # Others
 *.pdf
+*.zip
