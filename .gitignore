@@ -10,7 +10,7 @@
 *.exe
 
 # Test files
-*test.*
+*.test.*
 _*
 
 
@@ -24,3 +24,4 @@ Automata/Automata Bot
 # Others
 *.pdf
 *.zip
+.DS_Store
