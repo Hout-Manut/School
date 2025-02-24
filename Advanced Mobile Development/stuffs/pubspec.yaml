@@ -1,0 +1,33 @@
+name: stuffs
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # assets:
+
+  # fonts:
+  #   - family: Eesti
+  #     fonts:
+  #       - asset: assets/fonts/GT-Eesti-Bold.otf
+  #       - asset: assets/fonts/GT-Eesti-Light.otf
+  #       - asset: assets/fonts/GT-Eesti-Regular.otf
+  #       - asset: assets/fonts/GT-Eesti-Thin.otf
