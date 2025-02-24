@@ -20,8 +20,10 @@ Advanced Algorithms/cafe/cafe
 Web Application/POS/*
 Web Application/Contact/*
 Automata/Automata Bot
+Advanced Mobile Development/blablabla
 
 # Others
+.env
 *.pdf
 *.zip
 .DS_Store
