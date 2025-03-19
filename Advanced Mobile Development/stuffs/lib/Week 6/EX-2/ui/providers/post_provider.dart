@@ -38,7 +38,11 @@ class PostProvider extends ChangeNotifier {
     try {
       List<Post> posts = await _repository.getPosts();
 
-      postsValue = AsyncValue.success(posts);
+      if (posts.isEmpty) {
+        postsValue = AsyncValue.empty();
+      } else {
+        postsValue = AsyncValue.success(posts);
+      }
     } catch (error) {
       postsValue = AsyncValue.error(error);
     }

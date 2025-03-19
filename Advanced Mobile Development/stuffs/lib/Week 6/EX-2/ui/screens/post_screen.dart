@@ -29,24 +29,24 @@ class PostScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(PostProvider courseProvider) {
-    final postValue = courseProvider.postValue;
+  // Widget _buildBody(PostProvider courseProvider) {
+  //   final postValue = courseProvider.postValue;
 
-    if (postValue == null) {
-      return Text('Tap refresh to display post'); // display an empty state
-    }
+  //   if (postValue == null) {
+  //     return Text('Tap refresh to display post'); // display an empty state
+  //   }
 
-    switch (postValue.state) {
-      case AsyncValueState.loading:
-        return CircularProgressIndicator(); // display a progress
+  //   switch (postValue.state) {
+  //     case AsyncValueState.loading:
+  //       return CircularProgressIndicator(); // display a progress
 
-      case AsyncValueState.error:
-        return Text('Error: ${postValue.error}'); // display a error
+  //     case AsyncValueState.error:
+  //       return Text('Error: ${postValue.error}'); // display a error
 
-      case AsyncValueState.success:
-        return PostCard(post: postValue.data!); // display the post
-    }
-  }
+  //     case AsyncValueState.success:
+  //       return PostCard(post: postValue.data!); // display the post
+  //   }
+  // }
 
   Widget _buildBodyList(PostProvider postProvider) {
     final AsyncValue<List<Post>>? postsValue = postProvider.postsValue;
@@ -66,6 +66,8 @@ class PostScreen extends StatelessWidget {
           itemCount: posts.length,
           itemBuilder: (context, index) => PostCard(post: posts[index]),
         );
+      case AsyncValueState.empty:
+       return Text('No posts for now');
     }
   }
 }
