@@ -1,0 +1,1 @@
+// I used the model instead since fromJson is in the repo already
