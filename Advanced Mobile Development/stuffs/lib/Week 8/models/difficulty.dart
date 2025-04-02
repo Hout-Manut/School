@@ -1,19 +1,9 @@
-enum RatingClass {
-  past(0),
-  present(1),
-  future(2),
-  beyond(3),
-  eternal(4);
-
-  final int value;
-
-  const RatingClass(this.value);
-}
+import 'package:stuffs/Week%208/models/enums.dart';
 
 class Difficulty {
   final int rating;
   final RatingClass ratingClass;
-  final bool ratingPlus;
+  final bool? ratingPlus;
   final String chartDesigner;
   final String jacketDesigner;
   final String? version;
@@ -21,9 +11,9 @@ class Difficulty {
   Difficulty({
     required this.rating,
     required this.ratingClass,
-    this.ratingPlus = false,
+    required this.ratingPlus,
     required this.chartDesigner,
     required this.jacketDesigner,
-    this.version,
+    required this.version,
   });
 }

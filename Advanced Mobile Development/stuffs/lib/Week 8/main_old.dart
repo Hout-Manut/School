@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'async_value.dart';
+import 'utils/async_value.dart';
 
 // REPOS
 abstract class PancakeRepository {
@@ -15,7 +15,7 @@ abstract class PancakeRepository {
 }
 
 class FirebasePancakeRepository extends PancakeRepository {
-  static const String baseUrl = 'https://flutter-week-8-61f38-default-rtdb.asia-southeast1.firebasedatabase.app/';
+  static const String baseUrl = '';
   static const String songsCollection = "songlist";
   static const String allSongsUrl = '$baseUrl/$songsCollection.json';
 

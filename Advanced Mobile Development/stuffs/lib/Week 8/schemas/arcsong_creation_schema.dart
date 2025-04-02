@@ -1,18 +1,10 @@
+import 'package:stuffs/Week%208/dto/difficulty_dto.dart';
 import 'package:stuffs/Week%208/models/difficulty.dart';
 import 'package:stuffs/Week%208/models/enums.dart';
 
-class Title {
-  final String en;
-  final String? ja;
-
-  Title(this.en, this.ja);
-}
-
-class Arcsong {
-  final String firebaseKey;
+class ArcsongCreationSchema {
   final int idx;
   final String id;
-  final Title title;
   final String artist;
   final int audioPreview;
   final int audioPreviewEnd;
@@ -26,11 +18,9 @@ class Arcsong {
   final String version;
   final List<Difficulty> difficulties;
 
-  Arcsong({
-    required this.firebaseKey,
+  ArcsongCreationSchema({
     required this.idx,
     required this.id,
-    required this.title,
     required this.artist,
     required this.audioPreview,
     required this.audioPreviewEnd,
@@ -45,11 +35,27 @@ class Arcsong {
     required this.difficulties,
   });
 
-  @override
-  bool operator ==(Object other) {
-    return other is Arcsong && idx == other.idx && id == other.id;
+  Map<String, dynamic> toJson() {
+    return {
+      'idx': idx,
+      'id': id,
+      'artist': artist,
+      'audioPreview': audioPreview,
+      'audioPreviewEnd': audioPreviewEnd,
+      'bg': bg,
+      'bgInverse': bgInverse,
+      'bpm': bpm,
+      'bpmBase': bpmBase,
+      'date': date.millisecond,
+      'set': packId,
+      'side': side.value,
+      'version': version,
+      'difficulties': List.generate(
+        difficulties.length,
+        (index) => DifficultyDto.toJson(
+          difficulties[index],
+        ),
+      ),
+    };
   }
-
-  @override
-  int get hashCode => idx.hashCode ^ id.hashCode;
 }
